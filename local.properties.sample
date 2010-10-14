@@ -1,0 +1,11 @@
+#
+# ant properties for klab-commons-csv
+#
+
+file.encoding=UTF-8
+
+#
+# run
+#
+
+##
