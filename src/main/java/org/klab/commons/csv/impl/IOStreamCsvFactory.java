@@ -16,8 +16,8 @@ import org.klab.commons.csv.CsvFactory;
  * IOStreamCsvFactory.
  * <li> (original)
  *
- * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (nsano)
- * @version 0.00 070207 nsano initial version <br>
+ * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
+ * @version 0.00 070207 sano-n initial version <br>
  */
 public class IOStreamCsvFactory extends AbstractCsvFactory implements CsvFactory {
 

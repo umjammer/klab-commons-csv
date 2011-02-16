@@ -17,7 +17,7 @@ import junit.framework.TestCase;
 
 /**
  * 
- * @author <a href="mailto:kusanagi@klab.co.jp">Tomonori Kusanagi</a> (kusanagi)
+ * @author <a href="mailto:kusanagi@klab.org">Tomonori Kusanagi</a> (kusanagi)
  */
 public class CsvReaderTest extends TestCase {
 

@@ -16,7 +16,7 @@ import java.util.List;
  * <li> (commons-persistence like)
  * <li> TODO ‚«‚ß×‚©‚È‘€ì‚Æ‚©H
  * 
- * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version 0.00 080117 nsano initial version <br>
  */
 public interface CsvDao<E extends CsvEntity<I>, I extends Serializable> {

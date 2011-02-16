@@ -19,8 +19,8 @@ import org.apache.commons.logging.LogFactory;
 /**
  * CVS ÇÃàÍçsÇï\ÇµÇ‹Ç∑ÅB
  * 
- * @author <a href="mailto:kusanagi@klab.co.jp">Tomonori Kusanagi</a> (kusanagi)
- * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:kusanagi@klab.org">Tomonori Kusanagi</a> (kusanagi)
+ * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version $Revision: 1.0 $ $Date: 2008/01/24 14:38:23 $ $Author: sano-n $
  * @see "http://www.kasai.fm/wiki/rfc4180jp"
  */

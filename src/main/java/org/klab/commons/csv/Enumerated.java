@@ -17,7 +17,7 @@ import java.lang.reflect.Method;
 /**
  * Enumerated.
  * 
- * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version $Revision: 1.0 $ $Date: 2008/01/24 16:03:20 $ $Author: sano-n $
  */
 @Target({ ElementType.FIELD, ElementType.METHOD })

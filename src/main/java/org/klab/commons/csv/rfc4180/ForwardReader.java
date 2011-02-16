@@ -13,8 +13,8 @@ import java.io.Reader;
 /**
  * Reader ‚©‚ç1•¶š‚¸‚Â“Ç‚İ‚Ş‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B
  * 
- * @author <a href="mailto:kusanagi@klab.co.jp">Tomonori Kusanagi</a> (kusanagi)
- * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:kusanagi@klab.org">Tomonori Kusanagi</a> (kusanagi)
+ * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version $Revision: 1.0 $ $Date: 2008/01/24 14:38:23 $ $Author: sano-n $
  */
 public class ForwardReader {

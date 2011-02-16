@@ -18,7 +18,7 @@ import org.klab.commons.csv.CsvFactory;
  * CsvDaoBase.
  * <li> (commons-persistence like)
  *
- * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version $Revision: 1.0 $ $Date: 2008/01/24 14:38:23 $ $Author: sano-n $
  */
 public class CsvDaoBase<E extends CsvEntity<I>, I extends Serializable> implements CsvDao<E, I> {
