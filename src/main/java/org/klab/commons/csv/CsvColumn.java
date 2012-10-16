@@ -30,7 +30,7 @@ import org.apache.commons.logging.LogFactory;
 public @interface CsvColumn {
 
     /**
-     * CSV ‚ÌƒJƒ‰ƒ€‡
+     * CSV ã®ã‚«ãƒ©ãƒ é †
      */
     int sequence();
 
@@ -41,13 +41,13 @@ public @interface CsvColumn {
         private static Log logger = LogFactory.getLog(Util.class);
 
         /**
-         * TODO ƒƒ\ƒbƒh‚ÉƒAƒmƒe[ƒVƒ‡ƒ“‚³‚ê‚½ê‡
+         * TODO ãƒ¡ã‚½ãƒƒãƒ‰ã«ã‚¢ãƒãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã•ã‚ŒãŸå ´åˆ
          * @return only {@link CsvColumn} annotated fields, sorted by {@link CsvColumn#sequence()} 
          * @throws IllegalArgumentException bean is not annotated with {@link CsvEntity}
          */
         public static Set<Field> getFields(Class<?> beanClass) {
 
-            // {@link Column} ‚ÅƒAƒmƒe[ƒg‚³‚ê‚½ {@link Field} ‚ÌƒZƒbƒg
+            // {@link Column} ã§ã‚¢ãƒãƒ†ãƒ¼ãƒˆã•ã‚ŒãŸ {@link Field} ã®ã‚»ãƒƒãƒˆ
             Set<Field> columnFields = new TreeSet<Field>(new Comparator<Field>() {
                 @Override
                 public int compare(Field o1, Field o2) {

@@ -19,12 +19,12 @@ import org.klab.commons.csv.spi.CsvLine;
 public interface CsvConverter {
 
     /**
-     * ƒGƒ“ƒeƒBƒeƒB‚ğ CSV ‚Ìˆês‚É•ÏŠ·‚µ‚Ü‚·B
+     * ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’ CSV ã®ä¸€è¡Œã«å¤‰æ›ã—ã¾ã™ã€‚
      */
     String toCsv(Object entity);
 
     /**
-     *  CSV ‚Ìˆês‚ğƒGƒ“ƒeƒBƒeƒB‚É•ÏŠ·‚µ‚Ü‚·B
+     *  CSV ã®ä¸€è¡Œã‚’ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã«å¤‰æ›ã—ã¾ã™ã€‚
      */
     Object toEntity(CsvLine csv);
 }

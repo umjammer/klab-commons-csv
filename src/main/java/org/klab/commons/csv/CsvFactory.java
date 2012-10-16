@@ -17,10 +17,10 @@ import org.apache.commons.logging.LogFactory;
 
 
 /**
- * CSV ‚Ì IO ‚ğ’è‹`‚·‚éŒ^‚Å‚·B
+ * CSV ã® IO ã‚’å®šç¾©ã™ã‚‹å‹ã§ã™ã€‚
  * <p>
- * JPA ‚Ì EntityManager ‚İ‚½‚¢‚È‚à‚ÌB
- * CsvDataSource ‚Æ‚©‚Ì•û‚ª•ª‚©‚è‚â‚·‚¢‚©‚àH
+ * JPA ã® EntityManager ã¿ãŸã„ãªã‚‚ã®ã€‚
+ * CsvDataSource ã¨ã‹ã®æ–¹ãŒåˆ†ã‹ã‚Šã‚„ã™ã„ã‹ã‚‚ï¼Ÿ
  * </p>
  * (original)
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
@@ -28,30 +28,30 @@ import org.apache.commons.logging.LogFactory;
  */
 public interface CsvFactory {
 
-    /** CSV ‚ğÀÛ‚É“Ç‚İ‚ŞƒXƒgƒŠ[ƒ€ */
+    /** CSV ã‚’å®Ÿéš›ã«èª­ã¿è¾¼ã‚€ã‚¹ãƒˆãƒªãƒ¼ãƒ  */
     InputStream getInputStream() throws IOException;
 
-    /** CSV ‚ğÀÛ‚É‘‚«o‚·ƒXƒgƒŠ[ƒ€ */
+    /** CSV ã‚’å®Ÿéš›ã«æ›¸ãå‡ºã™ã‚¹ãƒˆãƒªãƒ¼ãƒ  */
     OutputStream getOutputStream() throws IOException;
 
     /**
-     * {@link WholeCsvReader#readAll(Class)} ‚Æ {@link WholeCsvWriter#writeAll(Collection, Class)}
-     * “à‚Åˆês‚²‚Æ‚É‹N‚±‚éƒGƒ‰[ƒnƒ“ƒhƒŠƒ“ƒO‚Æ‘S‘Ì‚ªI—¹‚µ‚½ê‡‚ÌƒGƒ‰[ƒnƒ“ƒhƒŠƒ“ƒO‚ğ’è‹`‚·‚é
-     * Œ^‚Å‚·B
+     * {@link WholeCsvReader#readAll(Class)} ã¨ {@link WholeCsvWriter#writeAll(Collection, Class)}
+     * å†…ã§ä¸€è¡Œã”ã¨ã«èµ·ã“ã‚‹ã‚¨ãƒ©ãƒ¼ãƒãƒ³ãƒ‰ãƒªãƒ³ã‚°ã¨å…¨ä½“ãŒçµ‚äº†ã—ãŸå ´åˆã®ã‚¨ãƒ©ãƒ¼ãƒãƒ³ãƒ‰ãƒªãƒ³ã‚°ã‚’å®šç¾©ã™ã‚‹
+     * å‹ã§ã™ã€‚
      * <p>
-     * g—p—á‚Æ‚µ‚Ä‚Í {@link ExceptionHandler#handleEachLine(Exception, int, Object, CsvFactory)}
-     * ‚Ås’PˆÊ‚Å‹N‚±‚Á‚½—áŠO‚ğ—­‚ß‚Ä‚¨‚¢‚ÄA{@link ExceptionHandler#handleWhenDone(Collection)}
-     * ‚Å—áŠO‚ğ‚Ü‚Æ‚ß‚Ä”­¶‚³‚¹‚é‚Æ‚©B
+     * ä½¿ç”¨ä¾‹ã¨ã—ã¦ã¯ {@link ExceptionHandler#handleEachLine(Exception, int, Object, CsvFactory)}
+     * ã§è¡Œå˜ä½ã§èµ·ã“ã£ãŸä¾‹å¤–ã‚’æºœã‚ã¦ãŠã„ã¦ã€{@link ExceptionHandler#handleWhenDone(Collection)}
+     * ã§ä¾‹å¤–ã‚’ã¾ã¨ã‚ã¦ç™ºç”Ÿã•ã›ã‚‹ã¨ã‹ã€‚
      * </p>
      */
     interface ExceptionHandler {
-        /** TODO ˆø”l‚¦‚é */
+        /** TODO å¼•æ•°è€ƒãˆã‚‹ */
         void handleEachLine(Exception e, int lineNumber, Object line, CsvFactory csvFactory);
         /** */
         void handleWhenDone(Collection<?> entities);
     }
 
-    /** ˆês‚²‚Æ‚ÉƒƒO‚·‚é‚¾‚¯ */
+    /** ä¸€è¡Œã”ã¨ã«ãƒ­ã‚°ã™ã‚‹ã ã‘ */
     class DefaultExceptionHandler implements ExceptionHandler {
         private static Log logger = LogFactory.getLog(DefaultExceptionHandler.class);
         @Override
@@ -63,10 +63,10 @@ logger.error("csv: line " + lineNumber + ": " + csvFactory, e);
         }
     }
 
-    /** CSV ‘S‘Ì‚ğ“Ç‚İ‚ŞƒNƒ‰ƒX‚ÌŒ^‚Å‚·B */
+    /** CSV å…¨ä½“ã‚’èª­ã¿è¾¼ã‚€ã‚¯ãƒ©ã‚¹ã®å‹ã§ã™ã€‚ */
     interface WholeCsvReader {
         /**
-         * @return CSV ‚©‚ç“Ç‚İ‚ñ‚¾ƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg 
+         * @return CSV ã‹ã‚‰èª­ã¿è¾¼ã‚“ã ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆ 
          */
         <T> List<T> readAll(Class<T> entityClass) throws IOException;
     }
@@ -74,10 +74,10 @@ logger.error("csv: line " + lineNumber + ": " + csvFactory, e);
     /** */
     WholeCsvReader getWholeCsvReader();
 
-    /** CSV ‘S‘Ì‚ğ‘‚«o‚·ƒNƒ‰ƒX‚ÌŒ^‚Å‚·B */
+    /** CSV å…¨ä½“ã‚’æ›¸ãå‡ºã™ã‚¯ãƒ©ã‚¹ã®å‹ã§ã™ã€‚ */
     interface WholeCsvWriter {
         /**
-         * @param CSV ‚É‘‚«o‚·ƒIƒuƒWƒFƒNƒg‚ÌƒRƒŒƒNƒVƒ‡ƒ“ 
+         * @param CSV ã«æ›¸ãå‡ºã™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ 
          */
         <T> void writeAll(Collection<T> entities, Class<T> entityClass) throws IOException;
     }

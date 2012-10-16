@@ -12,7 +12,7 @@ import java.io.IOException;
 
 /**
  * CsvWriter.
- * <li> TODO java.io.Writer ‚ÆŒİŠ·‚ ‚è‚É‚·‚é‚©‚Ç‚¤‚©H
+ * <li> TODO java.io.Writer ã¨äº’æ›ã‚ã‚Šã«ã™ã‚‹ã‹ã©ã†ã‹ï¼Ÿ
  * 
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version $Revision: 1.0 $ $Date: 2008/01/24 14:17:10 $ $Author: sano-n $
@@ -21,7 +21,7 @@ public interface CsvWriter extends Closeable {
 
     /**
      * @param csv EOL should be included
-     * TODO ‚Æ‚è‚ ‚¦‚¸ String ‚É‚µ‚Ä‚é‚¯‚ÇA‚Ç‚¤‚È‚Ì‚©H 
+     * TODO ã¨ã‚Šã‚ãˆãš String ã«ã—ã¦ã‚‹ã‘ã©ã€ã©ã†ãªã®ã‹ï¼Ÿ 
      */
     void writeLine(String csv) throws IOException;
 

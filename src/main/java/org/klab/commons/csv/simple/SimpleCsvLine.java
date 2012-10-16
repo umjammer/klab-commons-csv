@@ -42,7 +42,7 @@ public class SimpleCsvLine implements CsvLine {
 
     @Override
     public Iterator<String> iterator() {
-        return this; // TODO d—l‚Æˆá‚¤‹C‚ª ArrayList ‚Í–ˆ‰ñ new
+        return this; // TODO ä»•æ§˜ã¨é•ã†æ°—ãŒ ArrayList ã¯æ¯å› new
     }
 
     @Override

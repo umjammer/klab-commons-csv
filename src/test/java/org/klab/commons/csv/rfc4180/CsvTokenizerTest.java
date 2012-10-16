@@ -20,10 +20,10 @@ import junit.framework.TestCase;
 public class CsvTokenizerTest extends TestCase {
 
     /**
-     * ˆêsƒp[ƒX‚µ‚Ü‚·B
+     * ä¸€è¡Œãƒ‘ãƒ¼ã‚¹ã—ã¾ã™ã€‚
      */
     public void testParseLine() throws IOException{
-        String testStr = "0,127,ts.1101801508,da.2004.11.30,da.2004.11.30,tm.10.30.0,tm.12.0.0,,,,,1,0,\"\",\"‘—¿ì¬\",\"\"\"‘æ2‰ñ ITŒø‰Ê‘ª’è•ñ‰ï\"\"‚É‚Ş‚¯‚½‘—¿‚Ìì¬\r\n\r\n ƒT[ƒo[ƒfƒBƒXƒN‚Ì—e—Ê‚ğŒv‘ª‚·‚é\",,,,,,,,0,16\r\n";
+        String testStr = "0,127,ts.1101801508,da.2004.11.30,da.2004.11.30,tm.10.30.0,tm.12.0.0,,,,,1,0,\"\",\"è³‡æ–™ä½œæˆ\",\"\"\"ç¬¬2å› ITåŠ¹æœæ¸¬å®šå ±å‘Šä¼š\"\"ã«ã‚€ã‘ãŸè³‡æ–™ã®ä½œæˆ\r\n\r\n ã‚µãƒ¼ãƒãƒ¼ãƒ‡ã‚£ã‚¹ã‚¯ã®å®¹é‡ã‚’è¨ˆæ¸¬ã™ã‚‹\",,,,,,,,0,16\r\n";
         CsvReader tokenizer = new CsvReader(new StringReader(testStr));
         ForwardReader forwardReader = tokenizer.forwardReader;
         

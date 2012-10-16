@@ -1,40 +1,40 @@
 <p>
-CSV �̃��[�e�B���e�B�ł��Bcommons-persistence �� JPA �̐݌v��
-�܂˂č���Ă��܂��B�킸��킵���t�B�[���h�R�s�[�̒P���R�[�h
-���炨�T���o�ł��B
+CSV のユーティリティです。commons-persistence と JPA の設計を
+まねて作られています。わずらわしいフィールドコピーの単純コード
+からおサラバです。
 </p>
 <p>
-�G���e�B�e�B��{@link CsvEntity �A�m�e�[�V����}��ݒ肵�A
-�G���e�B�e�B�[�̃t�B�[���h�ɂ�{@link CsvColumn �A�m�e�[�V����}��ݒ肵 CSV ��
-�J�������`���܂��B�G���e�B�e�B�̓W�F�l���b�N��{@link CsvDao DAO}����
-���p���邱�Ƃ��ł��܂��BSpringFramework ���ŃT�[�r�X�ɒ�������� commons-persistence
-�� DAO �Ɠ����Ɏg�p���邱�Ƃ��\�ɂȂ�܂��B�����́A�܂� JPA �قǂ̍s���� API ��
-����܂���B{@link CsvDao#findAll() �S�擾}�A{@link CsvDao#updateAll(Collection) �S�����o��}�݂̂ł��B
+エンティティに{@link CsvEntity アノテーション}を設定し、
+エンティティーのフィールドにも{@link CsvColumn アノテーション}を設定し CSV の
+カラムを定義します。エンティティはジェネリックな{@link CsvDao DAO}から
+利用することができます。SpringFramework 等でサービスに注入すれば commons-persistence
+の DAO と同等に使用することが可能になります。制限は、まだ JPA ほどの行操作 API は
+ありません。{@link CsvDao#findAll() 全取得}、{@link CsvDao#updateAll(Collection) 全書き出し}のみです。
 </p>
 
-<h2>SpringFramework ���g�p������</h2>
+<h2>SpringFramework を使用した例</h2>
 
-<h3>��{�ݒ�</h3>
-spring-beans.xml ��
+<h3>基本設定</h3>
+spring-beans.xml に
 <pre>
    &lt;bean id=&quot;csvDaoBase&quot;
    class=&quot;org.klab.commons.util.csv.impl.CsvDaoBase&quot;
    abstract=&quot;true&quot;&gt;
    &lt;/bean&gt;
 </pre>
-�Ɛݒ肵�܂��B
+と設定します。
 
-<h3>�g�p���鑤</h3>
+<h3>使用する側</h3>
 
 <p>
-CSV ���f�[�^�\�[�X�Ƃ��Ďg�p���邽�߂̃��b�p {@link CsvFactory} �̎�����
-�쐬���܂��B��{�����Ƃ��ă��\�[�X������ {@link ResourceCsvFactory} ��
-�t�@�C�������� {@link FileCsvFactory}�A 
-�X�g���[�������� {@link IOStreamCsvFactory} ���p�ӂ���Ă��܂��B
+CSV をデータソースとして使用するためのラッパ {@link CsvFactory} の実装を
+作成します。基本実装としてリソースを扱う {@link ResourceCsvFactory} と
+ファイルを扱う {@link FileCsvFactory}、 
+ストリームを扱う {@link IOStreamCsvFactory} が用意されています。
 </p>
 <p>
-{@link CsvDaoBase} �� {@link CsvEntity} �����N���X�� {@link CsvFactory} �̎�����
-�ݒ肵������ fooCsvDao �ƒ�`���܂��B
+{@link CsvDaoBase} に {@link CsvEntity} 実装クラスと {@link CsvFactory} の実装を
+設定した物を fooCsvDao と定義します。
 </p>
 
 POJO annotation
@@ -43,17 +43,17 @@ POJO annotation
  @CsvEntity
  Foo implements CsvEntity {
   @CsvColumn(sequence = 0)
-  @GeneratedValue // �ǂݍ��ݎ��Ɏ����I�� id ��U��ꍇ
+  @GeneratedValue // 読み込み時に自動的に id を振る場合
   Integer id;
   @CsvColumn(sequence = 1)
   String column1;
   @CsvColumn(sequence = 2)
   int column2;
   @CsvColumn(sequence = 3)
-  @Enumerated // JPA �� Enumerated �Ɠ����d�l
+  @Enumerated // JPA の Enumerated と同じ仕様
   EnumType column3;
   @CsvColumn(sequence = 4)
-  @Dialectal // ���[�U����`�����N���X��A�ϒ��̃J�����������ꍇ�Ƃ�
+  @Dialectal // ユーザが定義したクラスや、可変長のカラムを扱う場合とか
   UserType notCsvColumn;
  }
 </pre>
@@ -75,8 +75,8 @@ spring-beans.xml
 </pre>
 
 <p>
-���Ƃ� fooCsvDao ���T�[�r�X�ɒ�������� commons-persistence DAO ��
-�قړ��l�Ɏg�p���邱�Ƃ��\�ɂȂ�܂��B
+あとは fooCsvDao をサービスに注入すれば commons-persistence DAO と
+ほぼ同様に使用することが可能になります。
 </p>
 
 <pre>
@@ -86,7 +86,7 @@ spring-beans.xml
    this.csvDao = csvDao;
   }
   public List<foo> findAll() {
-   // CSV ����Ă��邾���Ȃ炽�����P�s�I
+   // CSV 取ってくるだけならたった１行！
    return csvDao.findAll();
   }
  }
@@ -95,7 +95,7 @@ spring-beans.xml
 <h3>TODO</h3>
 
 <ul>
- <li><del>�ϒ��̃J����</del></li>
- <li><del>���̃v���W�F�N�g��������񂯁I</del></li>
- <li><a href="http://ykhr-kokko.sourceforge.jp/cgi-bin/wiki.cgi?page=Choco+CSVUtil">�G</a>�����łɂ���</li>
+ <li><del>可変長のカラム</del></li>
+ <li><del>このプロジェクトもそうやんけ！</del></li>
+ <li><a href="http://ykhr-kokko.sourceforge.jp/cgi-bin/wiki.cgi?page=Choco+CSVUtil">敵</a>がすでにいた</li>
 </ul>

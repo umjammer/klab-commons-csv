@@ -11,12 +11,12 @@ import java.io.Reader;
 
 
 /**
- * CSV ��v�f�ɋ�؂��ďo�͂��܂��B
+ * CSV を要素に区切って出力します。
  * <p>
- * <li>��s�̃J�������͉ςł���B
- * <li>����������ׂ��J�����͕K�� " (�_�u���N�H�[�e�[�V����) �ň͂܂��B(�����������Ă��Ȃ��Ă� " �ň͂܂��B)
- * <li>��s�͏I�[�͉��s�ŕ\�����B �������A""�̒��ŉ��s�����݂��Ă������͈�s�̏I�[�ł͂Ȃ��B
- * <li> "" �̒��� " �� " �ŃG�X�P�[�v�����B
+ * <li>一行のカラム数は可変である。
+ * <li>文字が入るべきカラムは必ず " (ダブルクォーテーション) で囲まれる。(文字が入っていなくても " で囲まれる。)
+ * <li>一行は終端は改行で表される。 しかし、""の中で改行が存在してもそれらは一行の終端ではない。
+ * <li> "" の中の " は " でエスケープされる。
  * </p>
  * 
  * @author <a href="mailto:kusanagi@klab.org">Tomonori Kusanagi</a> (kusanagi)
@@ -25,11 +25,11 @@ import java.io.Reader;
  */
 public class CsvReader {
 
-    // �ǂݍ��݌� ForwardReader �I�u�W�F�N�g
+    // 読み込み元 ForwardReader オブジェクト
     protected ForwardReader forwardReader;
 
     /**
-     * Reader ���Z�b�g���܂��B
+     * Reader をセットします。
      * 
      * @param reader
      */
@@ -38,12 +38,12 @@ public class CsvReader {
     }
 
     /**
-     * ����ɍs������ꍇ�� true ��Ԃ��܂��B
+     * さらに行がある場合に true を返します。
      * 
-     * @return ����ɍs������ꍇ�� true
+     * @return さらに行がある場合に true
      */
     public boolean hasNext() throws IOException {
-        // �X�g���[���̏I���ɒB���Ă��邩�ǂ����`�F�b�N
+        // ストリームの終わりに達しているかどうかチェック
         if (forwardReader.check() == -1) {
             return false;
         }
@@ -51,9 +51,9 @@ public class CsvReader {
     }
 
     /**
-     * ���̍s��Ԃ��܂��B
+     * 次の行を返します。
      * 
-     * @return ���̍s
+     * @return 次の行
      */
     public CsvTokenizer next() throws IOException {
         synchronized (forwardReader) {

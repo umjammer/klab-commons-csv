@@ -12,7 +12,7 @@ import java.io.IOException;
 
 /**
  * CsvReader.
- * <li> TODO java.io.Reader ‚ÆŒİŠ·‚ ‚è‚É‚·‚é‚©‚Ç‚¤‚©H
+ * <li> TODO java.io.Reader ã¨äº’æ›ã‚ã‚Šã«ã™ã‚‹ã‹ã©ã†ã‹ï¼Ÿ
  * 
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version $Revision: 1.0 $ $Date: 2008/01/24 14:17:10 $ $Author: sano-n $
@@ -22,7 +22,7 @@ public interface CsvReader extends Closeable {
     /** */
     boolean hasNextLine() throws IOException;
 
-    /** TODO ‚Æ‚è‚ ‚¦‚¸ CsvLine ‚É‚µ‚Ä‚İ‚½‚¯‚Ç get/set ‚Å‘ÎÆ«‚ª‚È‚¢ */
+    /** TODO ã¨ã‚Šã‚ãˆãš CsvLine ã«ã—ã¦ã¿ãŸã‘ã© get/set ã§å¯¾ç…§æ€§ãŒãªã„ */
     CsvLine nextLine() throws IOException;
 }
 

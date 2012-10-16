@@ -23,7 +23,7 @@ import org.klab.commons.csv.CsvFactory;
  */
 public class CsvDaoBase<E extends CsvEntity<I>, I extends Serializable> implements CsvDao<E, I> {
 
-    /** TODO ƒŠƒtƒŒƒNƒVƒ‡ƒ“‚Å‘ÌŒ^æ‚ê‚ê‚Î—v‚ç‚È‚¢‚Í‚¸ */
+    /** TODO ãƒªãƒ•ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã§ç·ç§°å‹å–ã‚Œã‚Œã°è¦ã‚‰ãªã„ã¯ãš */
     private Class<E> entityClass;
 
     /** for DI */

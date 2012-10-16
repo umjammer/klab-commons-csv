@@ -24,7 +24,7 @@ import java.lang.reflect.Field;
 public @interface Dialectal {
 
     /**
-     * TODO ƒAƒmƒe[ƒVƒ‡ƒ“‚ªƒƒ\ƒbƒhw’è‚Ìê‡ 
+     * TODO ã‚¢ãƒãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãŒãƒ¡ã‚½ãƒƒãƒ‰æŒ‡å®šã®å ´åˆ 
      */
     static class Util {
 

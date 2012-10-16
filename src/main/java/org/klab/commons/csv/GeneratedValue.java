@@ -37,8 +37,8 @@ public @interface GeneratedValue {
         private static Log logger = LogFactory.getLog(GeneratedValue.class);
 
         /**
-         * TODO ƒGƒ“ƒeƒBƒeƒB‚É‘Î‚µ‚Äˆê‚Â‚Æ‚İ‚È‚µ‚Ä‚¢‚¢‚Ì‚©H
-         * {@link GeneratedValue} ‚ªƒtƒB[ƒ‹ƒh‚É–³‚¢ê‡‚Í–³‹‚³‚ê‚Ü‚·B
+         * TODO ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã«å¯¾ã—ã¦ä¸€ã¤ã¨ã¿ãªã—ã¦ã„ã„ã®ã‹ï¼Ÿ
+         * {@link GeneratedValue} ãŒãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«ç„¡ã„å ´åˆã¯ç„¡è¦–ã•ã‚Œã¾ã™ã€‚
          */
         public static <I> void setGenerateId(Object bean, I id) {
 

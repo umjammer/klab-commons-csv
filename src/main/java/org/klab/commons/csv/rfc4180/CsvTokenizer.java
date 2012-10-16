@@ -17,7 +17,7 @@ import org.apache.commons.logging.LogFactory;
 
 
 /**
- * CVS ‚Ìˆês‚ğ•\‚µ‚Ü‚·B
+ * CVS ã®ä¸€è¡Œã‚’è¡¨ã—ã¾ã™ã€‚
  * 
  * @author <a href="mailto:kusanagi@klab.org">Tomonori Kusanagi</a> (kusanagi)
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
@@ -28,35 +28,35 @@ public class CsvTokenizer implements Iterable<String> {
 
     private static Log logger = LogFactory.getLog(CsvTokenizer.class);
 
-    /** ˆê”Ê CSV ƒg[ƒNƒ“ */
+    /** ä¸€èˆ¬ CSV ãƒˆãƒ¼ã‚¯ãƒ³ */
     private static final int TYPE_GENERAL = 0;
 
-    /** •¶š—ñ CSV ƒg[ƒNƒ“ */
+    /** æ–‡å­—åˆ— CSV ãƒˆãƒ¼ã‚¯ãƒ³ */
     private static final int TYPE_STRING = 1;
 
-    /** CSV ‚Ì‹æØ‚è•¶š */
+    /** CSV ã®åŒºåˆ‡ã‚Šæ–‡å­— */
     private static final char SEPARATOR_CHAR = ',';
 
-    /** ˆø—p•„ */
+    /** å¼•ç”¨ç¬¦ */
     private static final char QUOTE_CHAR = '"';
 
-    /** ˆø—p•„‚ÌƒGƒXƒP[ƒv•¶š */
+    /** å¼•ç”¨ç¬¦ã®ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—æ–‡å­— */
     private static final char ESCAPE_CHAR = '"';
 
-    /** “Ç‚İ‚İŒ³ CharacterBuffer ƒIƒuƒWƒFƒNƒg */
+    /** èª­ã¿è¾¼ã¿å…ƒ CharacterBuffer ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     protected ForwardReader forwardReader;
 
-    /** s––‚É’B‚µ‚½‚±‚Æ‚ğ¦‚·ƒtƒ‰ƒO */
+    /** è¡Œæœ«ã«é”ã—ãŸã“ã¨ã‚’ç¤ºã™ãƒ•ãƒ©ã‚° */
     protected boolean endOfLine = false;
 
-    /** ƒXƒgƒŠ[ƒ€‚ÌI‚í‚è‚É’B‚µ‚½‚±‚Æ‚ğ¦‚·ƒtƒ‰ƒO */
+    /** ã‚¹ãƒˆãƒªãƒ¼ãƒ ã®çµ‚ã‚ã‚Šã«é”ã—ãŸã“ã¨ã‚’ç¤ºã™ãƒ•ãƒ©ã‚° */
     protected boolean endOfStream = false;
 
     /** */
     protected Iterator<String> iterator;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     protected CsvTokenizer(ForwardReader forwardReader) throws IOException {
         this.forwardReader = forwardReader;
@@ -67,7 +67,7 @@ public class CsvTokenizer implements Iterable<String> {
     private List<String> parsedTokens = new ArrayList<String>();
 
     /**
-     * CSV ‚Ìˆês‚ğƒp[ƒX‚µ‚Ü‚·B
+     * CSV ã®ä¸€è¡Œã‚’ãƒ‘ãƒ¼ã‚¹ã—ã¾ã™ã€‚
      */
     private void parse() throws IOException {
         if (forwardReader.check() == '\r') {
@@ -87,16 +87,16 @@ logger.debug("parsedTokens: " + parsedTokens.size());
     }
 
     /**
-     * ‚»‚Ìs‚É‚Ü‚¾ CSV ƒg[ƒNƒ“‚ª‚ ‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B
+     * ãã®è¡Œã«ã¾ã  CSV ãƒˆãƒ¼ã‚¯ãƒ³ãŒã‚ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚
      * 
-     * @return ‘ÎÛs‚É‚Ü‚¾ CSV ƒg[ƒNƒ“‚ªc‚Á‚Ä‚¢‚ê‚Î true
+     * @return å¯¾è±¡è¡Œã«ã¾ã  CSV ãƒˆãƒ¼ã‚¯ãƒ³ãŒæ®‹ã£ã¦ã„ã‚Œã° true
      */
     public boolean hasNext() {
         return iterator.hasNext();
     }
 
     /**
-     * Ÿ‚Ì CSV ƒg[ƒNƒ“‚ğ•Ô‚µ‚Ü‚·B
+     * æ¬¡ã® CSV ãƒˆãƒ¼ã‚¯ãƒ³ã‚’è¿”ã—ã¾ã™ã€‚
      * 
      * @throws NoSuchElementException
      */
@@ -105,46 +105,46 @@ logger.debug("parsedTokens: " + parsedTokens.size());
     }
 
     /**
-     * Reader ‚©‚çŸ‚Ì CSV ƒg[ƒNƒ“‚ğ“Ç‚İ‚İ‚Ü‚·B
+     * Reader ã‹ã‚‰æ¬¡ã® CSV ãƒˆãƒ¼ã‚¯ãƒ³ã‚’èª­ã¿è¾¼ã¿ã¾ã™ã€‚
      * 
      * @param forwardReader
-     * @return CSV ‚Ì—ñ‚Ì––”ö‚É’B‚µ‚½‚Æ‚«‚Í nullB
+     * @return CSV ã®åˆ—ã®æœ«å°¾ã«é”ã—ãŸã¨ãã¯ nullã€‚
      * @throws IllegalStateException
      */
     protected String nextToken() throws IOException {
 
-        // ‰Šú‰»
+        // åˆæœŸåŒ–
         int type = TYPE_GENERAL;
         StringBuilder sb = new StringBuilder();
 
-        // ƒp[ƒXŠJn
+        // ãƒ‘ãƒ¼ã‚¹é–‹å§‹
         int c;
-        // ƒRƒ“ƒ}’¼Œã‚Ì‹ó”’‚ğ“Ç‚İ”ò‚Î‚µ
+        // ã‚³ãƒ³ãƒç›´å¾Œã®ç©ºç™½ã‚’èª­ã¿é£›ã°ã—
         do {
             c = forwardReader.read();
         } while (c == ' ' || c == '\t');
 
-        // ƒ^ƒCƒv”»•Ê
+        // ã‚¿ã‚¤ãƒ—åˆ¤åˆ¥
         switch (c) {
         case QUOTE_CHAR:
-            // •¶š—ñŒ^‚Ìn‚Ü‚è
+            // æ–‡å­—åˆ—å‹ã®å§‹ã¾ã‚Š
             type = TYPE_STRING;
             break;
         case SEPARATOR_CHAR:
-            // ‚¢‚«‚È‚èCSV ƒg[ƒNƒ“‚ÌI‚í‚è
+            // ã„ããªã‚ŠCSV ãƒˆãƒ¼ã‚¯ãƒ³ã®çµ‚ã‚ã‚Š
             return "";
         case '\n':
-            // CSV s‚ÌI‚è
+            // CSV è¡Œã®çµ‚ã‚Š
             endOfLine = true;
             return "";
         default:
-            // ˆê”ÊŒ^‚Ìn‚Ü‚è
+            // ä¸€èˆ¬å‹ã®å§‹ã¾ã‚Š
             sb.append((char) c);
         }
 
-        // ========== –{‘Ì‚Ìƒp[ƒX
+        // ========== æœ¬ä½“ã®ãƒ‘ãƒ¼ã‚¹
         if (type == TYPE_GENERAL) {
-            // ˆê”ÊŒ^
+            // ä¸€èˆ¬å‹
             return parseGeneralElement(sb);
         } else if (type == TYPE_STRING) {
             return parseStringElement(sb);
@@ -154,10 +154,10 @@ logger.debug("parsedTokens: " + parsedTokens.size());
     }
 
     /**
-     * Ÿ‚Ì ˆê”Ê CSV ƒg[ƒNƒ“‚ğ“Ç‚İ‚İ‚Ü‚·B
+     * æ¬¡ã® ä¸€èˆ¬ CSV ãƒˆãƒ¼ã‚¯ãƒ³ã‚’èª­ã¿è¾¼ã¿ã¾ã™ã€‚
      * 
-     * @param sb 2•¶š–Ú‚©‚ç
-     * @return Ÿ‚Ì ˆê”Ê CSV ƒg[ƒNƒ“
+     * @param sb 2æ–‡å­—ç›®ã‹ã‚‰
+     * @return æ¬¡ã® ä¸€èˆ¬ CSV ãƒˆãƒ¼ã‚¯ãƒ³
      */
     protected String parseGeneralElement(StringBuilder sb) throws IOException {
         String result = null;
@@ -165,39 +165,39 @@ logger.debug("parsedTokens: " + parsedTokens.size());
             int c = forwardReader.read();
             switch (c) {
             case SEPARATOR_CHAR:
-                // —v‘f‚ÌI‚è
+                // è¦ç´ ã®çµ‚ã‚Š
                 result = sb.toString();
                 return result;
             case '\r':
                 continue;
             case '\n':
-                // CSVs‚ÌI‚è
+                // CSVè¡Œã®çµ‚ã‚Š
                 endOfLine = true;
                 result = sb.toString();
                 return result;
             case -1:
-                // ƒXƒgƒŠ[ƒ€‚ÌI‚è
+                // ã‚¹ãƒˆãƒªãƒ¼ãƒ ã®çµ‚ã‚Š
                 endOfLine = true;
                 endOfStream = true;
                 result = sb.toString();
                 return result;
             default:
-                // ‚»‚êˆÈŠO‚Í’Ç‰Á
+                // ãã‚Œä»¥å¤–ã¯è¿½åŠ 
                 sb.append((char) c);
             }
         }
     }
 
     /**
-     * Ÿ‚Ì•¶š—ñ CSV ƒg[ƒNƒ“‚ğ“Ç‚İ‚İ‚Ü‚·B
+     * æ¬¡ã®æ–‡å­—åˆ— CSV ãƒˆãƒ¼ã‚¯ãƒ³ã‚’èª­ã¿è¾¼ã¿ã¾ã™ã€‚
      * 
-     * @param sb 2•¶š–Ú‚©‚ç
-     * @return Ÿ‚Ì•¶š—ñ CSV ƒg[ƒNƒ“, nullable
-     * @throws IllegalArgumentException " ‚Å•Â‚¶‚½Œã‚É•¶š‚ª—ˆ‚½
-     * @throws IllegalArgumentException " ‚Å•Â‚¶‚é‚Ü‚¦‚É EOF
+     * @param sb 2æ–‡å­—ç›®ã‹ã‚‰
+     * @return æ¬¡ã®æ–‡å­—åˆ— CSV ãƒˆãƒ¼ã‚¯ãƒ³, nullable
+     * @throws IllegalArgumentException " ã§é–‰ã˜ãŸå¾Œã«æ–‡å­—ãŒæ¥ãŸ
+     * @throws IllegalArgumentException " ã§é–‰ã˜ã‚‹ã¾ãˆã« EOF
      */
     protected String parseStringElement(StringBuilder sb) throws IOException {
-        // •¶š—ñŒ^
+        // æ–‡å­—åˆ—å‹
         boolean inElement = true;
         while (inElement) {
             int c = forwardReader.read();
@@ -205,10 +205,10 @@ logger.debug("parsedTokens: " + parsedTokens.size());
             case QUOTE_CHAR:
                 int cc = forwardReader.read();
                 if (cc == ESCAPE_CHAR) {
-                    // ƒGƒXƒP[ƒv‚³‚ê‚½ " ‚¾‚Á‚½
+                    // ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—ã•ã‚ŒãŸ " ã ã£ãŸ
                     sb.append((char) c);
                 } else if (cc == SEPARATOR_CHAR) {
-                    // —v‘f‚ÌI‚è
+                    // è¦ç´ ã®çµ‚ã‚Š
                     inElement = false;
                     return sb.toString();
                 } else if (cc == '\r') {
@@ -219,12 +219,12 @@ logger.debug("parsedTokens: " + parsedTokens.size());
                         return sb.toString();
                     }
                 } else if (cc == '\n' || cc == -1) {
-                    // CSVs‚ÌI‚è‚©ƒtƒ@ƒCƒ‹‚ÌI‚è
+                    // CSVè¡Œã®çµ‚ã‚Šã‹ãƒ•ã‚¡ã‚¤ãƒ«ã®çµ‚ã‚Š
                     inElement = false;
                     endOfLine = true;
                     return sb.toString();
                 } else {
-                    // " ‚Å•Â‚¶‚½Œã‚É•¶š‚ª—ˆ‚½¨ƒGƒ‰[
+                    // " ã§é–‰ã˜ãŸå¾Œã«æ–‡å­—ãŒæ¥ãŸâ†’ã‚¨ãƒ©ãƒ¼
                     throw new IllegalArgumentException("extra character(s) after closing quotation. first is " + cc);
                 }
                 break;
@@ -232,7 +232,7 @@ logger.debug("parsedTokens: " + parsedTokens.size());
                 throw new IllegalArgumentException("quotation is not closed at the end of stream.");
 
             default:
-                // ‚»‚êˆÈŠO‚Í’Ç‰Á
+                // ãã‚Œä»¥å¤–ã¯è¿½åŠ 
                 sb.append((char) c);
             }
         }

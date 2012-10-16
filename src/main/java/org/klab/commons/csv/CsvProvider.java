@@ -23,13 +23,13 @@ import org.klab.commons.csv.spi.CsvWriter;
  */
 public interface CsvProvider {
 
-    /** TODO ˆø” */
+    /** TODO å¼•æ•° */
     CsvConverter getCsvConverter(Class<?> entityClass);
     
-    /** Reader ‚Ì’ñ‹Ÿ */
+    /** Reader ã®æä¾› */
     CsvReader getCsvReader(InputStream is, String encoding) throws IOException;
 
-    /** Writer ‚Ì’ñ‹Ÿ */
+    /** Writer ã®æä¾› */
     CsvWriter getCsvWriter(OutputStream os, String encoding) throws IOException;
 }
 

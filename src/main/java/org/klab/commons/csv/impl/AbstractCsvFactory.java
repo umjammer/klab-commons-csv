@@ -37,7 +37,7 @@ public abstract class AbstractCsvFactory implements CsvFactory {
     /** */
     protected ExceptionHandler readExceptionHandler = new DefaultExceptionHandler();
 
-    /** İ’è‚³‚ê‚È‚¯‚ê‚Î {@link DefaultExceptionHandler} ‚É‚È‚è‚Ü‚·B */
+    /** è¨­å®šã•ã‚Œãªã‘ã‚Œã° {@link DefaultExceptionHandler} ã«ãªã‚Šã¾ã™ã€‚ */
     public void setReadExceptionHandler(ExceptionHandler readExceptionHandler) {
         this.readExceptionHandler = readExceptionHandler;
     }
@@ -45,22 +45,22 @@ public abstract class AbstractCsvFactory implements CsvFactory {
     /** */
     protected ExceptionHandler writeExceptionHandler = new DefaultExceptionHandler();
 
-    /** İ’è‚³‚ê‚È‚¯‚ê‚Î {@link DefaultExceptionHandler} ‚É‚È‚è‚Ü‚·B */
+    /** è¨­å®šã•ã‚Œãªã‘ã‚Œã° {@link DefaultExceptionHandler} ã«ãªã‚Šã¾ã™ã€‚ */
     public void setWriteExceptionHandler(ExceptionHandler writeExceptionHandler) {
         this.writeExceptionHandler = writeExceptionHandler;
     }
 
     /**
-     * ƒAƒEƒ^[ƒNƒ‰ƒX‚Ì CsvFactory ‚ğg—p‚µ‚Ä‚¢‚éB
-     * <li> TODO ‚±‚¢‚Â‚ÌêŠ‚ª‚í‚©‚ç‚È‚¢ACsvConverter ‚©H
+     * ã‚¢ã‚¦ã‚¿ãƒ¼ã‚¯ãƒ©ã‚¹ã® CsvFactory ã‚’ä½¿ç”¨ã—ã¦ã„ã‚‹ã€‚
+     * <li> TODO ã“ã„ã¤ã®å ´æ‰€ãŒã‚ã‹ã‚‰ãªã„ã€CsvConverter ã‹ï¼Ÿ
      */
     class DefaultWholeCsvReader implements WholeCsvReader {
         /** */
         private List<?> cache;
         /**
-         * {@link #readExceptionHandler} ‚ªÀ‘•‚³‚ê‚Ä‚¢‚Ü‚·B
-         * ƒLƒƒƒbƒVƒ…‚ğs‚¢‚Ü‚·B
-         * @param entityClass {@link CsvEntity} ‚ÅƒAƒmƒe[ƒVƒ‡ƒ“‚³‚ê‚½ƒNƒ‰ƒX
+         * {@link #readExceptionHandler} ãŒå®Ÿè£…ã•ã‚Œã¦ã„ã¾ã™ã€‚
+         * ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’è¡Œã„ã¾ã™ã€‚
+         * @param entityClass {@link CsvEntity} ã§ã‚¢ãƒãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹
          */
         @SuppressWarnings("unchecked")
         @Override
@@ -96,7 +96,7 @@ if (csv.toString().isEmpty()) {
  logger.warn("line " + id + " is empty, skiped");
 } else {
                     Object entity = csvConverter.toEntity(csv);
-                    GeneratedValue.Util.setGenerateId(entity, id); // TODO ‚±‚ñ‚È‚ñ‚Å‚¢‚¢‚Ì‚©H                    
+                    GeneratedValue.Util.setGenerateId(entity, id); // TODO ã“ã‚“ãªã‚“ã§ã„ã„ã®ã‹ï¼Ÿ                    
                     results.add(entity);
 //logger.debug(ToStringBuilder.reflectionToString(entity));
 }
@@ -117,20 +117,20 @@ logger.error("read: " + e);
     /** */
     protected WholeCsvReader wholeCsvReader = new DefaultWholeCsvReader();
 
-    /** {@link DefaultWholeCsvReader} ‚ğ•Ô‚µ‚Ü‚·B */
+    /** {@link DefaultWholeCsvReader} ã‚’è¿”ã—ã¾ã™ã€‚ */
     @Override
     public WholeCsvReader getWholeCsvReader() {
         return wholeCsvReader;
     }
 
     /**
-     * ƒAƒEƒ^[ƒNƒ‰ƒX‚Ì CsvFactory ‚ğg—p‚µ‚Ä‚¢‚éB
-     * <li> TODO ‚±‚¢‚Â‚ÌêŠ‚ª‚í‚©‚ç‚È‚¢ACsvConverter ‚©H
+     * ã‚¢ã‚¦ã‚¿ãƒ¼ã‚¯ãƒ©ã‚¹ã® CsvFactory ã‚’ä½¿ç”¨ã—ã¦ã„ã‚‹ã€‚
+     * <li> TODO ã“ã„ã¤ã®å ´æ‰€ãŒã‚ã‹ã‚‰ãªã„ã€CsvConverter ã‹ï¼Ÿ
      */
     class DefaultWholeCsvWriter implements WholeCsvWriter {
         /**
-         * {@link #writeExceptionHandler} ‚ªÀ‘•‚³‚ê‚Ä‚¢‚Ü‚·B
-         * @param entityClass {@link CsvEntity} ‚ÅƒAƒmƒe[ƒVƒ‡ƒ“‚³‚ê‚½ƒNƒ‰ƒX
+         * {@link #writeExceptionHandler} ãŒå®Ÿè£…ã•ã‚Œã¦ã„ã¾ã™ã€‚
+         * @param entityClass {@link CsvEntity} ã§ã‚¢ãƒãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹
          */
         @Override
         public <E> void writeAll(Collection<E> entities, Class<E> entityClass) throws IOException {
@@ -163,7 +163,7 @@ logger.debug("encoding: " + encoding);
     /** */
     protected WholeCsvWriter wholeCsvWriter = new DefaultWholeCsvWriter();
 
-    /** {@link DefaultWholeCsvWriter} ‚ğ•Ô‚µ‚Ü‚·B */
+    /** {@link DefaultWholeCsvWriter} ã‚’è¿”ã—ã¾ã™ã€‚ */
     @Override
     public WholeCsvWriter getWholeCsvWriter() {
         return wholeCsvWriter;

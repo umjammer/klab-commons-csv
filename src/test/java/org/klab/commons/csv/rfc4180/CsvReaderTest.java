@@ -22,10 +22,10 @@ import junit.framework.TestCase;
 public class CsvReaderTest extends TestCase {
 
     /**
-     * •¶š—ñ‚©‚ç“Ç‚İ‚İ‚Ü‚·B
+     * æ–‡å­—åˆ—ã‹ã‚‰èª­ã¿è¾¼ã¿ã¾ã™ã€‚
      */
     public void testRead() throws Exception {
-        String testStr = "this is a test line.\n‚±‚ê‚ÍƒeƒXƒg‚Å‚·B";
+        String testStr = "this is a test line.\nã“ã‚Œã¯ãƒ†ã‚¹ãƒˆã§ã™ã€‚";
 
         CsvReader tokenizer = new CsvReader(new StringReader(testStr));
         ForwardReader forwardReader = tokenizer.forwardReader;
@@ -36,7 +36,7 @@ public class CsvReaderTest extends TestCase {
     }
 
     /**
-     * ƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚İ‚Ü‚·B(Windows-31J)
+     * ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã¿ã¾ã™ã€‚(Windows-31J)
      */
     public void testReadFromFile() throws Exception {
         final String filename = "/test.csv";
@@ -51,13 +51,13 @@ public class CsvReaderTest extends TestCase {
     }
 
     /**
-     * ÀÛ‚Ìg—p•û–@‚ğ¦‚µ‚Ä‚¢‚Ü‚·B
+     * å®Ÿéš›ã®ä½¿ç”¨æ–¹æ³•ã‚’ç¤ºã—ã¦ã„ã¾ã™ã€‚
      */
     public void testParse1() throws Exception {
         final String filename = "/test.csv";
         Reader fReader = new InputStreamReader(CsvReaderTest.class.getResourceAsStream(filename), "Windows-31J");
 
-        // ÀÛ‚É‚ÍˆÈ‰º‚Ì‚æ‚¤‚É‚µ‚Äg‚¤B
+        // å®Ÿéš›ã«ã¯ä»¥ä¸‹ã®ã‚ˆã†ã«ã—ã¦ä½¿ã†ã€‚
         CsvReader reader = new CsvReader(fReader);
         int i = 1;
         while (reader.hasNext()) {

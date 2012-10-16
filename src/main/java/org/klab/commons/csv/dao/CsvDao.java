@@ -14,17 +14,17 @@ import java.util.List;
 /**
  * CsvDao. 
  * <li> (commons-persistence like)
- * <li> TODO ‚«‚ß×‚©‚È‘€ì‚Æ‚©H
+ * <li> TODO ãã‚ç´°ã‹ãªæ“ä½œã¨ã‹ï¼Ÿ
  * 
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version 0.00 080117 nsano initial version <br>
  */
 public interface CsvDao<E extends CsvEntity<I>, I extends Serializable> {
 
-    /** CSV ‚ğ‚·‚×‚Ä“Ç‚İ‚İ‚Ü‚·B */
+    /** CSV ã‚’ã™ã¹ã¦èª­ã¿è¾¼ã¿ã¾ã™ã€‚ */
     List<E> findAll();
 
-    /** CSV ‚ğ‚·‚×‚Ä‘‚«o‚µ‚Ü‚·B */
+    /** CSV ã‚’ã™ã¹ã¦æ›¸ãå‡ºã—ã¾ã™ã€‚ */
     void updateAll(Collection<E> entities);
 }
 

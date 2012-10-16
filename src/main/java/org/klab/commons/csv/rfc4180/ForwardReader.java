@@ -11,7 +11,7 @@ import java.io.Reader;
 
 
 /**
- * Reader ‚©‚ç1•¶š‚¸‚Â“Ç‚İ‚Ş‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B
+ * Reader ã‹ã‚‰1æ–‡å­—ãšã¤èª­ã¿è¾¼ã‚€ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
  * 
  * @author <a href="mailto:kusanagi@klab.org">Tomonori Kusanagi</a> (kusanagi)
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
@@ -26,15 +26,15 @@ public class ForwardReader {
     protected int bufferedChar = NONE;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     public ForwardReader(Reader reader) {
         this.reader = reader;
     }
 
     /**
-     * Œ»İ‚Ì“Ç‚İ‚İƒ|ƒCƒ“ƒg‚ÌŸ‚Ì•¶š‚ğ“Ç‚İ‚İA
-     * “Ç‚İ‚İƒ|ƒCƒ“ƒg‚ğ‚Ğ‚Æ‚Âi‚ß‚Ü‚·B
+     * ç¾åœ¨ã®èª­ã¿è¾¼ã¿ãƒã‚¤ãƒ³ãƒˆã®æ¬¡ã®æ–‡å­—ã‚’èª­ã¿è¾¼ã¿ã€
+     * èª­ã¿è¾¼ã¿ãƒã‚¤ãƒ³ãƒˆã‚’ã²ã¨ã¤é€²ã‚ã¾ã™ã€‚
      * 
      * @return read character
      */
@@ -43,16 +43,16 @@ public class ForwardReader {
             return reader.read();
         } else {
             int val = bufferedChar;
-            // bufferedChar ‚ğƒNƒŠƒA
+            // bufferedChar ã‚’ã‚¯ãƒªã‚¢
             bufferedChar = NONE;
             return val;
         }
     }
 
     /**
-     * Œ»İ‚Ì“Ç‚İ‚İƒ|ƒCƒ“ƒg‚ÌŸ‚Ì•¶š‚ğ’²‚×‚Ä•Ô‚µ‚Ü‚·‚ªA
-     * “Ç‚İ‚İƒ|ƒCƒ“ƒg‚Íæ‚Éi‚ß‚Ü‚¹‚ñB
-     * read ƒƒ\ƒbƒh‚ªÀs‚³‚ê‚È‚¢ŒÀ‚èA“¯‚¶•¶š‚ğ•Ô‚µ‘±‚¯‚Ü‚·B
+     * ç¾åœ¨ã®èª­ã¿è¾¼ã¿ãƒã‚¤ãƒ³ãƒˆã®æ¬¡ã®æ–‡å­—ã‚’èª¿ã¹ã¦è¿”ã—ã¾ã™ãŒã€
+     * èª­ã¿è¾¼ã¿ãƒã‚¤ãƒ³ãƒˆã¯å…ˆã«é€²ã‚ã¾ã›ã‚“ã€‚
+     * read ãƒ¡ã‚½ãƒƒãƒ‰ãŒå®Ÿè¡Œã•ã‚Œãªã„é™ã‚Šã€åŒã˜æ–‡å­—ã‚’è¿”ã—ç¶šã‘ã¾ã™ã€‚
      * 
      * @return buffered character
      * @throws IOException

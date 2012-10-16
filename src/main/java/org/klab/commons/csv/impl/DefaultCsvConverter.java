@@ -74,7 +74,7 @@ public class DefaultCsvConverter implements CsvConverter {
     }
 
     /**
-     * {@link #fields field ‚Ì’è‹`}—DæB
+     * {@link #fields field ã®å®šç¾©}å„ªå…ˆã€‚
      * @return entity {@link org.klab.commons.csv.CsvEntity} annotated object
      * @see CsvConverter#toEntity(CsvLine)
      * @throws IllegalStateException when entity initialize failed
@@ -135,8 +135,8 @@ logger.debug("unhandled class: " + fieldClass.getName());
      *
      * @param field @{@link CsvColumn} annotated field.
      * @param bean bean
-     * @param columns column ‚ª null or empty ‚Ìê‡A
-     *        İ’èæ‚ªƒvƒŠƒ~ƒeƒBƒu‚È‚ç 0, falseAƒ‰ƒbƒp[ƒNƒ‰ƒX‚È‚ç‚Î null
+     * @param columns column ãŒ null or empty ã®å ´åˆã€
+     *        è¨­å®šå…ˆãŒãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãªã‚‰ 0, falseã€ãƒ©ãƒƒãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ãªã‚‰ã° null
      */
     @SuppressWarnings("unchecked")
     protected void setFieldValueByStrings(Field field, Object bean, CsvLine columns) {
