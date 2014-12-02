@@ -12,18 +12,19 @@ import org.klab.commons.csv.rfc4180.CsvReader;
 import org.klab.commons.csv.rfc4180.CsvTokenizer;
 import org.klab.commons.csv.rfc4180.ForwardReader;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 
 /**
  * 
  * @author <a href="mailto:kusanagi@klab.org">Tomonori Kusanagi</a> (kusanagi)
  */
-public class CsvReaderTest extends TestCase {
+public class CsvReaderTest {
 
     /**
      * 文字列から読み込みます。
      */
+    @Test
     public void testRead() throws Exception {
         String testStr = "this is a test line.\nこれはテストです。";
 
@@ -38,6 +39,7 @@ public class CsvReaderTest extends TestCase {
     /**
      * ファイルから読み込みます。(Windows-31J)
      */
+    @Test
     public void testReadFromFile() throws Exception {
         final String filename = "/test.csv";
         Reader fReader = new InputStreamReader(CsvReaderTest.class.getResourceAsStream(filename), "Windows-31J");
@@ -53,6 +55,7 @@ public class CsvReaderTest extends TestCase {
     /**
      * 実際の使用方法を示しています。
      */
+    @Test
     public void testParse1() throws Exception {
         final String filename = "/test.csv";
         Reader fReader = new InputStreamReader(CsvReaderTest.class.getResourceAsStream(filename), "Windows-31J");

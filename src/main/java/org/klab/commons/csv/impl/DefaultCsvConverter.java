@@ -138,7 +138,7 @@ logger.debug("unhandled class: " + fieldClass.getName());
      * @param columns column が null or empty の場合、
      *        設定先がプリミティブなら 0, false、ラッパークラスならば null
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     protected void setFieldValueByStrings(Field field, Object bean, CsvLine columns) {
 //logger.debug("field: " + ToStringBuilder.reflectionToString(field));
         Class<?> fieldClass = field.getType();
