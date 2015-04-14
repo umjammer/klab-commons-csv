@@ -5,7 +5,7 @@ klab-commons-csv
 
 エンティティに`@CsvEntity`を設定し、エンティティーのフィールドにも`@CsvColumn`を設定し CSV のカラムを定義します。
 エンティティはジェネリックな`CsvDao`から利用することができます。
-SpringFramework 等でサービスに注入すれば persistence DAO http://architect.blog.klab.org/ と同等に使用することが可能になります。
+SpringFramework 等でサービスに注入すれば [persistence DAO](https://github.com/umjammer/vavi-commons/tree/master/vavi-persistence) と同等に使用することが可能になります。
 制限は、まだ JPA ほどの行操作 API はありません。`CsvDao#findAll()` 全取得、 `CsvDao#updateAll(Collection)` 全書き出しのみです。
 
 ##SpringFramework を使用した例
@@ -63,7 +63,7 @@ spring-beans.xml
     </bean>
 ```
 
-あとは fooCsvDao をサービスに注入すれば persistence DAO http://code.google.com/p/vavi-commons/source/browse/trunk/vavi-persistence/ と
+あとは fooCsvDao をサービスに注入すれば [persistence DAO] (http://code.google.com/p/vavi-commons/source/browse/trunk/vavi-persistence/) と
 ほぼ同様に使用することが可能になります。
 
 ```Java
@@ -106,4 +106,4 @@ spring-beans.xml
 
 
 #Depends
-* http://code.google.com/p/vavi-commons/source/browse/#svn/trunk/vavi-commons
+* https://github.com/umjammer/vavi-commons/tree/master/vavi-commons
