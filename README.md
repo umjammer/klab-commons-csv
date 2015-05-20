@@ -106,4 +106,4 @@ spring-beans.xml
 
 
 #Depends
-* https://github.com/umjammer/vavi-commons/tree/master/vavi-commons
+* https://github.com/umjammer/vavi-commons/
