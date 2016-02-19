@@ -103,7 +103,3 @@ spring-beans.xml
         
  List<Foo> result = csvDao.findAll();
 ```
-
-
-#Depends
-* https://github.com/umjammer/vavi-commons/
