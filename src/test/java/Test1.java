@@ -27,7 +27,6 @@ public class Test1 {
         @Override
         public void setId(Integer id) {
         }
-        
     }
 
     /**
@@ -40,7 +39,8 @@ public class Test1 {
         csvFactory.setFileName("/test.csv");
         csvDao.setCsvFactory(csvFactory);
 
-        List<A> result = csvDao.findAll();        
+        List<A> result = csvDao.findAll();
+        result.forEach(System.err::println);
     }
 }
 

@@ -9,10 +9,11 @@
   <artifactId>klab-commons-csv</artifactId>
   <name>klab-commons-csv</name>
   <organization>
-    <name></name>
+    <name>KLab Inc.</name>
+    <url>http://www.klab.com</url>
   </organization>
   <version>1.0.0</version>
-  <url>http://www.klab.jp/</url>
+  <url>https://github.com/umjammer/klab-commons-csv</url>
   <description>KLab Commons CSV API</description>
   <distributionManagement>
     <repository>
@@ -57,11 +58,11 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>6</source>
-          <target>6</target>
+          <source>1.8</source>
+          <target>1.8</target>
           <encoding>utf-8</encoding>
-          <compilerVersion>6</compilerVersion>
         </configuration>
+        <version>3.3</version>
       </plugin>
     </plugins>
   </build>
@@ -100,4 +101,10 @@
     <!-- github server corresponds to entry in ~/.m2/settings.xml -->
     <github.global.server>github</github.global.server>
   </properties>
+  <scm>
+    <url>https://github.com/umjammer/klab-commons-csv</url>
+  </scm>
+  <issueManagement>
+    <url>https://github.com/umjammer/klab-commons-csv/issues</url>
+  </issueManagement>
 </project>
