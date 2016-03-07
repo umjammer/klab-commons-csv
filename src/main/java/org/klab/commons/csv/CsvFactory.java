@@ -26,7 +26,10 @@ import org.apache.commons.logging.LogFactory;
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version 0.00 070207 sano-n initial version <br>
  */
-public interface CsvFactory {
+public interface CsvFactory<T> {
+
+    /** */
+    void setSource(T source);
 
     /** CSV を実際に読み込むストリーム */
     InputStream getInputStream() throws IOException;
@@ -46,20 +49,25 @@ public interface CsvFactory {
      */
     interface ExceptionHandler {
         /** TODO 引数考える */
-        void handleEachLine(Exception e, int lineNumber, Object line, CsvFactory csvFactory);
+        void handleEachLine(Exception e, int lineNumber, Object line, CsvFactory<?> csvFactory);
         /** */
-        void handleWhenDone(Collection<?> entities);
+        void handleWhenDone(Collection<Exception> exceptions);
     }
 
     /** 一行ごとにログするだけ */
     class DefaultExceptionHandler implements ExceptionHandler {
         private static Log logger = LogFactory.getLog(DefaultExceptionHandler.class);
         @Override
-        public void handleEachLine(Exception e, int lineNumber, Object line, CsvFactory csvFactory) {
-logger.error("csv: line " + lineNumber + ": " + csvFactory, e);
+        public void handleEachLine(Exception e, int lineNumber, Object line, CsvFactory<?> csvFactory) {
+            logger.error("csv: line " + lineNumber + ": " + csvFactory, e.getCause());
         }
         @Override
-        public void handleWhenDone(Collection<?> entities) {
+        public void handleWhenDone(Collection<Exception> exceptions) {
+            if (exceptions.size() > 0) {
+                throw (RuntimeException) new IllegalStateException("There are some exceptions.").initCause(new Exception("exceptions") {{
+                    exceptions.forEach(this::addSuppressed);
+                }});
+            }
         }
     }
 

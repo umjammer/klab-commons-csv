@@ -8,8 +8,6 @@ package org.klab.commons.csv;
 
 import java.lang.reflect.Field;
 
-import org.klab.commons.csv.spi.CsvLine;
-
 
 /**
  * CsvDialect.
@@ -24,14 +22,16 @@ public interface CsvDialect {
     String getEndOfLine();
 
     /**
-     * object to strings conversion. when field is annotated by {@link Dialectal} 
+     * object to string conversion. when field is annotated by {@link Dialectal} 
+     * @return string from field value
      */
-    CsvLine toCsvLine(Field field, Object bean, Object value);
+    String toCsvLine(Field field, Object bean, Object value);
 
     /**
-     * strings to object conversion. when field is annotated by {@link Dialectal} 
+     * string to object conversion. when field is annotated by {@link Dialectal}
+     * @return object from column string
      */
-    Object toFieldValue(Field field, Object bean, CsvLine columns);
+    Object toFieldValue(Field field, Object bean, String column);
 
     /**
      * quote, escape quotation character, etc.

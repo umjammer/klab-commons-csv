@@ -6,10 +6,15 @@
 
 import java.util.List;
 
+import org.junit.Test;
+
+import org.klab.commons.csv.CsvEntity;
+import org.klab.commons.csv.GeneratedValue;
 import org.klab.commons.csv.dao.CsvDaoBase;
-import org.klab.commons.csv.dao.CsvEntity;
 import org.klab.commons.csv.impl.FileCsvFactory;
 
+import vavi.util.StringUtil;
+import static org.junit.Assert.*;
 
 /**
  * Test1. 
@@ -19,14 +24,35 @@ import org.klab.commons.csv.impl.FileCsvFactory;
  */
 public class Test1 {
 
-    static class A implements CsvEntity<Integer> {
+    @CsvEntity
+    public static class A implements org.klab.commons.csv.dao.CsvEntity<Integer> {
+        @GeneratedValue
+        int id;
         @Override
         public Integer getId() {
-            return null;
+            return id;
         }
         @Override
         public void setId(Integer id) {
+            this.id = id;
         }
+        public String toString() {
+            return StringUtil.paramString(this);
+        }
+    }
+
+    @Test
+    public void test1() throws Exception {
+        CsvDaoBase<A, Integer> csvDao = new CsvDaoBase<A, Integer>();
+        csvDao.setEntityClass(A.class);
+        FileCsvFactory csvFactory = new FileCsvFactory();
+        csvFactory.setSource("src/test/resources/test.csv");
+        csvDao.setCsvFactory(csvFactory);
+
+        List<A> result = csvDao.findAll();
+        result.forEach(System.err::println);
+
+        assertEquals(3, result.size());
     }
 
     /**
@@ -36,7 +62,7 @@ public class Test1 {
         CsvDaoBase<A, Integer> csvDao = new CsvDaoBase<A, Integer>();
         csvDao.setEntityClass(A.class);
         FileCsvFactory csvFactory = new FileCsvFactory();
-        csvFactory.setFileName("/test.csv");
+        csvFactory.setSource("src/test/resources/test.csv");
         csvDao.setCsvFactory(csvFactory);
 
         List<A> result = csvDao.findAll();

@@ -11,12 +11,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
-import java.util.Comparator;
-import java.util.Set;
-import java.util.TreeSet;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import vavi.util.properties.annotation.Property;
 
 
 /**
@@ -30,43 +26,29 @@ import org.apache.commons.logging.LogFactory;
 public @interface CsvColumn {
 
     /**
-     * CSV のカラム順
+     * Sequence no of the CSV. Starts with 1.
+     * <p>
+     * ex.
+     * <pre>
+     *  1, 2...
+     * </pre>
      */
     int sequence();
 
     /** */
     class Util {
 
-        /** */
-        private static Log logger = LogFactory.getLog(Util.class);
-
         /**
-         * TODO メソッドにアノテーションされた場合
-         * @return only {@link CsvColumn} annotated fields, sorted by {@link CsvColumn#sequence()} 
-         * @throws IllegalArgumentException bean is not annotated with {@link CsvEntity}
+         * @param field {@link Property} annotated
+         * @return When {@link Property#name()} is not set, the field name will be return.
          */
-        public static Set<Field> getFields(Class<?> beanClass) {
-
-            // {@link Column} でアノテートされた {@link Field} のセット
-            Set<Field> columnFields = new TreeSet<Field>(new Comparator<Field>() {
-                @Override
-                public int compare(Field o1, Field o2) {
-                    int s1 = o1.getAnnotation(CsvColumn.class).sequence();
-                    int s2 = o2.getAnnotation(CsvColumn.class).sequence();
-                    return s1 - s2;
-                }
-            });
-            for (Field field : beanClass.getDeclaredFields()) {
-logger.debug("field: " + field.getName());
-                CsvColumn column = field.getAnnotation(CsvColumn.class);
-                if (column == null) {
-logger.debug("not @CsvColumn: " + field.getName());
-                    continue;
-                }
-                columnFields.add(field);
+        public static int getSequence(Field field) {
+            CsvColumn target = field.getAnnotation(CsvColumn.class);
+            if (target == null) {
+                throw new IllegalArgumentException("bean is not annotated with @Property");
             }
 
-            return columnFields;
+            return target.sequence();
         }
     }
 }
