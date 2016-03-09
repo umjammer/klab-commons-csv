@@ -15,7 +15,9 @@ import java.lang.reflect.Field;
 
 /**
  * Dialectal. 
- *
+ * <p>
+ * TODO specify dialectal class here
+ * </p>
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 080212 nsano initial version <br>
  */

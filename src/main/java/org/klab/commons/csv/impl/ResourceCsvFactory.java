@@ -9,35 +9,27 @@ package org.klab.commons.csv.impl;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.klab.commons.csv.CsvFactory;
 
 
 /**
  * ResourceCsvFactory.
+ * <p>
+ * If you specify this class to {@link org.klab.commons.csv.CsvEntity#io()}, 
+ * You need to specify path at {@link org.klab.commons.csv.CsvEntity#url()}.
+ * </p>
  * <li> (original)
- *
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version 0.00 070207 sano-n initial version <br>
  */
-public class ResourceCsvFactory extends AbstractCsvFactory implements CsvFactory {
+public class ResourceCsvFactory extends AbstractCsvFactory<String> implements CsvFactory<String> {
 
-    private static Log logger = LogFactory.getLog(ResourceCsvFactory.class);
-
-    /** */
-    private String resourceName;
-
-    /** for DI */
-    public void setResourceName(String resourceName) {
-        this.resourceName = resourceName;
-logger.debug("CSV resourceName: " + resourceName);
-    }
-
+    /**
+     * @return null if {@link #source} is not found.
+     */
     @Override
     public InputStream getInputStream() {
-        return ResourceCsvFactory.class.getResourceAsStream(resourceName);
+        return ResourceCsvFactory.class.getResourceAsStream(source);
     }
 
     @Override
@@ -47,7 +39,7 @@ logger.debug("CSV resourceName: " + resourceName);
 
     @Override
     public String toString() {
-        return resourceName;
+        return source;
     }
 }
 

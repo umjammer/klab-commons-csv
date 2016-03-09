@@ -32,10 +32,10 @@ public class CsvDaoBase<E extends CsvEntity<I>, I extends Serializable> implemen
     }
 
     /** data source */
-    private CsvFactory csvFactory;
+    private CsvFactory<?> csvFactory;
 
     /** for DI */
-    public void setCsvFactory(CsvFactory csvFactory) {
+    public void setCsvFactory(CsvFactory<?> csvFactory) {
         this.csvFactory = csvFactory;
     }
 
@@ -45,7 +45,7 @@ public class CsvDaoBase<E extends CsvEntity<I>, I extends Serializable> implemen
         try {
             return (List<E>) csvFactory.getWholeCsvReader().readAll(entityClass);
         } catch (IOException e) {
-            throw (RuntimeException) new IllegalStateException().initCause(e);
+            throw new IllegalStateException(e);
         }
     }
 
@@ -54,7 +54,7 @@ public class CsvDaoBase<E extends CsvEntity<I>, I extends Serializable> implemen
         try {
             csvFactory.getWholeCsvWriter().writeAll(entities, entityClass);
         } catch (IOException e) {
-            throw (RuntimeException) new IllegalStateException().initCause(e);
+            throw new IllegalStateException(e);
         }
     }
 }

@@ -9,12 +9,11 @@ package org.klab.commons.csv.impl;
 import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.klab.commons.csv.CsvDialect;
-import org.klab.commons.csv.spi.CsvLine;
+
+import vavi.beans.BeanUtil;
 
 
 /**
@@ -33,27 +32,26 @@ public class ExcelCsvDialect implements CsvDialect {
      * @param field when type is Date only converted 
      */
     @Override
-    public CsvLine toCsvLine(Field field, Object bean, Object value) {
-        List<String> columns = new ArrayList<String>();
+    public String toCsvLine(Field field, Object bean, Object value) {
         if (field.getType() == Date.class) {
-            columns.add(value == null ? "" : "\"" + new SimpleDateFormat(sdf).format(Date.class.cast(value).getTime()) + "\"");
+            return value == null ? "" : "\"" + new SimpleDateFormat(sdf).format(Date.class.cast(value).getTime()) + "\"";
         } else {
             throw new IllegalArgumentException(field.getName());
         }
-        return (CsvLine) columns;
     }
 
     /**
      * @param field when type is Date only converted 
      */
     @Override
-    public Object toFieldValue(Field field, Object bean, CsvLine columns) {
-        String column = columns.next();
+    public Object toFieldValue(Field field, Object bean, String column) {
         if (field.getType() == Date.class) {
             try {
-                return column == null ? null : new SimpleDateFormat(sdf).parse(column);
+                Object value = column == null ? null : new SimpleDateFormat(sdf).parse(column);
+                BeanUtil.setFieldValue(field, bean, value);
+                return value;
             } catch (ParseException e) {
-                throw (RuntimeException) new IllegalStateException().initCause(e);
+                throw new IllegalStateException(e);
             }
         } else {
             throw new IllegalArgumentException(field.getName());

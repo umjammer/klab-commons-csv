@@ -17,8 +17,8 @@ import org.apache.commons.logging.LogFactory;
 import org.klab.commons.csv.CsvColumn;
 import org.klab.commons.csv.CsvConverter;
 import org.klab.commons.csv.CsvDialect;
+import org.klab.commons.csv.CsvEntity;
 import org.klab.commons.csv.Dialectal;
-import org.klab.commons.csv.Enumerated;
 import org.klab.commons.csv.spi.CsvLine;
 
 import vavi.beans.BeanUtil;
@@ -38,8 +38,8 @@ public class DefaultCsvConverter implements CsvConverter {
     /** */
     protected Class<?> entityClass;
 
-    /** for convenience */
-    protected Set<Field> fields;
+    /** */
+    protected CsvDialect defaultCsvDialect = new DefaultCsvDialect();
 
     /** */
     protected CsvDialect csvDialect;
@@ -49,7 +49,6 @@ public class DefaultCsvConverter implements CsvConverter {
      */
     public DefaultCsvConverter(Class<?> entityClass, CsvDialect csvDialect) {
         this.entityClass = entityClass;
-        this.fields = CsvColumn.Util.getFields(entityClass);
         this.csvDialect = csvDialect;
     }
 
@@ -62,12 +61,20 @@ public class DefaultCsvConverter implements CsvConverter {
     public String toCsv(Object entity) {
         StringBuilder sb = new StringBuilder(); 
 
+        List<String> columns = new ArrayList<>();
+
+        Set<Field> fields = CsvEntity.Util.getFields(entityClass);
         for (Field field : fields) {
-            CsvLine columns = getFieldValueAsString(field, entity);
-            for (String column : columns) {
-                sb.append(column);
-                sb.append(',');
+            Object fieldValue = BeanUtil.getFieldValue(field, entity);
+            if (Dialectal.Util.isDialectal(field)) {
+                columns.add(csvDialect.toCsvLine(field, entity, fieldValue));
+            } else {
+                columns.add(defaultCsvDialect.toCsvLine(field, entity, fieldValue));
             }
+        }
+        for (String column : columns) {
+            sb.append(column);
+            sb.append(',');
         }
 //logger.debug("csv: " + sb.substring(0, sb.length() - 1));
         return sb.substring(0, sb.length() - 1) + csvDialect.getEndOfLine();
@@ -85,108 +92,29 @@ public class DefaultCsvConverter implements CsvConverter {
         try {
             entity = entityClass.newInstance();
         } catch (Exception e) {
-            throw (RuntimeException) new IllegalStateException().initCause(e);
+            throw new IllegalStateException(e);
         }
 
+        Set<Field> fields = CsvEntity.Util.getFields(entityClass);
         for (Field field : fields) {
             if (columns.hasNext()) {
-                setFieldValueByStrings(field, entity, columns);
+                String column = columns.next();
+//Debug.println("field[" + field.getAnnotation(CsvColumn.class).sequence() + "]: " + field.getName() + ": " + column);
+                if (Dialectal.Util.isDialectal(field)) {
+                    csvDialect.toFieldValue(field, entity, column);
+                } else {
+                    defaultCsvDialect.toFieldValue(field, entity, column);
+                }
             } else {
 logger.error("line: [" + columns + "]");
                 throw new IndexOutOfBoundsException("columns < " + fields.size());
             }
         }
-if (columns.hasNext()) {
- logger.warn("columns > " + fields.size());
+while (columns.hasNext()) {
+ logger.warn("columns > " + fields.size() + ": " + columns.next());
 }
 //logger.debug("entity: " + ToStringBuilder.reflectionToString(entity));
         return entity;
-    }
-
-    /**
-     * Object to String conversion.
-     *
-     * @param field @{@link CsvColumn} annotated field.
-     * @param bean bean
-     * @return only {@link Iterable} is guaranteed
-     */
-    @SuppressWarnings("unchecked")
-    protected CsvLine getFieldValueAsString(Field field, Object bean) {
-        Class<?> fieldClass = field.getType();
-        Object fieldValue = BeanUtil.getFieldValue(field, bean);
-        if (Dialectal.Util.isDialectal(field)) {
-            return csvDialect.toCsvLine(field, bean, fieldValue);
-        } else {
-            List<String> columns = new ArrayList<String>();
-            if (fieldClass.isEnum() && Enumerated.Util.isEnumetated(field)) {
-                columns.add(Enumerated.Util.toCsvString(field, Enum.class.cast(fieldValue)));
-            } else if (fieldClass.equals(String.class)) {
-                columns.add(csvDialect.formatString(fieldValue == null ? "" : fieldValue.toString()));
-            } else {
-logger.debug("unhandled class: " + fieldClass.getName());
-                columns.add(fieldValue == null ? "" : fieldValue.toString());
-            }
-            return (CsvLine) columns;
-        }
-    }
-
-    /**
-     * String to Object conversion.
-     *
-     * @param field @{@link CsvColumn} annotated field.
-     * @param bean bean
-     * @param columns column が null or empty の場合、
-     *        設定先がプリミティブなら 0, false、ラッパークラスならば null
-     */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    protected void setFieldValueByStrings(Field field, Object bean, CsvLine columns) {
-//logger.debug("field: " + ToStringBuilder.reflectionToString(field));
-        Class<?> fieldClass = field.getType();
-        if (Dialectal.Util.isDialectal(field)) {
-            BeanUtil.setFieldValue(field, bean, csvDialect.toFieldValue(field, bean, columns));
-        } else {
-            String column = columns.next();
-            if (fieldClass.isEnum() && Enumerated.Util.isEnumetated(field)) {
-                BeanUtil.setFieldValue(field, bean, Enumerated.Util.<Enum>toFieldValue(field, column));
-            } else if (fieldClass.equals(Boolean.class)) {
-                BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? null : Boolean.parseBoolean(column));
-            } else if (fieldClass.equals(Boolean.TYPE)) {
-                BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? false : Boolean.parseBoolean(column));
-            } else if (fieldClass.equals(Integer.class)) {
-                BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? null : Integer.parseInt(column));
-            } else if (fieldClass.equals(Integer.TYPE)) {
-                BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? 0 : Integer.parseInt(column));
-            } else if (fieldClass.equals(Short.class)) {
-                BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? null : Short.parseShort(column));
-            } else if (fieldClass.equals(Short.TYPE)) {
-                BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? 0 : Short.parseShort(column));
-            } else if (fieldClass.equals(Byte.class)) {
-                BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? null : Byte.parseByte(column));
-            } else if (fieldClass.equals(Byte.TYPE)) {
-                BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? 0 : Byte.parseByte(column));
-            } else if (fieldClass.equals(Long.class)) {
-                BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? null : Long.parseLong(column));
-            } else if (fieldClass.equals(Long.TYPE)) {
-                BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? 0 : Long.parseLong(column));
-            } else if (fieldClass.equals(Float.class)) {
-                BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? null : Float.parseFloat(column));
-            } else if (fieldClass.equals(Float.TYPE)) {
-                BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? 0 : Float.parseFloat(column));
-            } else if (fieldClass.equals(Double.class)) {
-                BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? null : Double.parseDouble(column));
-            } else if (fieldClass.equals(Double.TYPE)) {
-                BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? 0 : Double.parseDouble(column));
-            } else if (fieldClass.equals(Character.class)) {
-                BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? null : Character.valueOf(column.charAt(0))); // TODO ???
-            } else if (fieldClass.equals(Character.TYPE)) {
-                BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? 0 : Character.valueOf(column.charAt(0))); // TODO ???
-            } else {
-if (!fieldClass.equals(String.class)) {
- logger.debug("unhandled class: " + fieldClass.getName());
-}
-                BeanUtil.setFieldValue(field, bean, column);
-            }
-        }
     }
 }
 

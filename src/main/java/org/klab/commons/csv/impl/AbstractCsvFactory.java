@@ -30,8 +30,18 @@ import org.klab.commons.csv.spi.CsvWriter;
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version 0.00 070207 sano-n initial version <br>
  */
-public abstract class AbstractCsvFactory implements CsvFactory {
+public abstract class AbstractCsvFactory<T> implements CsvFactory<T> {
+    
+    /** */
+    protected T source;
 
+    /** */
+    public void setSource(T source) {
+        this.source = source;
+logger.debug("csv source: " + source);
+    }
+
+    /** */
     private static Log logger = LogFactory.getLog(AbstractCsvFactory.class);
 
     /** */
@@ -82,10 +92,12 @@ logger.debug("cache off or first read: cache: " + cached);
             return (List<E>) cache;
         }
         /**
+         * Reads each csv line.
          * @throws NullPointerException do {@link #setEntityClass(Class)}
          */
         protected List<?> findAllInternal(CsvConverter csvConverter, CsvReader reader) throws IOException {
-            List<Object> results = new ArrayList<Object>();
+            List<Object> results = new ArrayList<>();
+            List<Exception> exceptions = new ArrayList<>();
 
             Integer id = 0;
             while (reader.hasNextLine()) {
@@ -101,14 +113,14 @@ if (csv.toString().isEmpty()) {
 //logger.debug(ToStringBuilder.reflectionToString(entity));
 }
                 } catch (Exception e) {
-logger.error("read: " + e);
                     readExceptionHandler.handleEachLine(e, id + 1, csv, AbstractCsvFactory.this);
+                    exceptions.add(e);
                 }
                 id++;
             }
             reader.close();
 
-            readExceptionHandler.handleWhenDone(results);
+            readExceptionHandler.handleWhenDone(exceptions);
 
             return results;
         }
@@ -134,6 +146,8 @@ logger.error("read: " + e);
          */
         @Override
         public <E> void writeAll(Collection<E> entities, Class<E> entityClass) throws IOException {
+            List<Exception> exceptions = new ArrayList<>();
+
             CsvProvider csvProvider = org.klab.commons.csv.CsvEntity.Util.getCsvProvider(entityClass);
 logger.debug("csvProvider: " + csvProvider.getClass().getName());
             String encoding = org.klab.commons.csv.CsvEntity.Util.getEncoding(entityClass);
@@ -150,13 +164,14 @@ logger.debug("encoding: " + encoding);
                     writer.writeLine(csv);
                 } catch (Exception e) {
                     writeExceptionHandler.handleEachLine(e, id + 1, entity, AbstractCsvFactory.this);
+                    exceptions.add(e);
                 }
                 id++;
             }
             writer.flush();
             writer.close();
 
-            writeExceptionHandler.handleWhenDone(entities);
+            writeExceptionHandler.handleWhenDone(exceptions);
         }
     }
 

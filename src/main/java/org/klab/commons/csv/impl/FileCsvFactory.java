@@ -12,48 +12,35 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.klab.commons.csv.CsvFactory;
 
 
 /**
  * FileCsvFactory.
+ * <p>
+ * If you specify this class to {@link org.klab.commons.csv.CsvEntity#io()}, 
+ * You need to specify file name at {@link org.klab.commons.csv.CsvEntity#url()}.
+ * </p>
  * <li> (original)
- *
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version 0.00 070207 sano-n initial version <br>
  */
-public class FileCsvFactory extends AbstractCsvFactory implements CsvFactory {
-
-    private static Log logger = LogFactory.getLog(FileCsvFactory.class);
-
-    /** */
-    private String fileName;
-
-    /**
-     * for DI
-     */
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-logger.debug("fileName: " + fileName);
-    }
+public class FileCsvFactory extends AbstractCsvFactory<String> implements CsvFactory<String> {
 
     @Override
     public InputStream getInputStream() throws IOException {
-        return new FileInputStream(fileName);
+        return new FileInputStream(source);
     }
 
     @Override
     public OutputStream getOutputStream() throws IOException {
-        return new FileOutputStream(fileName);
+        return new FileOutputStream(source);
     }
 
     /** */
     @Override
     public String toString() {
-        return fileName;
+        return source;
     }
 }
 
