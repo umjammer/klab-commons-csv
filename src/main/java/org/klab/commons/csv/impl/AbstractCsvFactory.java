@@ -96,7 +96,7 @@ logger.debug("cache off or first read: cache: " + cached);
          * @throws NullPointerException do {@link #setEntityClass(Class)}
          */
         protected List<?> findAllInternal(CsvConverter csvConverter, CsvReader reader) throws IOException {
-            List<Object> results = new ArrayList<Object>();
+            List<Object> results = new ArrayList<>();
             List<Exception> exceptions = new ArrayList<>();
 
             Integer id = 0;

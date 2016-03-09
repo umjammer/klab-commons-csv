@@ -64,7 +64,7 @@ public class CsvTokenizer implements Iterable<String> {
     }
 
     /** */
-    private List<String> parsedTokens = new ArrayList<String>();
+    private List<String> parsedTokens = new ArrayList<>();
 
     /**
      * CSV の一行をパースします。

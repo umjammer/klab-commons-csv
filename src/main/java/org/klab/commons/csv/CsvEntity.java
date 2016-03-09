@@ -161,7 +161,7 @@ System.err.println("use default encoding: " + encoding);
             }
 
             // {@link Column} でアノテートされた {@link Field} のセット
-            Set<Field> columnFields = new TreeSet<Field>(new Comparator<Field>() {
+            Set<Field> columnFields = new TreeSet<>(new Comparator<Field>() {
                 @Override
                 public int compare(Field o1, Field o2) {
                     int s1 = CsvColumn.Util.getSequence(o1);

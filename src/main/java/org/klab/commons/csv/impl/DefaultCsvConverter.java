@@ -61,7 +61,7 @@ public class DefaultCsvConverter implements CsvConverter {
     public String toCsv(Object entity) {
         StringBuilder sb = new StringBuilder(); 
 
-        List<String> columns = new ArrayList<String>();
+        List<String> columns = new ArrayList<>();
 
         Set<Field> fields = CsvEntity.Util.getFields(entityClass);
         for (Field field : fields) {
@@ -92,7 +92,7 @@ public class DefaultCsvConverter implements CsvConverter {
         try {
             entity = entityClass.newInstance();
         } catch (Exception e) {
-            throw (RuntimeException) new IllegalStateException().initCause(e);
+            throw new IllegalStateException(e);
         }
 
         Set<Field> fields = CsvEntity.Util.getFields(entityClass);

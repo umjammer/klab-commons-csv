@@ -43,7 +43,7 @@ public class Test1 {
 
     @Test
     public void test1() throws Exception {
-        CsvDaoBase<A, Integer> csvDao = new CsvDaoBase<A, Integer>();
+        CsvDaoBase<A, Integer> csvDao = new CsvDaoBase<>();
         csvDao.setEntityClass(A.class);
         FileCsvFactory csvFactory = new FileCsvFactory();
         csvFactory.setSource("src/test/resources/test.csv");
@@ -59,7 +59,7 @@ public class Test1 {
      * @param args
      */
     public static void main(String[] args) throws Exception {
-        CsvDaoBase<A, Integer> csvDao = new CsvDaoBase<A, Integer>();
+        CsvDaoBase<A, Integer> csvDao = new CsvDaoBase<>();
         csvDao.setEntityClass(A.class);
         FileCsvFactory csvFactory = new FileCsvFactory();
         csvFactory.setSource("src/test/resources/test.csv");
