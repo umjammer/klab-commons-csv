@@ -36,6 +36,9 @@ public @interface GeneratedValue {
         /** */
         private static Log logger = LogFactory.getLog(GeneratedValue.class);
 
+        private Util() {
+        }
+
         /**
          * TODO エンティティに対して一つとみなしていいのか？
          * {@link GeneratedValue} がフィールドに無い場合は無視されます。

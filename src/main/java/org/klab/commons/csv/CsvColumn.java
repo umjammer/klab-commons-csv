@@ -38,6 +38,9 @@ public @interface CsvColumn {
     /** */
     class Util {
 
+        private Util() {
+        }
+
         /**
          * @param field {@link Property} annotated
          * @return When {@link Property#name()} is not set, the field name will be return.

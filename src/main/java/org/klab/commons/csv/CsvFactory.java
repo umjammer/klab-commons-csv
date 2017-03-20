@@ -59,6 +59,7 @@ public interface CsvFactory<T> {
         private static Log logger = LogFactory.getLog(DefaultExceptionHandler.class);
         @Override
         public void handleEachLine(Exception e, int lineNumber, Object line, CsvFactory<?> csvFactory) {
+e.printStackTrace(System.err);
             logger.error("csv: line " + lineNumber + ": " + csvFactory, e.getCause());
         }
         @Override
