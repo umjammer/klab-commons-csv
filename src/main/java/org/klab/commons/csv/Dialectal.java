@@ -30,6 +30,9 @@ public @interface Dialectal {
      */
     static class Util {
 
+        private Util() {
+        }
+
         /** */
         public static boolean isDialectal(Field field) {
             return field.getAnnotation(Dialectal.class) != null;

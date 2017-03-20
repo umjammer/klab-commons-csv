@@ -12,10 +12,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,6 +57,9 @@ public @interface CsvEntity {
 
         /** */
         private static Log logger = LogFactory.getLog(Util.class);
+
+        private Util() {
+        }
 
         /**
          * @throws IllegalArgumentException bean is not annotated with {@link CsvEntity}
@@ -153,7 +156,7 @@ System.err.println("use default encoding: " + encoding);
          * @return only {@link CsvColumn} annotated fields, sorted by {@link CsvColumn#sequence()} 
          * @throws IllegalArgumentException bean is not annotated with {@link CsvEntity}
          */
-        public static Set<Field> getFields(Class<?> beanClass) {
+        public static List<Field> getFields(Class<?> beanClass) {
             //
             CsvEntity entity = beanClass.getAnnotation(CsvEntity.class);
             if (entity == null) {
@@ -161,14 +164,7 @@ System.err.println("use default encoding: " + encoding);
             }
 
             // {@link Column} でアノテートされた {@link Field} のセット
-            Set<Field> columnFields = new TreeSet<>(new Comparator<Field>() {
-                @Override
-                public int compare(Field o1, Field o2) {
-                    int s1 = CsvColumn.Util.getSequence(o1);
-                    int s2 = CsvColumn.Util.getSequence(o2);
-                    return s1 - s2;
-                }
-            });
+            List<Field> columnFields = new ArrayList<>();
             for (Field field : beanClass.getDeclaredFields()) {
                 CsvColumn column = field.getAnnotation(CsvColumn.class);
                 if (column == null) {
@@ -179,6 +175,15 @@ logger.debug("field[" + column.sequence() + "]: " + field.getName());
                 columnFields.add(field);
             }
 
+            Collections.sort(columnFields, new Comparator<Field>() {
+                @Override
+                public int compare(Field o1, Field o2) {
+                    int s1 = CsvColumn.Util.getSequence(o1);
+                    int s2 = CsvColumn.Util.getSequence(o2);
+                    return s1 - s2;
+                }
+            });
+            
             return columnFields;
         }
 

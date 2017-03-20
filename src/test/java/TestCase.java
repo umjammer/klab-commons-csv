@@ -19,7 +19,8 @@ import org.klab.commons.csv.GeneratedValue;
 import org.klab.commons.csv.impl.FileCsvFactory;
 
 import vavi.util.StringUtil;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 
 /**
@@ -96,6 +97,35 @@ public class TestCase {
         list.add(new Test02(4, "title4", "contents4", Test02.E.D, new Date()));
         list.add(new Test02(5, "title5", "contents5", Test02.E.E, new Date()));
         CsvEntity.Util.write(list, Test02.class);
+        // TODO assertion
+    }
+
+    @CsvEntity(url = "http://www.sample-videos.com/csv/Sample-Spreadsheet-500000-rows.csv", encoding = "ISO8859-1")
+    public static class Test03 {
+        @CsvColumn(sequence = 1) 
+        String name;
+        @CsvColumn(sequence = 2)
+        String owner;
+        @CsvColumn(sequence = 3)
+        int n1;
+        @CsvColumn(sequence = 4)
+        float n2;
+        @CsvColumn(sequence = 5)
+        float n3;
+        @CsvColumn(sequence = 6)
+        float n4;
+        @CsvColumn(sequence = 7)
+        String status;
+        @CsvColumn(sequence = 8)
+        String category;
+        @CsvColumn(sequence = 9)
+        float n5;
+    }
+
+    //@Test
+    public void test3() throws Exception {
+        List<Test03> result = CsvEntity.Util.read(Test03.class);
+        assertEquals(500000, result.size());
     }
 }
 

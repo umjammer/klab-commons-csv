@@ -9,7 +9,6 @@ package org.klab.commons.csv.impl;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -63,13 +62,17 @@ public class DefaultCsvConverter implements CsvConverter {
 
         List<String> columns = new ArrayList<>();
 
-        Set<Field> fields = CsvEntity.Util.getFields(entityClass);
+        List<Field> fields = CsvEntity.Util.getFields(entityClass);
         for (Field field : fields) {
-            Object fieldValue = BeanUtil.getFieldValue(field, entity);
-            if (Dialectal.Util.isDialectal(field)) {
-                columns.add(csvDialect.toCsvLine(field, entity, fieldValue));
-            } else {
-                columns.add(defaultCsvDialect.toCsvLine(field, entity, fieldValue));
+            try {
+                Object fieldValue = BeanUtil.getFieldValue(field, entity);
+                if (Dialectal.Util.isDialectal(field)) {
+                    columns.add(csvDialect.toCsvLine(field, entity, fieldValue));
+                } else {
+                    columns.add(defaultCsvDialect.toCsvLine(field, entity, fieldValue));
+                }
+            } catch (Exception e) {
+                throw new IllegalStateException("field[" + CsvColumn.Util.getSequence(field) + "]: " + field.getType().getSimpleName() + " " + field.getName(), e);
             }
         }
         for (String column : columns) {
@@ -95,23 +98,36 @@ public class DefaultCsvConverter implements CsvConverter {
             throw new IllegalStateException(e);
         }
 
-        Set<Field> fields = CsvEntity.Util.getFields(entityClass);
+        List<Field> fields = CsvEntity.Util.getFields(entityClass);
+
+        List<String> csvColumns = new ArrayList<>();
+        columns.forEachRemaining(csvColumns::add);
+        
         for (Field field : fields) {
-            if (columns.hasNext()) {
-                String column = columns.next();
-//Debug.println("field[" + field.getAnnotation(CsvColumn.class).sequence() + "]: " + field.getName() + ": " + column);
-                if (Dialectal.Util.isDialectal(field)) {
-                    csvDialect.toFieldValue(field, entity, column);
+            int sequence = CsvColumn.Util.getSequence(field);
+            if (sequence > 0 && sequence <= csvColumns.size()) {
+                String column = csvColumns.get(sequence - 1);
+                if (column != null && !column.isEmpty() && !column.equals("\r") && !column.equals("\n") && !column.equals("\r\n")) { // TODO performance
+//Debug.println("field[" + CsvColumn.Util.getSequence(field) + "]: " + field.getType().getSimpleName() + " " + field.getName() + " = '" + column + "'\n" + StringUtil.getDump(column));
+                    try {
+                        if (Dialectal.Util.isDialectal(field)) {
+                            csvDialect.toFieldValue(field, entity, column);
+                        } else {
+                            defaultCsvDialect.toFieldValue(field, entity, column);
+                        }
+                    } catch (Exception e) {
+                        throw new IllegalStateException("field[" + CsvColumn.Util.getSequence(field) + "]: " + field.getType().getSimpleName() + " " + field.getName() + " = '" + column + "'", e);
+                    }
                 } else {
-                    defaultCsvDialect.toFieldValue(field, entity, column);
+logger.warn("field[" + CsvColumn.Util.getSequence(field) + "]: " + field.getType().getSimpleName() + " " + field.getName() + " is empty");
                 }
             } else {
 logger.error("line: [" + columns + "]");
-                throw new IndexOutOfBoundsException("columns < " + fields.size());
+                throw new IndexOutOfBoundsException("column " + sequence + "/" + csvColumns.size());
             }
         }
-while (columns.hasNext()) {
- logger.warn("columns > " + fields.size() + ": " + columns.next());
+if (csvColumns.size() > fields.size()) {
+ logger.debug("columns > " + fields.size() + ": " + csvColumns.size());
 }
 //logger.debug("entity: " + ToStringBuilder.reflectionToString(entity));
         return entity;
