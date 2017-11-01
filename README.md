@@ -1,16 +1,16 @@
 klab-commons-csv
 ================
 
-#CSV を扱うアノテーションライブラリ
+# CSV を扱うアノテーションライブラリ
 
 エンティティに`@CsvEntity`を設定し、エンティティーのフィールドにも`@CsvColumn`を設定し CSV のカラムを定義します。
 エンティティはジェネリックな`CsvDao`から利用することができます。
 SpringFramework 等でサービスに注入すれば [persistence DAO](https://github.com/umjammer/vavi-commons/tree/master/vavi-persistence) と同等に使用することが可能になります。
 制限は、まだ JPA ほどの行操作 API はありません。`CsvDao#findAll()` 全取得、 `CsvDao#updateAll(Collection)` 全書き出しのみです。
 
-##SpringFramework を使用した例
+## SpringFramework を使用した例
 
-###基本設定
+### 基本設定
 spring-beans.xml に
 ```xml
    <bean id="csvDaoBase"
@@ -20,7 +20,7 @@ spring-beans.xml に
 ```
 と設定します。
 
-###使用する側
+### 使用する側
 
 CSV をデータソースとして使用するためのラッパ`CsvFactory`の実装を作成します。基本実装としてリソースを扱う`ResourceCsvFactory`とファイルを扱う`FileCsvFactory`、 ストリームを扱う`IOStreamCsvFactory`が用意されています。
 
@@ -79,7 +79,7 @@ spring-beans.xml
  }
 ```
 
-##普通に使用した例
+## 普通に使用した例
 
 ```Java
  CsvDaoBase<Foo, Integer> csvDao = new CsvDaoBase<Foo, Integer>();
@@ -91,7 +91,7 @@ spring-beans.xml
  List<Foo> result = csvDao.findAll();
 ```
 
-##Android
+## Android
 
 ```Java
  CsvDaoBase<Foo, Integer> csvDao = new CsvDaoBase<Foo, Integer>();
