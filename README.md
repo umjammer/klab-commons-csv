@@ -1,3 +1,5 @@
+[![Release](https://jitpack.io/v/umjammer/klab-commons-csv.svg)](https://jitpack.io/#umjammer/klab-commons-csv)
+
 klab-commons-csv
 ================
 
