@@ -7,56 +7,48 @@
 <!--                                                                        -->
 <!-- klab-commons-csv                                                       -->
 <!--                                                                        -->
-<!-- @author	Naohide Sano                                                -->
-<!-- @version	0.00	021208	nsano	initial version                     -->
+<!-- @author Naohide Sano                                                   -->
+<!-- @version 0.00 021208 nsano initial version                             -->
 <!--                                                                        -->
 <!-- ////////////////////////////////////////////////////////////////////// -->
 
-<project name="klab-commons-csv" default="compile" basedir="."
-         xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="klab-commons-csv" default="prepare" basedir="."
+         xmlns:artifact="urn:maven-artifact-ant">
+
+  <path id="maven-ant-tasks.classpath">
+    <fileset dir="${user.home}/lib/java/maven-ant-tasks">
+      <include name="*.jar" />
+    </fileset>
+  </path>
+  <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant"
+           classpathref="maven-ant-tasks.classpath" /> 
 
   <property environment="env"/>
   <property file="local.properties" />
 
-  <property name="dir.build" value="build" />
+  <xmlproperty file="pom.xml" />
 
-  <!-- クラスパスの定義 -->
+  <!-- Path Definitions -->
   <path id="project.class.path">
-    <pathelement location="${dir.build}" />
-    <fileset dir="lib">
-      <include name="*.jar" />
-    </fileset>
+    <pathelement location="${javac.dest.test}" />
+    <pathelement location="${javac.dest}" />
+    <fileset refid="maven-ant-tasks.dependency.fileset"/>
   </path>
 
-  <!-- ターゲットの定義 -->
-
-  <!-- clean -->
-  <target name="clean" description="ビルド環境のクリア">
-    <delete dir="${dir.build}" />
-    <fileset dir="${dir.lib}">
-      <include name="*.jar" />
-    </fileset>
-  </target>
-
   <!-- prepare -->
-  <target name="prepare" description="準備">
-    <mkdir dir="${dir.build}" />
-    <ivy:settings file="ivy-settings.xml" />
-    <ivy:convertpom pomFile="pom.xml" ivyFile="ivy.xml" />
-    <ivy:retrieve />
-  </target>
-
-  <!-- javac -->
-  <target name="compile" depends="prepare" description="コンパイル">
-    <javac debug="on" destdir="${dir.build}" encoding="${encoding}">
-      <classpath refid="project.class.path" />
-      <include name="**/*.java" />
-      <src path="src/main/java" />
-    </javac>
+  <target name="prepare" description="Preparing">
+    <artifact:pom file="pom.xml" id="maven.project"/>
+    <artifact:dependencies fileSetId="maven-ant-tasks.dependency.fileset">
+      <pom refid="maven.project"/>
+    </artifact:dependencies>
+    <artifact:mvn pom="pom.xml">
+      <arg value="package"/>
+      <arg value="-Dmaven.test.skip=true"/>
+    </artifact:mvn>
   </target>
 
   <!-- run -->
-  <target name="run" depends="compile" description="">
+  <target name="run" depends="prepare" description="">
     <java classname="" fork="yes">
       <classpath refid="project.class.path" />
     </java>

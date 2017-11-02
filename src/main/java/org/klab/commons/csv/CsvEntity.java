@@ -26,7 +26,7 @@ import vavi.net.www.protocol.URLStreamHandlerUtil;
 
 
 /**
- * CsvEntity. 
+ * CsvEntity.
  * <p>
  * TODO make type {@link #url()} and {@link CsvFactory}'s generics type of {@link #io()} generics.
  * </p>
@@ -150,7 +150,7 @@ System.err.println("use default encoding: " + encoding);
                 throw new IllegalStateException(e);
             }
         }
-        
+
         /**
          * TODO メソッドにアノテーションされた場合
          * @return only {@link CsvColumn} annotated fields, sorted by {@link CsvColumn#sequence()} 
@@ -183,7 +183,7 @@ logger.debug("field[" + column.sequence() + "]: " + field.getName());
                     return s1 - s2;
                 }
             });
-            
+
             return columnFields;
         }
 
@@ -218,21 +218,21 @@ logger.debug("field[" + column.sequence() + "]: " + field.getName());
 
         /**
          * Entry point for reading.
-         * 
+         *
          * @param args replace <code>"{#}"</code> (# is 0, 1, 2 ...)
          * <pre>
          * $ cat some.properties
          * foo.bar.buz=xxx
          * foo.bar.aaa=yyy
-         * 
+         *
          * @Property(name = "foo.bar.{0})
          * Foo bar;
-         *  
+         *
          *    :
-         * 
+         *
          * PropsEntity.Util.bind(bean, "buz");
          * assertEquals(bean.bar, "xxx");
-         *  
+         *
          * </pre>
          */
         public static <T> List<T> read(Class<T> type, String... args) throws IOException {
@@ -246,7 +246,7 @@ logger.debug("field[" + column.sequence() + "]: " + field.getName());
             csvFactory.setSource(replaceWithEnvOrProps(getUrl(type)));
             return csvFactory.getWholeCsvReader().readAll(type);
         }
-        
+
         /**
          * Entry point for writing.
          */

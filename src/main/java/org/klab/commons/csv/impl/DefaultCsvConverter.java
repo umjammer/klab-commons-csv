@@ -38,6 +38,9 @@ public class DefaultCsvConverter implements CsvConverter {
     protected Class<?> entityClass;
 
     /** */
+    private List<Field> fields;
+    
+    /** */
     protected CsvDialect defaultCsvDialect = new DefaultCsvDialect();
 
     /** */
@@ -49,6 +52,7 @@ public class DefaultCsvConverter implements CsvConverter {
     public DefaultCsvConverter(Class<?> entityClass, CsvDialect csvDialect) {
         this.entityClass = entityClass;
         this.csvDialect = csvDialect;
+        this.fields = CsvEntity.Util.getFields(entityClass);
     }
 
     /**
@@ -62,8 +66,8 @@ public class DefaultCsvConverter implements CsvConverter {
 
         List<String> columns = new ArrayList<>();
 
-        List<Field> fields = CsvEntity.Util.getFields(entityClass);
         for (Field field : fields) {
+            // TODO when gap sequences
             try {
                 Object fieldValue = BeanUtil.getFieldValue(field, entity);
                 if (Dialectal.Util.isDialectal(field)) {
@@ -98,8 +102,6 @@ public class DefaultCsvConverter implements CsvConverter {
             throw new IllegalStateException(e);
         }
 
-        List<Field> fields = CsvEntity.Util.getFields(entityClass);
-
         List<String> csvColumns = new ArrayList<>();
         columns.forEachRemaining(csvColumns::add);
         
@@ -127,7 +129,7 @@ logger.error("line: [" + columns + "]");
             }
         }
 if (csvColumns.size() > fields.size()) {
- logger.debug("columns > " + fields.size() + ": " + csvColumns.size());
+ logger.debug("columns: pojo: " + fields.size() + " < csv: " + csvColumns.size());
 }
 //logger.debug("entity: " + ToStringBuilder.reflectionToString(entity));
         return entity;
