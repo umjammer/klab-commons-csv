@@ -1,6 +1,6 @@
 /*
  * $Id: CsvDialect.java 0 2008/01/24 14:17:10 sano-n $
- * 
+ *
  * Copyright (C) 2008 KLab Inc. All Rights Reserved.
  */
 
@@ -22,7 +22,7 @@ public interface CsvDialect {
     String getEndOfLine();
 
     /**
-     * object to string conversion. when field is annotated by {@link Dialectal} 
+     * object to string conversion. when field is annotated by {@link Dialectal}
      * @return string from field value
      */
     String toCsvLine(Field field, Object bean, Object value);

@@ -14,7 +14,7 @@ import java.lang.reflect.Field;
 
 
 /**
- * Dialectal. 
+ * Dialectal.
  * <p>
  * TODO specify dialectal class here
  * </p>
@@ -26,7 +26,7 @@ import java.lang.reflect.Field;
 public @interface Dialectal {
 
     /**
-     * TODO アノテーションがメソッド指定の場合 
+     * TODO アノテーションがメソッド指定の場合
      */
     static class Util {
 

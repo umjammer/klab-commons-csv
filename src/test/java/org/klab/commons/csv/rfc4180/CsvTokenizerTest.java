@@ -31,7 +31,7 @@ public class CsvTokenizerTest {
     public void testParseLine() throws IOException {
         CsvReader tokenizer = new CsvReader(new StringReader(testStr));
         ForwardReader forwardReader = tokenizer.forwardReader;
-        
+
         CsvTokenizer line = new CsvTokenizer(forwardReader);
         int c = 0;
         while (line.hasNext()) {

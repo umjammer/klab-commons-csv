@@ -12,10 +12,10 @@ import java.util.List;
 
 
 /**
- * CsvDao. 
+ * CsvDao.
  * <li> (commons-persistence like)
  * <li> TODO きめ細かな操作とか？
- * 
+ *
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version 0.00 080117 nsano initial version <br>
  */

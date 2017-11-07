@@ -18,7 +18,7 @@ import org.klab.commons.csv.CsvFactory;
 /**
  * FileCsvFactory.
  * <p>
- * If you specify this class to {@link org.klab.commons.csv.CsvEntity#io()}, 
+ * If you specify this class to {@link org.klab.commons.csv.CsvEntity#io()},
  * You need to specify file name at {@link org.klab.commons.csv.CsvEntity#url()}.
  * </p>
  * <li> (original)

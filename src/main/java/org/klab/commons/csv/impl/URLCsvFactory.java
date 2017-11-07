@@ -15,9 +15,9 @@ import org.klab.commons.csv.CsvFactory;
 
 
 /**
- * URLCsvFactory. 
+ * URLCsvFactory.
  * <p>
- * If you specify this class to {@link org.klab.commons.csv.CsvEntity#io()}, 
+ * If you specify this class to {@link org.klab.commons.csv.CsvEntity#io()},
  * You need to specify url at {@link org.klab.commons.csv.CsvEntity#url()}.
  * </p>
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)

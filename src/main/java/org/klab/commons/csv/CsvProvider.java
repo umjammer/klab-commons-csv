@@ -1,6 +1,6 @@
 /*
  * $Id: CsvProvider.java 0 2008/01/24 14:38:23 sano-n $
- * 
+ *
  * Copyright (C) 2008 KLab Inc. All Rights Reserved.
  */
 
@@ -25,7 +25,7 @@ public interface CsvProvider {
 
     /** TODO 引数 */
     CsvConverter getCsvConverter(Class<?> entityClass);
-    
+
     /** Reader の提供 */
     CsvReader getCsvReader(InputStream is, String encoding) throws IOException;
 

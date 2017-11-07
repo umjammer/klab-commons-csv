@@ -15,7 +15,7 @@ import org.klab.commons.csv.CsvFactory;
 /**
  * ResourceCsvFactory.
  * <p>
- * If you specify this class to {@link org.klab.commons.csv.CsvEntity#io()}, 
+ * If you specify this class to {@link org.klab.commons.csv.CsvEntity#io()},
  * You need to specify path at {@link org.klab.commons.csv.CsvEntity#url()}.
  * </p>
  * <li> (original)

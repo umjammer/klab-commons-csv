@@ -1,6 +1,6 @@
 /*
  * $Id: Enumerated.java 0 2008/01/24 16:03:20 sano-n $
- * 
+ *
  * Copyright (C) 2008 KLab Inc. All Rights Reserved.
  */
 
@@ -42,7 +42,7 @@ public @interface Enumerated {
     EnumType value();
 
     /**
-     * TODO アノテーションがメソッド指定の場合 
+     * TODO アノテーションがメソッド指定の場合
      */
     static class Util {
 
@@ -55,7 +55,7 @@ public @interface Enumerated {
         }
 
         /**
-         * 
+         *
          * @param field @{@link CsvColumn} annotated field.
          * @param fieldValue enum value
          * @throws NullPointerException when field is not annotated by {@link Enumerated}
@@ -67,12 +67,12 @@ public @interface Enumerated {
                 return fieldValue == null ? "" : String.valueOf(fieldValue.ordinal());
             case STRING:
             default:
-                return fieldValue == null ? "" : fieldValue.name(); 
+                return fieldValue == null ? "" : fieldValue.name();
             }
         }
 
         /**
-         * 
+         *
          * @param field @{@link CsvColumn} annotated field.
          * @param column string enum value
          * @throws NullPointerException when field is not annotated by {@link Enumerated}
@@ -92,7 +92,7 @@ public @interface Enumerated {
                         return null;
                     }
                 } catch (Exception e) {
-                    throw new IllegalStateException(e); 
+                    throw new IllegalStateException(e);
                 }
             case STRING:
             default:

@@ -75,7 +75,7 @@ e.printStackTrace(System.err);
     /** CSV 全体を読み込むクラスの型です。 */
     interface WholeCsvReader {
         /**
-         * @return CSV から読み込んだオブジェクトのリスト 
+         * @return CSV から読み込んだオブジェクトのリスト
          */
         <T> List<T> readAll(Class<T> entityClass) throws IOException;
     }
@@ -86,7 +86,7 @@ e.printStackTrace(System.err);
     /** CSV 全体を書き出すクラスの型です。 */
     interface WholeCsvWriter {
         /**
-         * @param CSV に書き出すオブジェクトのコレクション 
+         * @param CSV に書き出すオブジェクトのコレクション
          */
         <T> void writeAll(Collection<T> entities, Class<T> entityClass) throws IOException;
     }

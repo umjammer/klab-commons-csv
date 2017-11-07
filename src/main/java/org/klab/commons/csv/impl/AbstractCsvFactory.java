@@ -31,7 +31,7 @@ import org.klab.commons.csv.spi.CsvWriter;
  * @version 0.00 070207 sano-n initial version <br>
  */
 public abstract class AbstractCsvFactory<T> implements CsvFactory<T> {
-    
+
     /** */
     protected T source;
 
@@ -83,7 +83,7 @@ logger.debug("encoding: " + encoding);
 logger.debug("cached: " + cached);
 
             CsvConverter csvConverter = csvProvider.getCsvConverter(entityClass);
-            
+
             // cache
             if (!cached || cache == null) {
 logger.debug("cache off or first read: cache: " + cached);
@@ -108,7 +108,7 @@ if (csv.toString().isEmpty()) {
  logger.warn("line " + id + " is empty, skiped");
 } else {
                     Object entity = csvConverter.toEntity(csv);
-                    GeneratedValue.Util.setGenerateId(entity, id); // TODO こんなんでいいのか？                    
+                    GeneratedValue.Util.setGenerateId(entity, id); // TODO こんなんでいいのか？
                     results.add(entity);
 //logger.debug(ToStringBuilder.reflectionToString(entity));
 }

@@ -15,7 +15,7 @@ import org.klab.commons.csv.CsvFactory;
 /**
  * IOStreamCsvFactory.
  * <p>
- * currently not working with {@link org.klab.commons.csv.CsvEntity#io()} 
+ * currently not working with {@link org.klab.commons.csv.CsvEntity#io()}
  * </p>
  * <li> (original)
  *

@@ -19,7 +19,7 @@ import vavi.beans.BeanUtil;
 
 
 /**
- * GeneratedValue. 
+ * GeneratedValue.
  *
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version $Revision: 1.0 $ $Date: 2008/01/11 23:45:45 $ $Author: sano-n $

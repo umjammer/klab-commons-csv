@@ -16,7 +16,7 @@ import org.junit.Test;
 
 
 /**
- * 
+ *
  * @author <a href="mailto:kusanagi@klab.org">Tomonori Kusanagi</a> (kusanagi)
  */
 public class CsvReaderTest {

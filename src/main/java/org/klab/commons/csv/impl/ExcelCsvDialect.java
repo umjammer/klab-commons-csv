@@ -1,6 +1,6 @@
 /*
  * $Id: ExcelCsvDialect.java 0 2008/01/24 14:17:10 sano-n $
- * 
+ *
  * Copyright (C) 2008 KLab Inc. All Rights Reserved.
  */
 
@@ -29,7 +29,7 @@ public class ExcelCsvDialect implements CsvDialect {
     private static final String sdf = "yyyy/M/d H:mm";
 
     /**
-     * @param field when type is Date only converted 
+     * @param field when type is Date only converted
      */
     @Override
     public String toCsvLine(Field field, Object bean, Object value) {
@@ -41,7 +41,7 @@ public class ExcelCsvDialect implements CsvDialect {
     }
 
     /**
-     * @param field when type is Date only converted 
+     * @param field when type is Date only converted
      */
     @Override
     public Object toFieldValue(Field field, Object bean, String column) {

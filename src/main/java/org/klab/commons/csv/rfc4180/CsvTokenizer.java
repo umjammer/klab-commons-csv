@@ -1,6 +1,6 @@
 /*
  * $Id: ExcelCsvDialect.java 0 2008/01/24 14:17:10 sano-n $
- * 
+ *
  * Copyright (C) 2008 KLab Inc. All Rights Reserved.
  */
 
@@ -18,7 +18,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * CVS の一行を表します。
- * 
+ *
  * @author <a href="mailto:kusanagi@klab.org">Tomonori Kusanagi</a> (kusanagi)
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version $Revision: 1.0 $ $Date: 2008/01/24 14:38:23 $ $Author: sano-n $
@@ -88,7 +88,7 @@ logger.debug("parsedTokens: " + parsedTokens.size());
 
     /**
      * その行にまだ CSV トークンがあるかどうかを返します。
-     * 
+     *
      * @return 対象行にまだ CSV トークンが残っていれば true
      */
     public boolean hasNext() {
@@ -97,7 +97,7 @@ logger.debug("parsedTokens: " + parsedTokens.size());
 
     /**
      * 次の CSV トークンを返します。
-     * 
+     *
      * @throws NoSuchElementException
      */
     public String next() {
@@ -106,7 +106,7 @@ logger.debug("parsedTokens: " + parsedTokens.size());
 
     /**
      * Reader から次の CSV トークンを読み込みます。
-     * 
+     *
      * @param forwardReader
      * @return CSV の列の末尾に達したときは null。
      * @throws IllegalStateException
@@ -155,7 +155,7 @@ logger.debug("parsedTokens: " + parsedTokens.size());
 
     /**
      * 次の 一般 CSV トークンを読み込みます。
-     * 
+     *
      * @param sb 2文字目から
      * @return 次の 一般 CSV トークン
      */
@@ -190,7 +190,7 @@ logger.debug("parsedTokens: " + parsedTokens.size());
 
     /**
      * 次の文字列 CSV トークンを読み込みます。
-     * 
+     *
      * @param sb 2文字目から
      * @return 次の文字列 CSV トークン, nullable
      * @throws IllegalArgumentException " で閉じた後に文字が来た

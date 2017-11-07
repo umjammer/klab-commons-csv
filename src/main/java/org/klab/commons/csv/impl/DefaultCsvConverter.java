@@ -1,6 +1,6 @@
 /*
  * $Id: CsvDialect.java 0 2008/01/24 14:17:10 sano-n $
- * 
+ *
  * Copyright (C) 2008 KLab Inc. All Rights Reserved.
  */
 
@@ -39,7 +39,7 @@ public class DefaultCsvConverter implements CsvConverter {
 
     /** */
     private List<Field> fields;
-    
+
     /** */
     protected CsvDialect defaultCsvDialect = new DefaultCsvDialect();
 
@@ -57,12 +57,12 @@ public class DefaultCsvConverter implements CsvConverter {
 
     /**
      * @param entity {@link org.klab.commons.csv.CsvEntity} annotated object
-     * @return includes {@link CsvDialect#getEndOfLine() end of line}, String, Date type are '"' quoted 
+     * @return includes {@link CsvDialect#getEndOfLine() end of line}, String, Date type are '"' quoted
      * @see CsvConverter#toCsv(Object)
      */
     @Override
     public String toCsv(Object entity) {
-        StringBuilder sb = new StringBuilder(); 
+        StringBuilder sb = new StringBuilder();
 
         List<String> columns = new ArrayList<>();
 
@@ -104,7 +104,7 @@ public class DefaultCsvConverter implements CsvConverter {
 
         List<String> csvColumns = new ArrayList<>();
         columns.forEachRemaining(csvColumns::add);
-        
+
         for (Field field : fields) {
             int sequence = CsvColumn.Util.getSequence(field);
             if (sequence > 0 && sequence <= csvColumns.size()) {

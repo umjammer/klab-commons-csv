@@ -1,6 +1,6 @@
 /*
  * $Id: CsvProvider.java 0 2008/01/24 14:38:23 sano-n $
- * 
+ *
  * Copyright (C) 2008 KLab Inc. All Rights Reserved.
  */
 
@@ -25,7 +25,7 @@ import vavi.beans.BeanUtil;
  * @version $Revision: 1.0 $ $Date: 2008/01/24 14:38:23 $ $Author: sano-n $
  */
 public class DefaultCsvDialect implements CsvDialect {
-    
+
     private static Log logger = LogFactory.getLog(DefaultCsvDialect.class);
 
     /**
@@ -81,10 +81,10 @@ if (!fieldClass.equals(String.class)) {
 }
             BeanUtil.setFieldValue(field, bean, column);
         }
-            
+
         return BeanUtil.getFieldValue(field, bean);
     }
-        
+
     /**
      * Object to String conversion.
      *
@@ -112,7 +112,7 @@ logger.debug("unhandled class: " + fieldClass.getName());
     public String getEndOfLine() {
         return "\r\n";
     }
-    
+
     @Override
     public String formatString(String column) {
         String stage1 = column.replace("\"", "\"\"");

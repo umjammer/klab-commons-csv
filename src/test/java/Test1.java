@@ -17,7 +17,7 @@ import vavi.util.StringUtil;
 import static org.junit.Assert.*;
 
 /**
- * Test1. 
+ * Test1.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2014/03/14 umjammer initial version <br>

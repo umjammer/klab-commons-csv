@@ -10,9 +10,9 @@ import java.io.Serializable;
 
 
 /**
- * CsvEntity. 
+ * CsvEntity.
  * <li> (commons-persistence like)
- * 
+ *
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version 0.00 080117 nsano initial version <br>
  */

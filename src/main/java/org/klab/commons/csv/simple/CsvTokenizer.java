@@ -13,7 +13,7 @@ import java.util.NoSuchElementException;
 /**
  * 1 行の CSV 形式のデータを解析し、それぞれの項目に分解するクラス。
  * CSV 形式に対応した {@link java.util.StringTokenizer} のようなもの。
- * 
+ *
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version $Revision: 1.0 $ $Date: 2008/01/24 14:38:23 $ $Author: sano-n $
  */

@@ -75,7 +75,7 @@ public @interface CsvEntity {
             return entity.cached();
         }
 
-        /** 
+        /**
          * @throws IllegalArgumentException bean is not annotated with {@link CsvEntity}
          */
         public static String getEncoding(Class<?> beanClass) {
@@ -114,7 +114,7 @@ System.err.println("use default encoding: " + encoding);
             }
         }
 
-        /** 
+        /**
          * @throws IllegalArgumentException bean is not annotated with {@link CsvEntity}
          */
         public static String getUrl(Class<?> beanClass) {
@@ -153,7 +153,7 @@ System.err.println("use default encoding: " + encoding);
 
         /**
          * TODO メソッドにアノテーションされた場合
-         * @return only {@link CsvColumn} annotated fields, sorted by {@link CsvColumn#sequence()} 
+         * @return only {@link CsvColumn} annotated fields, sorted by {@link CsvColumn#sequence()}
          * @throws IllegalArgumentException bean is not annotated with {@link CsvEntity}
          */
         public static List<Field> getFields(Class<?> beanClass) {
@@ -188,7 +188,7 @@ logger.debug("field[" + column.sequence() + "]: " + field.getName());
         }
 
         /** replacing key pattern */
-        private static final Pattern pattern = Pattern.compile("\\$\\{[\\w\\.]+\\}"); 
+        private static final Pattern pattern = Pattern.compile("\\$\\{[\\w\\.]+\\}");
 
         /**
          * Replaces <code>${Foo}</code> with <code>System.getProperty("Foo")</code> or <code>System.getenv("Foo")</code>.

@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 
 
 /**
- * TestCase. 
+ * TestCase.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2016/03/07 umjammer initial version <br>
@@ -102,7 +102,7 @@ public class TestCase {
 
     @CsvEntity(url = "http://www.sample-videos.com/csv/Sample-Spreadsheet-500000-rows.csv", encoding = "ISO8859-1")
     public static class Test03 {
-        @CsvColumn(sequence = 1) 
+        @CsvColumn(sequence = 1)
         String name;
         @CsvColumn(sequence = 2)
         String owner;
