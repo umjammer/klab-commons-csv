@@ -14,7 +14,9 @@ import org.klab.commons.csv.dao.CsvDaoBase;
 import org.klab.commons.csv.impl.FileCsvFactory;
 
 import vavi.util.StringUtil;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+
 
 /**
  * Test1.
