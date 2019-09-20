@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import org.klab.commons.csv.CsvColumn;
 import org.klab.commons.csv.CsvEntity;
@@ -20,7 +20,8 @@ import org.klab.commons.csv.impl.FileCsvFactory;
 
 import vavi.util.StringUtil;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 /**
@@ -126,6 +127,41 @@ public class TestCase {
     public void test3() throws Exception {
         List<Test03> result = CsvEntity.Util.read(Test03.class);
         assertEquals(500000, result.size());
+    }
+
+    public static class Test04Super {
+        @GeneratedValue
+        @CsvColumn(sequence = 1)
+        int id;
+        @CsvColumn(sequence = 2)
+        String title;
+    }
+
+    @CsvEntity(url = "classpath:test.csv", encoding = "Windows-31J")
+    public static class Test04 extends Test04Super {
+        public enum E { // *** CAUTION *** enum should be public when you read csv.
+            N0, N1, N2, N3, N4, N5, N6
+        }
+        @CsvColumn(sequence = 3)
+        String html;
+        @CsvColumn(sequence = 4)
+        @Enumerated(EnumType.ORDINAL)
+        E no;
+        @CsvColumn(sequence = 5)
+        @Dialectal
+        Date date;
+        public String toString() {
+            return StringUtil.paramString(this);
+        }
+    }
+
+    @Test
+    public void test4() throws Exception {
+        List<Test04> result = CsvEntity.Util.read(Test04.class);
+        result.forEach(System.err::println);
+        assertEquals(1, result.get(1).id);
+        assertNotNull(result.get(0).title);
+        assertEquals(3, result.size());
     }
 }
 

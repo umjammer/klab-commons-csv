@@ -47,7 +47,7 @@ logger.debug("csv source: " + source);
     /** */
     protected ExceptionHandler readExceptionHandler = new DefaultExceptionHandler();
 
-    /** 設定されなければ {@link DefaultExceptionHandler} になります。 */
+    /** 設定されなければ {@link org.klab.commons.csv.CsvFactory.DefaultExceptionHandler} になります。 */
     public void setReadExceptionHandler(ExceptionHandler readExceptionHandler) {
         this.readExceptionHandler = readExceptionHandler;
     }
@@ -55,13 +55,12 @@ logger.debug("csv source: " + source);
     /** */
     protected ExceptionHandler writeExceptionHandler = new DefaultExceptionHandler();
 
-    /** 設定されなければ {@link DefaultExceptionHandler} になります。 */
+    /** 設定されなければ {@link org.klab.commons.csv.CsvFactory.DefaultExceptionHandler} になります。 */
     public void setWriteExceptionHandler(ExceptionHandler writeExceptionHandler) {
         this.writeExceptionHandler = writeExceptionHandler;
     }
 
     /**
-     * アウタークラスの CsvFactory を使用している。
      * <li> TODO こいつの場所がわからない、CsvConverter か？
      */
     class DefaultWholeCsvReader implements WholeCsvReader {
@@ -70,7 +69,7 @@ logger.debug("csv source: " + source);
         /**
          * {@link #readExceptionHandler} が実装されています。
          * キャッシュを行います。
-         * @param entityClass {@link CsvEntity} でアノテーションされたクラス
+         * @param entityClass {@link org.klab.commons.csv.CsvEntity} でアノテーションされたクラス
          */
         @SuppressWarnings("unchecked")
         @Override
@@ -93,7 +92,6 @@ logger.debug("cache off or first read: cache: " + cached);
         }
         /**
          * Reads each csv line.
-         * @throws NullPointerException do {@link #setEntityClass(Class)}
          */
         protected List<?> findAllInternal(CsvConverter csvConverter, CsvReader reader) throws IOException {
             List<Object> results = new ArrayList<>();
@@ -142,7 +140,7 @@ if (csv.toString().isEmpty()) {
     class DefaultWholeCsvWriter implements WholeCsvWriter {
         /**
          * {@link #writeExceptionHandler} が実装されています。
-         * @param entityClass {@link CsvEntity} でアノテーションされたクラス
+         * @param entityClass {@link org.klab.commons.csv.CsvEntity} でアノテーションされたクラス
          */
         @Override
         public <E> void writeAll(Collection<E> entities, Class<E> entityClass) throws IOException {

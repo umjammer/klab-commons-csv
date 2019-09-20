@@ -97,7 +97,7 @@ public class DefaultCsvConverter implements CsvConverter {
     public Object toEntity(CsvLine columns) {
         Object entity = null;
         try {
-            entity = entityClass.newInstance();
+            entity = entityClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }

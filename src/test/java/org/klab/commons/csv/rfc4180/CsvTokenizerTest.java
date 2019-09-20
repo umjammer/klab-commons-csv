@@ -7,9 +7,9 @@ package org.klab.commons.csv.rfc4180;
 import java.io.IOException;
 import java.io.StringReader;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
