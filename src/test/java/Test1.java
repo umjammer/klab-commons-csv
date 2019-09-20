@@ -6,7 +6,7 @@
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import org.klab.commons.csv.CsvEntity;
 import org.klab.commons.csv.GeneratedValue;
@@ -15,7 +15,7 @@ import org.klab.commons.csv.impl.FileCsvFactory;
 
 import vavi.util.StringUtil;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
