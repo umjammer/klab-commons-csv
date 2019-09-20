@@ -108,7 +108,7 @@ System.err.println("use default encoding: " + encoding);
 //logger.debug("provider: " + entity.provider());
             //
             try {
-                return entity.provider().newInstance();
+                return entity.provider().getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                 throw new IllegalStateException(e);
             }
@@ -145,7 +145,7 @@ System.err.println("use default encoding: " + encoding);
 //logger.debug("provider: " + entity.provider());
             //
             try {
-                return entity.io().newInstance();
+                return entity.io().getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                 throw new IllegalStateException(e);
             }
@@ -165,14 +165,19 @@ System.err.println("use default encoding: " + encoding);
 
             // {@link Column} でアノテートされた {@link Field} のセット
             List<Field> columnFields = new ArrayList<>();
-            for (Field field : beanClass.getDeclaredFields()) {
-                CsvColumn column = field.getAnnotation(CsvColumn.class);
-                if (column == null) {
+
+            Class<?> clazz = beanClass;
+            while (clazz != null) {
+                for (Field field : clazz.getDeclaredFields()) {
+                    CsvColumn column = field.getAnnotation(CsvColumn.class);
+                    if (column == null) {
 logger.debug("not @CsvColumn: " + field.getName());
-                    continue;
-                }
+                        continue;
+                    }
 logger.debug("field[" + column.sequence() + "]: " + field.getName());
-                columnFields.add(field);
+                    columnFields.add(field);
+                }
+                clazz = clazz.getSuperclass();
             }
 
             Collections.sort(columnFields, new Comparator<Field>() {
@@ -202,7 +207,7 @@ logger.debug("field[" + column.sequence() + "]: " + field.getName());
                if (value == null) {
                    value = System.getProperty(name);
                    if (value == null) {
-                       System.err.println(key + " is not replaceable");
+logger.info(key + " is not replaceable");
                        continue;
                    }
                }

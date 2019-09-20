@@ -46,16 +46,21 @@ public @interface GeneratedValue {
         public static <I> void setGenerateId(Object bean, I id) {
 
             Field generatedValueField = null;
-            for (Field field : bean.getClass().getDeclaredFields()) {
+
+            Class<?> clazz = bean.getClass();
+            while (clazz != null) {
+                for (Field field : clazz.getDeclaredFields()) {
 //logger.debug("field: " + field.getName());
-                GeneratedValue generatedValue = field.getAnnotation(GeneratedValue.class);
-                if (generatedValue == null) {
+                    GeneratedValue generatedValue = field.getAnnotation(GeneratedValue.class);
+                    if (generatedValue == null) {
 //logger.debug("not @GeneratedValue: " + field.getName());
-                    continue;
-                } else {
-                    generatedValueField = field;
-                    break;
+                        continue;
+                    } else {
+                        generatedValueField = field;
+                        break;
+                    }
                 }
+                clazz = clazz.getSuperclass();
             }
 
             if (generatedValueField == null) {
