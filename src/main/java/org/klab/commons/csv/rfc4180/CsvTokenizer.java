@@ -107,7 +107,6 @@ logger.debug("parsedTokens: " + parsedTokens.size());
     /**
      * Reader から次の CSV トークンを読み込みます。
      *
-     * @param forwardReader
      * @return CSV の列の末尾に達したときは null。
      * @throws IllegalStateException
      */

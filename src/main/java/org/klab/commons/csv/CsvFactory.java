@@ -86,7 +86,7 @@ e.printStackTrace(System.err);
     /** CSV 全体を書き出すクラスの型です。 */
     interface WholeCsvWriter {
         /**
-         * @param CSV に書き出すオブジェクトのコレクション
+         * @param entities CSV に書き出すオブジェクトのコレクション
          */
         <T> void writeAll(Collection<T> entities, Class<T> entityClass) throws IOException;
     }
