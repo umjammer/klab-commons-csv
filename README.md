@@ -1,4 +1,4 @@
-[![Release](https://jitpack.io/v/umjammer/klab-commons-csv.svg)](https://jitpack.io/#umjammer/klab-commons-csv)
+[![Release](https://jitpack.io/v/umjammer/klab-commons-csv.svg)](https://jitpack.io/#umjammer/klab-commons-csv) [![Java CI](https://github.com/umjammer/klab-commons-csv/workflows/Java%20CI/badge.svg)](https://github.com/umjammer/klab-commons-csv/actions)
 
 klab-commons-csv
 ================
