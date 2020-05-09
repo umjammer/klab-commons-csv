@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.klab.commons.csv.CsvColumn;
@@ -62,7 +63,7 @@ public class TestCase {
         assertEquals(3, result.size());
     }
 
-    @CsvEntity(url = "tmp/out.csv", io = FileCsvFactory.class)
+    @CsvEntity(url = "src/test/resources/out.csv", io = FileCsvFactory.class)
     public static class Test02 {
         enum E {
             A, B, C, D, E
@@ -123,7 +124,8 @@ public class TestCase {
         float n5;
     }
 
-    //@Test
+    @Test
+    @Disabled // TODO give me suitable online csv sample!
     public void test3() throws Exception {
         List<Test03> result = CsvEntity.Util.read(Test03.class);
         assertEquals(500000, result.size());
