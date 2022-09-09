@@ -10,9 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Logger;
 
 import org.klab.commons.csv.CsvConverter;
 import org.klab.commons.csv.CsvFactory;
@@ -38,11 +36,11 @@ public abstract class AbstractCsvFactory<T> implements CsvFactory<T> {
     /** */
     public void setSource(T source) {
         this.source = source;
-logger.debug("csv source: " + source);
+logger.fine("csv source: " + source);
     }
 
     /** */
-    private static Log logger = LogFactory.getLog(AbstractCsvFactory.class);
+    private static Logger logger = Logger.getLogger(AbstractCsvFactory.class.getName());
 
     /** */
     protected ExceptionHandler readExceptionHandler = new DefaultExceptionHandler();
@@ -75,17 +73,17 @@ logger.debug("csv source: " + source);
         @Override
         public <E> List<E> readAll(Class<E> entityClass) throws IOException {
             CsvProvider csvProvider = org.klab.commons.csv.CsvEntity.Util.getCsvProvider(entityClass);
-logger.debug("csvProvider: " + csvProvider.getClass().getName());
+logger.fine("csvProvider: " + csvProvider.getClass().getName());
             String encoding = org.klab.commons.csv.CsvEntity.Util.getEncoding(entityClass);
-logger.debug("encoding: " + encoding);
+logger.fine("encoding: " + encoding);
             boolean cached = org.klab.commons.csv.CsvEntity.Util.isCached(entityClass);
-logger.debug("cached: " + cached);
+logger.fine("cached: " + cached);
 
             CsvConverter csvConverter = csvProvider.getCsvConverter(entityClass);
 
             // cache
             if (!cached || cache == null) {
-logger.debug("cache off or first read: cache: " + cached);
+logger.fine("cache off or first read: cache: " + cached);
                 this.cache = findAllInternal(csvConverter, csvProvider.getCsvReader(getInputStream(), encoding));
             }
             return (List<E>) cache;
@@ -103,7 +101,7 @@ logger.debug("cache off or first read: cache: " + cached);
                 try {
                     csv = reader.nextLine();
 if (csv.toString().isEmpty()) {
- logger.warn("line " + id + " is empty, skiped");
+ logger.warning("line " + id + " is empty, skiped");
 } else {
                     Object entity = csvConverter.toEntity(csv);
                     GeneratedValue.Util.setGenerateId(entity, id); // TODO こんなんでいいのか？
@@ -147,9 +145,9 @@ if (csv.toString().isEmpty()) {
             List<Exception> exceptions = new ArrayList<>();
 
             CsvProvider csvProvider = org.klab.commons.csv.CsvEntity.Util.getCsvProvider(entityClass);
-logger.debug("csvProvider: " + csvProvider.getClass().getName());
+logger.fine("csvProvider: " + csvProvider.getClass().getName());
             String encoding = org.klab.commons.csv.CsvEntity.Util.getEncoding(entityClass);
-logger.debug("encoding: " + encoding);
+logger.fine("encoding: " + encoding);
 
             CsvConverter csvConverter = csvProvider.getCsvConverter(entityClass);
 

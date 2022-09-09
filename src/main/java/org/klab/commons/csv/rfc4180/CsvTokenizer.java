@@ -11,9 +11,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Logger;
 
 
 /**
@@ -26,7 +24,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class CsvTokenizer implements Iterable<String> {
 
-    private static Log logger = LogFactory.getLog(CsvTokenizer.class);
+    private static Logger logger = Logger.getLogger(CsvTokenizer.class.getName());
 
     /** 一般 CSV トークン */
     private static final int TYPE_GENERAL = 0;
@@ -82,7 +80,7 @@ public class CsvTokenizer implements Iterable<String> {
                 parsedTokens.add(nextToken());
             }
         }
-logger.debug("parsedTokens: " + parsedTokens.size());
+logger.fine("parsedTokens: " + parsedTokens.size());
         iterator = parsedTokens.iterator();
     }
 

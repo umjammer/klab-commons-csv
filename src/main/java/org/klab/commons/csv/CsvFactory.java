@@ -11,9 +11,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -56,11 +55,11 @@ public interface CsvFactory<T> {
 
     /** 一行ごとにログするだけ */
     class DefaultExceptionHandler implements ExceptionHandler {
-        private static Log logger = LogFactory.getLog(DefaultExceptionHandler.class);
+        private static Logger logger = Logger.getLogger(DefaultExceptionHandler.class.getName());
         @Override
         public void handleEachLine(Exception e, int lineNumber, Object line, CsvFactory<?> csvFactory) {
 e.printStackTrace(System.err);
-            logger.error("csv: line " + lineNumber + ": " + csvFactory, e.getCause());
+            logger.log(Level.SEVERE, "csv: line " + lineNumber + ": " + csvFactory, e.getCause());
         }
         @Override
         public void handleWhenDone(Collection<Exception> exceptions) {

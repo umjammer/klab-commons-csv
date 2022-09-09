@@ -7,9 +7,7 @@
 package org.klab.commons.csv.impl;
 
 import java.lang.reflect.Field;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Logger;
 
 import org.klab.commons.csv.CsvColumn;
 import org.klab.commons.csv.CsvDialect;
@@ -26,7 +24,7 @@ import vavi.beans.BeanUtil;
  */
 public class DefaultCsvDialect implements CsvDialect {
 
-    private static Log logger = LogFactory.getLog(DefaultCsvDialect.class);
+    private static Logger logger = Logger.getLogger(DefaultCsvDialect.class.getName());
 
     /**
      * String to Object conversion.
@@ -77,7 +75,7 @@ public class DefaultCsvDialect implements CsvDialect {
             BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? 0 : Character.valueOf(column.charAt(0))); // TODO ???
         } else {
 if (!fieldClass.equals(String.class)) {
- logger.debug("unhandled class: " + fieldClass.getName());
+ logger.fine("unhandled class: " + fieldClass.getName());
 }
             BeanUtil.setFieldValue(field, bean, column);
         }
@@ -102,7 +100,7 @@ if (!fieldClass.equals(String.class)) {
         } else if (fieldClass.equals(String.class)) {
             column = formatString(value == null ? "" : value.toString());
         } else {
-logger.debug("unhandled class: " + fieldClass.getName());
+logger.fine("unhandled class: " + fieldClass.getName());
             column = value == null ? "" : value.toString();
         }
         return column;

@@ -16,11 +16,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import vavi.net.www.protocol.URLStreamHandlerUtil;
 
@@ -56,7 +54,7 @@ public @interface CsvEntity {
     class Util {
 
         /** */
-        private static Log logger = LogFactory.getLog(Util.class);
+        private static final Logger logger = Logger.getLogger(Util.class.getName());
 
         private Util() {
         }
@@ -89,7 +87,7 @@ public @interface CsvEntity {
             String encoding = entity.encoding();
             if (encoding.isEmpty()) {
                 encoding = System.getProperty("file.encoding");
-System.err.println("use default encoding: " + encoding);
+logger.fine("use default encoding: " + encoding);
             }
 
             return encoding;
@@ -105,7 +103,7 @@ System.err.println("use default encoding: " + encoding);
             if (entity == null) {
                 throw new IllegalArgumentException("bean is not annotated with @CsvEntity");
             }
-//logger.debug("provider: " + entity.provider());
+logger.finer("provider: " + entity.provider());
             //
             try {
                 return entity.provider().getDeclaredConstructor().newInstance();
@@ -142,7 +140,7 @@ System.err.println("use default encoding: " + encoding);
             if (entity == null) {
                 throw new IllegalArgumentException("bean is not annotated with @CsvEntity");
             }
-//logger.debug("provider: " + entity.provider());
+logger.finer("provider: " + entity.provider());
             //
             try {
                 return entity.io().getDeclaredConstructor().newInstance();
@@ -152,7 +150,7 @@ System.err.println("use default encoding: " + encoding);
         }
 
         /**
-         * TODO メソッドにアノテーションされた場合
+         * TODO annotation for method
          * @return only {@link CsvColumn} annotated fields, sorted by {@link CsvColumn#sequence()}
          * @throws IllegalArgumentException bean is not annotated with {@link CsvEntity}
          */
@@ -163,7 +161,7 @@ System.err.println("use default encoding: " + encoding);
                 throw new IllegalArgumentException("bean is not annotated with @CsvEntity");
             }
 
-            // {@link Column} でアノテートされた {@link Field} のセット
+            // {@link Field} set annotated {@link Column}
             List<Field> columnFields = new ArrayList<>();
 
             Class<?> clazz = beanClass;
@@ -171,10 +169,10 @@ System.err.println("use default encoding: " + encoding);
                 for (Field field : clazz.getDeclaredFields()) {
                     CsvColumn column = field.getAnnotation(CsvColumn.class);
                     if (column == null) {
-logger.debug("not @CsvColumn: " + field.getName());
+logger.fine("not @CsvColumn: " + field.getName());
                         continue;
                     }
-logger.debug("field[" + column.sequence() + "]: " + field.getName());
+logger.fine("field[" + column.sequence() + "]: " + field.getName());
                     columnFields.add(field);
                 }
                 clazz = clazz.getSuperclass();

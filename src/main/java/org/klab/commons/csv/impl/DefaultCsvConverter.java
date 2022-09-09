@@ -9,9 +9,7 @@ package org.klab.commons.csv.impl;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Logger;
 
 import org.klab.commons.csv.CsvColumn;
 import org.klab.commons.csv.CsvConverter;
@@ -32,7 +30,7 @@ import vavi.beans.BeanUtil;
  */
 public class DefaultCsvConverter implements CsvConverter {
 
-    private static Log logger = LogFactory.getLog(DefaultCsvConverter.class);
+    private static Logger logger = Logger.getLogger(DefaultCsvConverter.class.getName());
 
     /** */
     protected Class<?> entityClass;
@@ -121,15 +119,15 @@ public class DefaultCsvConverter implements CsvConverter {
                         throw new IllegalStateException("field[" + CsvColumn.Util.getSequence(field) + "]: " + field.getType().getSimpleName() + " " + field.getName() + " = '" + column + "'", e);
                     }
                 } else {
-logger.warn("field[" + CsvColumn.Util.getSequence(field) + "]: " + field.getType().getSimpleName() + " " + field.getName() + " is empty");
+logger.warning("field[" + CsvColumn.Util.getSequence(field) + "]: " + field.getType().getSimpleName() + " " + field.getName() + " is empty");
                 }
             } else {
-logger.error("line: [" + columns + "]");
+logger.severe("line: [" + columns + "]");
                 throw new IndexOutOfBoundsException("column " + sequence + "/" + csvColumns.size());
             }
         }
 if (csvColumns.size() > fields.size()) {
- logger.debug("columns: pojo: " + fields.size() + " < csv: " + csvColumns.size());
+ logger.fine("columns: pojo: " + fields.size() + " < csv: " + csvColumns.size());
 }
 //logger.debug("entity: " + ToStringBuilder.reflectionToString(entity));
         return entity;
