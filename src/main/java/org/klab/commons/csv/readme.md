@@ -1,45 +1,43 @@
-<p>
-CSV のユーティリティです。commons-persistence と JPA の設計を
+# org.klab.commons.csv
+
+CSV のユーティリティです。`commons-persistence` と JPA の設計を
 まねて作られています。わずらわしいフィールドコピーの単純コード
 からおサラバです。
-</p>
-<p>
-エンティティに{@link CsvEntity アノテーション}を設定し、
-エンティティーのフィールドにも{@link CsvColumn アノテーション}を設定し CSV の
-カラムを定義します。エンティティはジェネリックな{@link CsvDao DAO}から
-利用することができます。SpringFramework 等でサービスに注入すれば commons-persistence
+
+エンティティに `CsvEntity` アノテーションを設定し、
+エンティティーのフィールドにも `CsvColumn` アノテーションを設定し CSV の
+カラムを定義します。エンティティはジェネリックな `CsvDao` DAO から
+利用することができます。SpringFramework 等でサービスに注入すれば `commons-persistence`
 の DAO と同等に使用することが可能になります。制限は、まだ JPA ほどの行操作 API は
-ありません。{@link CsvDao#findAll() 全取得}、{@link CsvDao#updateAll(Collection) 全書き出し}のみです。
-</p>
+ありません。`CsvDao#findAll()` 全取得、`CsvDao#updateAll(Collection)` 全書き出しのみです。
 
-<h2>SpringFramework を使用した例</h2>
+## SpringFramework を使用した例
 
-<h3>基本設定</h3>
-spring-beans.xml に
-<pre>
+### 基本設定
+
+`spring-beans.xml` に
+
+```xml
    &lt;bean id=&quot;csvDaoBase&quot;
    class=&quot;org.klab.commons.util.csv.impl.CsvDaoBase&quot;
    abstract=&quot;true&quot;&gt;
    &lt;/bean&gt;
-</pre>
+```
 と設定します。
 
-<h3>使用する側</h3>
+### 使用する側
 
-<p>
-CSV をデータソースとして使用するためのラッパ {@link CsvFactory} の実装を
-作成します。基本実装としてリソースを扱う {@link ResourceCsvFactory} と
-ファイルを扱う {@link FileCsvFactory}、 
-ストリームを扱う {@link IOStreamCsvFactory} が用意されています。
-</p>
-<p>
-{@link CsvDaoBase} に {@link CsvEntity} 実装クラスと {@link CsvFactory} の実装を
-設定した物を fooCsvDao と定義します。
-</p>
+CSV をデータソースとして使用するためのラッパ `CsvFactory` の実装を
+作成します。基本実装としてリソースを扱う `ResourceCsvFactory` と
+ファイルを扱う `FileCsvFactory`、
+ストリームを扱う `IOStreamCsvFactory` が用意されています。
 
-POJO annotation
+`CsvDaoBase` に `CsvEntity` 実装クラスと `CsvFactory` の実装を
+設定した物を `fooCsvDao` と定義します。
 
-<pre>
+ * POJO annotation
+
+```java
  @CsvEntity
  Foo implements CsvEntity {
   @CsvColumn(sequence = 0)
@@ -56,10 +54,11 @@ POJO annotation
   @Dialectal // ユーザが定義したクラスや、可変長のカラムを扱う場合とか
   UserType notCsvColumn;
  }
-</pre>
+```
 
-spring-beans.xml
-<pre>
+ * `spring-beans.xml`
+
+```xml
     &lt;bean id=&quot;fooCsvDao&quot;
           parent=&quot;csvDaoBase&quot;&gt;
       &lt;property name=&quot;entityClass&quot;
@@ -72,14 +71,12 @@ spring-beans.xml
       &lt;property name=&quot;fileName&quot;
                 value=&quot;/sample/sample.csv&quot; /&gt;
     &lt;/bean&gt;
-</pre>
+```
 
-<p>
-あとは fooCsvDao をサービスに注入すれば commons-persistence DAO と
+あとは `fooCsvDao` をサービスに注入すれば `commons-persistence` DAO と
 ほぼ同様に使用することが可能になります。
-</p>
 
-<pre>
+```java
  class FooServiceImpl extends FooService {
   CsvDao<foo, integer> csvDao;
   public void setFooCsvDao(CsvDao<foo, integer> csvDao) {
@@ -90,12 +87,10 @@ spring-beans.xml
    return csvDao.findAll();
   }
  }
-</pre>
+```
 
-<h3>TODO</h3>
+## TODO
 
-<ul>
- <li><del>可変長のカラム</del></li>
- <li><del>このプロジェクトもそうやんけ！</del></li>
- <li><a href="http://ykhr-kokko.sourceforge.jp/cgi-bin/wiki.cgi?page=Choco+CSVUtil">敵</a>がすでにいた</li>
-</ul>
+ * ~~可変長のカラム~~
+ * ~~このプロジェクトもそうやんけ！~~
+ * [敵](http://ykhr-kokko.sourceforge.jp/cgi-bin/wiki.cgi?page=Choco+CSVUtil)がすでにいた

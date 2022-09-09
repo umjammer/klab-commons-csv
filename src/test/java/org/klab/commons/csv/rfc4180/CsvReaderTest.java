@@ -8,10 +8,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 
-import org.klab.commons.csv.rfc4180.CsvReader;
-import org.klab.commons.csv.rfc4180.CsvTokenizer;
-import org.klab.commons.csv.rfc4180.ForwardReader;
-
 import org.junit.jupiter.api.Test;
 
 

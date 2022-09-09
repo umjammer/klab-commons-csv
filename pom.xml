@@ -22,24 +22,6 @@
 
     skip the first line as title
 
-2.0.3
-
-    deal super classes
-
-2.0.2
-
-    maintenance release
-
-2.0.1
-
-    allow different size between pojo and csv and gap sequences
-
-2.0.0
-
-    more simple, with only annotation and util
-    enabled without dao
-    refactoring
-
 TODO
 
     apache commons csv provider
@@ -85,26 +67,33 @@ TODO
     </repository>
   </repositories>
 
+  <dependencyManagement>
   <dependencies>
     <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>5.8.1</version>
+        <type>pom</type>
+        <scope>import</scope>
     </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
     <dependency>
       <groupId>com.github.umjammer</groupId>
       <artifactId>vavi-commons</artifactId>
-      <version>1.0.8</version>
+      <version>1.1.6</version>
     </dependency>
 
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>5.3.0</version>
       <scope>test</scope>
-      <optional>false</optional>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.3.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
