@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2014/03/14 umjammer initial version <br>
  */
-public class Test1 {
+class Test1 {
 
     @CsvEntity
     public static class A implements org.klab.commons.csv.dao.CsvEntity<Integer> {
@@ -44,7 +44,7 @@ public class Test1 {
     }
 
     @Test
-    public void test1() throws Exception {
+    void test1() throws Exception {
         CsvDaoBase<A, Integer> csvDao = new CsvDaoBase<>();
         csvDao.setEntityClass(A.class);
         FileCsvDataSource<A> csvFactory = new FileCsvDataSource<>();

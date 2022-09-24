@@ -87,7 +87,7 @@ public class CsvTokenizer implements Enumeration<String> {
         // 末尾の項目が空（カンマで1行が終わる）場合、例外が発生して
         // しまうので。
         if (currentPosition > maxPosition) {
-            throw new NoSuchElementException(toString() + "#nextToken");
+            throw new NoSuchElementException(this + "#nextToken");
         }
 
         int st = currentPosition;

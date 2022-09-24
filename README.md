@@ -9,7 +9,7 @@ Annotations for CSV
 
 ## POJO annotation
 
-Just set `@CsvEntity` to POJO, `@CsvColumn` to POJO's field as CSV column definitions.
+As CSV column definitions, just add `@CsvEntity`, `@CsvColumn` annotation into a POJO.
 
 ```java
  @CsvEntity(url = "classpath:test.csv", encoding = "Windows-31J")
@@ -32,6 +32,14 @@ Just set `@CsvEntity` to POJO, `@CsvColumn` to POJO's field as CSV column defini
 
 ## Usage
 
+read by one liner.
+
 ```Java
  List<Foo> result = CsvEntity.Util.read(Foo.class);
 ```
+
+## TODO
+
+ * ~~args~~ done
+ * ~~make default provider apache-commons-csv~~ done
+ * ~~delimiter~~ done

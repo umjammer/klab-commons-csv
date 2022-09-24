@@ -35,7 +35,7 @@ public class SimpleCsvWriter implements CsvWriter {
         writer.write(csv);
     }
 
-    /** */
+    @Override
     public void flush() throws IOException {
         writer.flush();
     }

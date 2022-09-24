@@ -1,7 +1,7 @@
 /*
- * $Id: CsvProvider.java 0 2008/01/24 14:38:23 sano-n $
+ * Copyright (c) 2022 by Naohide Sano, All rights reserved.
  *
- * Copyright (C) 2008 KLab Inc. All Rights Reserved.
+ * Programmed by Naohide Sano
  */
 
 package org.klab.commons.csv.impl;
@@ -18,15 +18,15 @@ import org.klab.commons.csv.spi.CsvWriter;
 
 
 /**
- * DefaultCsvProvider.
+ * SimpleCsvProvider.
  *
- * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
- * @version $Revision: 1.0 $ $Date: 2008/01/24 14:38:23 $ $Author: sano-n $
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
+ * @version 0.00 2022-09-24 nsano initial version <br>
  */
 public class DefaultCsvProvider implements CsvProvider {
 
-    /** TODO impl の DI */
     private CsvDialect csvDiarect = new org.klab.commons.csv.impl.ExcelCsvDialect();
+    /** */
 
     /* */
     @Override

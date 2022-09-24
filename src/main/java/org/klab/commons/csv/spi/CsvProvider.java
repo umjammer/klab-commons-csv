@@ -22,14 +22,14 @@ import org.klab.commons.csv.spi.CsvWriter;
  */
 public interface CsvProvider<T> {
 
-    /** TODO 引数 */
     CsvConverter<T> getCsvConverter(Class<T> entityClass);
+    /** same instance */
 
-    /** Reader の提供 */
     CsvReader getCsvReader(InputStream is, String encoding) throws IOException;
+    /** TODO args */
 
-    /** Writer の提供 */
     CsvWriter getCsvWriter(OutputStream os, String encoding) throws IOException;
+    /** provides new CsvReader instance */
 }
 
 /* */

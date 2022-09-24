@@ -1,5 +1,5 @@
 /*
- * $Id: CsvRow.java 0 2008/01/24 14:17:10 sano-n $
+ * $Id: Rfc4180CsvLine.java 0 2008/01/24 14:17:10 sano-n $
  *
  * Copyright (C) 2008 KLab Inc. All Rights Reserved.
  */

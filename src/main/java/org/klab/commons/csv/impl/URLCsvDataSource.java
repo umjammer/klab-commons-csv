@@ -40,7 +40,7 @@ public class URLCsvDataSource<T> extends AbstractCsvFactory<String, T> {
     /** */
     @Override
     public String toString() {
-        return source.toString();
+        return source;
     }
 }
 

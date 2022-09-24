@@ -1,5 +1,5 @@
 /*
- * $Id: CsvDialect.java 0 2008/01/24 14:17:10 sano-n $
+ * $Id: DefaultCsvConverter.java 0 2008/01/24 14:17:10 sano-n $
  *
  * Copyright (C) 2008 KLab Inc. All Rights Reserved.
  */
@@ -30,7 +30,7 @@ import vavi.beans.BeanUtil;
  */
 public class DefaultCsvConverter implements CsvConverter {
 
-    private static Logger logger = Logger.getLogger(DefaultCsvConverter.class.getName());
+    private static final Logger logger = Logger.getLogger(DefaultCsvConverter.class.getName());
 
     /** */
     protected Class<?> entityClass;
@@ -54,6 +54,7 @@ public class DefaultCsvConverter implements CsvConverter {
     }
 
     /**
+     * for write.
      * @param entity {@link org.klab.commons.csv.CsvEntity} annotated object
      * @return includes {@link CsvDialect#getEndOfLine() end of line}, String, Date type are '"' quoted
      * @see CsvConverter#toCsv(Object)
@@ -86,7 +87,8 @@ public class DefaultCsvConverter implements CsvConverter {
     }
 
     /**
-     * {@link #fields field の定義}優先。
+     * for read.
+     * {@link #fields field definition} have priority
      * @return entity {@link org.klab.commons.csv.CsvEntity} annotated object
      * @see CsvConverter#toEntity(CsvLine)
      * @throws IllegalStateException when entity initialize failed

@@ -1,11 +1,11 @@
 # org.klab.commons.csv.rfc4180
 
-## 参考
+## References
 
  * [RFC 4180](http://www.kasai.fm/wiki/rfc4180jp)
 
 ## TODO
 
- * TABは？
- * '"' の外のスペース
- * 前のスペース取れてない気が
+ * how about TAB？
+ * spaces outer '"'
+ * it seems that spaces before might not be retrieved
