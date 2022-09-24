@@ -12,14 +12,16 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
+import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+import java.util.ServiceLoader;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.klab.commons.csv.impl.URLCsvDataSource;
+import org.klab.commons.csv.spi.CsvProvider;
 import vavi.net.www.protocol.URLStreamHandlerUtil;
 
 
@@ -35,14 +37,23 @@ import vavi.net.www.protocol.URLStreamHandlerUtil;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CsvEntity {
 
-    /** default {@link org.klab.commons.csv.impl.DefaultCsvProvider} */
-    Class<? extends CsvProvider> provider() default org.klab.commons.csv.impl.DefaultCsvProvider.class;
+    /** default {@link org.klab.commons.csv.apache.ApacheCsvProvider} */
+    String provider() default "";
 
     /** If you don't set, use <code>System.egtProperty("file.encoding")</code> */
     String encoding() default "";
 
     /** */
     boolean cached() default false;
+
+    /** */
+    boolean hasTitle() default false;
+
+    /** */
+    String delimiter() default "";
+
+    /** only 1st byte is effective */
+    String commentMarker() default "";
 
     /** Specifies resource URL */
     String url() default "";
@@ -76,6 +87,20 @@ public @interface CsvEntity {
         /**
          * @throws IllegalArgumentException bean is not annotated with {@link CsvEntity}
          */
+        public static boolean hasTitle(Class<?> beanClass) {
+            //
+            CsvEntity entity = beanClass.getAnnotation(CsvEntity.class);
+            if (entity == null) {
+                throw new IllegalArgumentException("bean is not annotated with @CsvEntity");
+            }
+
+            //
+            return entity.hasTitle();
+        }
+
+        /**
+         * @throws IllegalArgumentException bean is not annotated with {@link CsvEntity}
+         */
         public static String getEncoding(Class<?> beanClass) {
             //
             CsvEntity entity = beanClass.getAnnotation(CsvEntity.class);
@@ -94,10 +119,46 @@ logger.fine("use default encoding: " + encoding);
         }
 
         /**
+         * @throws IllegalArgumentException bean is not annotated with {@link CsvEntity}
+         */
+        public static String getDelimiter(Class<?> beanClass) {
+            //
+            CsvEntity entity = beanClass.getAnnotation(CsvEntity.class);
+            if (entity == null) {
+                throw new IllegalArgumentException("bean is not annotated with @CsvEntity");
+            }
+
+            //
+            String delimiter = entity.delimiter();
+            if (delimiter.isEmpty()) {
+                delimiter = null;
+            }
+
+            return delimiter;
+        }
+
+        /**
+         * @throws IllegalArgumentException bean is not annotated with {@link CsvEntity}
+         */
+        public static Character getCommentMarker(Class<?> beanClass) {
+            //
+            CsvEntity entity = beanClass.getAnnotation(CsvEntity.class);
+            if (entity == null) {
+                throw new IllegalArgumentException("bean is not annotated with @CsvEntity");
+            }
+
+            //
+            String commentMarker = entity.commentMarker();
+
+            return !commentMarker.isEmpty() ? commentMarker.charAt(0) : null;
+        }
+
+        /**
          * @return annotated {@link CsvProvider}
          * @throws IllegalArgumentException bean is not annotated with {@link CsvEntity}
          */
-        public static CsvProvider getCsvProvider(Class<?> beanClass) {
+        @SuppressWarnings("unchecked")
+        public static <T> CsvProvider<T> getCsvProvider(Class<T> beanClass) {
             //
             CsvEntity entity = beanClass.getAnnotation(CsvEntity.class);
             if (entity == null) {
@@ -106,7 +167,13 @@ logger.fine("use default encoding: " + encoding);
 logger.finer("provider: " + entity.provider());
             //
             try {
-                return entity.provider().getDeclaredConstructor().newInstance();
+                ServiceLoader<CsvProvider> serviceLoader = ServiceLoader.load(CsvProvider.class);
+                for (CsvProvider<T> provider : serviceLoader) {
+                    if (provider.getClass().getName().equals(entity.provider())) {
+                        return provider;
+                    }
+                }
+                return serviceLoader.iterator().next();
             } catch (Exception e) {
                 throw new IllegalStateException(e);
             }
@@ -179,13 +246,10 @@ logger.fine("field[" + column.sequence() + "]: " + field.getName());
                 clazz = clazz.getSuperclass();
             }
 
-            Collections.sort(columnFields, new Comparator<Field>() {
-                @Override
-                public int compare(Field o1, Field o2) {
-                    int s1 = CsvColumn.Util.getSequence(o1);
-                    int s2 = CsvColumn.Util.getSequence(o2);
-                    return s1 - s2;
-                }
+            columnFields.sort((o1, o2) -> {
+                int s1 = CsvColumn.Util.getSequence(o1);
+                int s2 = CsvColumn.Util.getSequence(o2);
+                return s1 - s2;
             });
 
             return columnFields;
@@ -215,6 +279,16 @@ logger.info(key + " is not replaceable");
             return url;
         }
 
+        private static String replaceWithArgs(String url, String... args) throws IOException {
+            int c = 0;
+            for (String arg : args) {
+                url = url.replace("{" + c + "}", URLEncoder.encode(arg, "utf-8"));
+//System.err.println(url + ", " + arg);
+                c++;
+            }
+            return url;
+        }
+
         /* */
         static {
             URLStreamHandlerUtil.loadService();
@@ -223,21 +297,17 @@ logger.info(key + " is not replaceable");
         /**
          * Entry point for reading.
          *
-         * @param args replace <code>"{#}"</code> (# is 0, 1, 2 ...)
+         * @param args replace url, inside string literal marker <code>"{#}"</code> (# is 0, 1, 2 ...)
          * <pre>
-         * $ cat some.properties
-         * foo.bar.buz=xxx
-         * foo.bar.aaa=yyy
-         *
-         * @Property(name = "foo.bar.{0})
-         * Foo bar;
+         * @CsvEntity(url = "https::/www.example.org/file{0}.txt")
+         * class Foo {
          *
          *    :
          *
-         * PropsEntity.Util.bind(bean, "buz");
-         * assertEquals(bean.bar, "xxx");
+         * ... = CsvEntity.Util.bind(Foo.class, "1"); // retrieves from .../file1.txt
          *
          * </pre>
+         * ${env.name}, ${system.property.name} will be replaced also.
          */
         public static <T> List<T> read(Class<T> type, String... args) throws IOException {
             //
@@ -246,23 +316,25 @@ logger.info(key + " is not replaceable");
                 throw new IllegalArgumentException("bean is not annotated with @CsvEntity");
             }
 
-            csvFactory.setSource(replaceWithEnvOrProps(getUrl(type)));
             CsvDataSource<Object, T> csvDataSource = getCsvDataSource(type);
+            csvDataSource.setSource(replaceWithArgs(replaceWithEnvOrProps(getUrl(type)), args));
             return csvDataSource.getWholeCsvReader().readAll(type);
         }
 
         /**
          * Entry point for writing.
+         *
+         * @param args see {@link #read}
          */
-        public static <T> void write(List<T> list, Class<T> type) throws IOException {
+        public static <T> void write(List<T> list, Class<T> type, String... args) throws IOException {
             //
             CsvEntity csvEntity = type.getAnnotation(CsvEntity.class);
             if (csvEntity == null) {
                 throw new IllegalArgumentException("bean is not annotated with @CsvEntity");
             }
 
-            csvFactory.setSource(replaceWithEnvOrProps(getUrl(type)));
             CsvDataSource<Object, T> csvDataSource = getCsvDataSource(type);
+            csvDataSource.setSource(replaceWithArgs(replaceWithEnvOrProps(getUrl(type)), args));
             csvDataSource.getWholeCsvWriter().writeAll(list, type);
         }
     }

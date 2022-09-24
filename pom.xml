@@ -76,14 +76,14 @@ TODO
   </repositories>
 
   <dependencyManagement>
-  <dependencies>
-    <dependency>
+    <dependencies>
+      <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
         <version>5.8.2</version>
         <type>pom</type>
         <scope>import</scope>
-    </dependency>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -92,6 +92,12 @@ TODO
       <groupId>com.github.umjammer</groupId>
       <artifactId>vavi-commons</artifactId>
       <version>1.1.6</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-csv</artifactId>
+      <version>1.9.0</version>
     </dependency>
 
     <dependency>

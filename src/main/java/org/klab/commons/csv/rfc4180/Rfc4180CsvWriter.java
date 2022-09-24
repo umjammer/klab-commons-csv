@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+import org.klab.commons.csv.spi.CsvLine;
 import org.klab.commons.csv.spi.CsvWriter;
 
 
@@ -31,8 +32,8 @@ public class Rfc4180CsvWriter implements CsvWriter {
     }
 
     /** */
-    public void writeLine(String csv) throws IOException {
-        writer.write(csv);
+    public void writeLine(CsvLine csv) throws IOException {
+        writer.write(csv.toString());
     }
 
     /** */

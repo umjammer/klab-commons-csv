@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+import org.klab.commons.csv.spi.CsvLine;
 import org.klab.commons.csv.spi.CsvWriter;
 
 
@@ -30,9 +31,9 @@ public class SimpleCsvWriter implements CsvWriter {
         this.writer = new OutputStreamWriter(os, encoding);
     }
 
-    /** */
-    public void writeLine(String csv) throws IOException {
-        writer.write(csv);
+    @Override
+    public void writeLine(CsvLine csv) throws IOException {
+        writer.write(csv.toString());
     }
 
     @Override

@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.klab.commons.csv.CsvConverter;
-import org.klab.commons.csv.CsvProvider;
 import org.klab.commons.csv.CsvDataSource;
+import org.klab.commons.csv.spi.CsvProvider;
 import org.klab.commons.csv.GeneratedValue;
 import org.klab.commons.csv.spi.CsvLine;
 import org.klab.commons.csv.spi.CsvReader;
@@ -31,10 +31,10 @@ import org.klab.commons.csv.spi.CsvWriter;
 public abstract class AbstractCsvFactory<S, T> implements CsvDataSource<S, T> {
 
     /** */
-    protected T source;
+    protected S source;
 
     /** */
-    public void setSource(T source) {
+    public void setSource(S source) {
         this.source = source;
 logger.fine("csv source: " + source);
     }
@@ -45,7 +45,7 @@ logger.fine("csv source: " + source);
     /** */
     protected ExceptionHandler readExceptionHandler = new DefaultExceptionHandler();
 
-    /** 設定されなければ {@link org.klab.commons.csv.CsvFactory.DefaultExceptionHandler} になります。 */
+    /** if not set, {@link CsvDataSource.DefaultExceptionHandler} is used as default */
     public void setReadExceptionHandler(ExceptionHandler readExceptionHandler) {
         this.readExceptionHandler = readExceptionHandler;
     }
@@ -53,49 +53,54 @@ logger.fine("csv source: " + source);
     /** */
     protected ExceptionHandler writeExceptionHandler = new DefaultExceptionHandler();
 
-    /** 設定されなければ {@link org.klab.commons.csv.CsvFactory.DefaultExceptionHandler} になります。 */
+    /** if not set, {@link CsvDataSource.DefaultExceptionHandler} is used as default */
     public void setWriteExceptionHandler(ExceptionHandler writeExceptionHandler) {
         this.writeExceptionHandler = writeExceptionHandler;
     }
 
     /**
-     * <li> TODO こいつの場所がわからない、CsvConverter か？
+     * <li> TODO where is this class appropriate location, CsvConverter?
      */
-    class DefaultWholeCsvReader implements WholeCsvReader {
+    class DefaultWholeCsvReader implements WholeCsvReader<T> {
         /** */
-        private List<?> cache;
+        private List<T> cache;
         /**
-         * {@link #readExceptionHandler} が実装されています。
-         * キャッシュを行います。
-         * @param entityClass {@link org.klab.commons.csv.CsvEntity} でアノテーションされたクラス
+         * implements {@link #readExceptionHandler}.
+         * do cache also.
+         * @param entityClass a class annotated by {@link org.klab.commons.csv.CsvEntity}
          */
-        @SuppressWarnings("unchecked")
         @Override
-        public <E> List<E> readAll(Class<E> entityClass) throws IOException {
-            CsvProvider csvProvider = org.klab.commons.csv.CsvEntity.Util.getCsvProvider(entityClass);
+        public List<T> readAll(Class<T> entityClass) throws IOException {
+            CsvProvider<T> csvProvider = org.klab.commons.csv.CsvEntity.Util.getCsvProvider(entityClass);
 logger.fine("csvProvider: " + csvProvider.getClass().getName());
             String encoding = org.klab.commons.csv.CsvEntity.Util.getEncoding(entityClass);
 logger.fine("encoding: " + encoding);
+            String delimiter = org.klab.commons.csv.CsvEntity.Util.getDelimiter(entityClass);
+logger.fine("delimiter: " + delimiter);
+            Character commentMarker = org.klab.commons.csv.CsvEntity.Util.getCommentMarker(entityClass);
+logger.fine("commentMarker: " + commentMarker);
+            boolean hasTitle = org.klab.commons.csv.CsvEntity.Util.hasTitle(entityClass);
+logger.fine("hasTitle: " + hasTitle);
             boolean cached = org.klab.commons.csv.CsvEntity.Util.isCached(entityClass);
 logger.fine("cached: " + cached);
 
-            CsvConverter csvConverter = csvProvider.getCsvConverter(entityClass);
+            CsvConverter<T> csvConverter = csvProvider.newCsvConverter(entityClass);
 
             // cache
             if (!cached || cache == null) {
 logger.fine("cache off or first read: cache: " + cached);
-                this.cache = findAllInternal(csvConverter, csvProvider.getCsvReader(getInputStream(), encoding));
+                this.cache = findAllInternal(csvConverter, csvProvider.newCsvReader(getInputStream(), encoding, delimiter, hasTitle, commentMarker));
             }
-            return (List<E>) cache;
+            return cache;
         }
         /**
          * Reads each csv line.
          */
-        protected List<?> findAllInternal(CsvConverter csvConverter, CsvReader reader) throws IOException {
-            List<Object> results = new ArrayList<>();
+        protected List<T> findAllInternal(CsvConverter<T> csvConverter, CsvReader reader) throws IOException {
+            List<T> results = new ArrayList<>();
             List<Exception> exceptions = new ArrayList<>();
 
-            Integer id = 0;
+            int id = 0;
             while (reader.hasNextLine()) {
                 CsvLine csv = null;
                 try {
@@ -103,7 +108,7 @@ logger.fine("cache off or first read: cache: " + cached);
 if (csv.toString().isEmpty()) {
  logger.warning("line " + id + " is empty, skiped");
 } else {
-                    Object entity = csvConverter.toEntity(csv);
+                    T entity = csvConverter.toEntity(csv);
                     GeneratedValue.Util.setGenerateId(entity, id); // TODO こんなんでいいのか？
                     results.add(entity);
 //logger.debug(ToStringBuilder.reflectionToString(entity));
@@ -123,40 +128,40 @@ if (csv.toString().isEmpty()) {
     }
 
     /** */
-    protected WholeCsvReader wholeCsvReader = new DefaultWholeCsvReader();
+    protected WholeCsvReader<T> wholeCsvReader = new DefaultWholeCsvReader();
 
-    /** {@link DefaultWholeCsvReader} を返します。 */
+    /** Returns {@link DefaultWholeCsvReader} */
     @Override
-    public WholeCsvReader getWholeCsvReader() {
+    public WholeCsvReader<T> getWholeCsvReader() {
         return wholeCsvReader;
     }
 
     /**
-     * アウタークラスの CsvFactory を使用している。
-     * <li> TODO こいつの場所がわからない、CsvConverter か？
+     * using outer class's CsvDataSource
+     * <li> TODO where is this class appropriate location, CsvConverter?
      */
-    class DefaultWholeCsvWriter implements WholeCsvWriter {
+    class DefaultWholeCsvWriter implements WholeCsvWriter<T> {
         /**
-         * {@link #writeExceptionHandler} が実装されています。
-         * @param entityClass {@link org.klab.commons.csv.CsvEntity} でアノテーションされたクラス
+         * implements {@link #writeExceptionHandler}
+         * @param entityClass a class annotated by {@link org.klab.commons.csv.CsvEntity}
          */
         @Override
-        public <E> void writeAll(Collection<E> entities, Class<E> entityClass) throws IOException {
+        public void writeAll(Collection<T> entities, Class<T> entityClass) throws IOException {
             List<Exception> exceptions = new ArrayList<>();
 
-            CsvProvider csvProvider = org.klab.commons.csv.CsvEntity.Util.getCsvProvider(entityClass);
+            CsvProvider<T> csvProvider = org.klab.commons.csv.CsvEntity.Util.getCsvProvider(entityClass);
 logger.fine("csvProvider: " + csvProvider.getClass().getName());
             String encoding = org.klab.commons.csv.CsvEntity.Util.getEncoding(entityClass);
 logger.fine("encoding: " + encoding);
 
-            CsvConverter csvConverter = csvProvider.getCsvConverter(entityClass);
+            CsvConverter<T> csvConverter = csvProvider.newCsvConverter(entityClass);
 
             //
-            CsvWriter writer = csvProvider.getCsvWriter(getOutputStream(), encoding); // TODO use factory pattern
+            CsvWriter writer = csvProvider.newCsvWriter(getOutputStream(), encoding); // TODO use factory pattern
             int id = 0;
-            for (Object entity : entities) {
+            for (T entity : entities) {
                 try {
-                    String csv = csvConverter.toCsv(entity);
+                    CsvLine csv = csvConverter.toCsv(entity);
                     writer.writeLine(csv);
                 } catch (Exception e) {
                     writeExceptionHandler.handleEachLine(e, id + 1, entity, AbstractCsvFactory.this);
@@ -172,11 +177,11 @@ logger.fine("encoding: " + encoding);
     }
 
     /** */
-    protected WholeCsvWriter wholeCsvWriter = new DefaultWholeCsvWriter();
+    protected WholeCsvWriter<T> wholeCsvWriter = new DefaultWholeCsvWriter();
 
-    /** {@link DefaultWholeCsvWriter} を返します。 */
+    /** Returns {@link DefaultWholeCsvWriter} */
     @Override
-    public WholeCsvWriter getWholeCsvWriter() {
+    public WholeCsvWriter<T> getWholeCsvWriter() {
         return wholeCsvWriter;
     }
 }

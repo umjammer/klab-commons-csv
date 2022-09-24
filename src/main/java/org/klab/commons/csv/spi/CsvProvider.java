@@ -4,14 +4,14 @@
  * Copyright (C) 2008 KLab Inc. All Rights Reserved.
  */
 
-package org.klab.commons.csv;
+package org.klab.commons.csv.spi;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.klab.commons.csv.spi.CsvReader;
-import org.klab.commons.csv.spi.CsvWriter;
+import org.klab.commons.csv.CsvConverter;
+import org.klab.commons.csv.CsvDialect;
 
 
 /**
@@ -22,14 +22,20 @@ import org.klab.commons.csv.spi.CsvWriter;
  */
 public interface CsvProvider<T> {
 
-    CsvConverter<T> getCsvConverter(Class<T> entityClass);
     /** same instance */
+    CsvDialect getCsvDialect();
 
-    CsvReader getCsvReader(InputStream is, String encoding) throws IOException;
     /** TODO args */
+    CsvConverter<T> newCsvConverter(Class<T> entityClass);
 
-    CsvWriter getCsvWriter(OutputStream os, String encoding) throws IOException;
     /** provides new CsvReader instance */
+    CsvReader newCsvReader(InputStream is, String encoding, String delimiter, boolean hasTitle, Character commentMarker) throws IOException;
+
+    /** provides new CsvWriter instance */
+    CsvWriter newCsvWriter(OutputStream os, String encoding) throws IOException;
+
+    /** provides new CsvLine instance */
+    CsvLine newCsvLine();
 }
 
 /* */

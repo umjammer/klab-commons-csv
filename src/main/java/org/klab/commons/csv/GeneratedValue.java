@@ -62,7 +62,7 @@ public @interface GeneratedValue {
             }
 
             if (generatedValueField == null) {
-logger.fine("no @GeneratedValue");
+logger.finer("no @GeneratedValue");
                 return;
             }
 

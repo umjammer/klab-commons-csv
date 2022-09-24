@@ -22,7 +22,7 @@ public interface CsvWriter extends Closeable {
     /**
      * @param csv EOL should be included
      */
-    void writeLine(String csv) throws IOException;
+    void writeLine(CsvLine csv) throws IOException;
 
     /** */
     void flush() throws IOException;

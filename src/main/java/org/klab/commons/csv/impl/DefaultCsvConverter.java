@@ -18,6 +18,7 @@ import org.klab.commons.csv.CsvEntity;
 import org.klab.commons.csv.Dialectal;
 import org.klab.commons.csv.spi.CsvLine;
 
+import org.klab.commons.csv.spi.CsvProvider;
 import vavi.beans.BeanUtil;
 
 
@@ -28,28 +29,28 @@ import vavi.beans.BeanUtil;
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version $Revision: 1.0 $ $Date: 2008/01/24 14:17:10 $ $Author: sano-n $
  */
-public class DefaultCsvConverter implements CsvConverter {
+public class DefaultCsvConverter<T> implements CsvConverter<T> {
 
     private static final Logger logger = Logger.getLogger(DefaultCsvConverter.class.getName());
 
     /** */
-    protected Class<?> entityClass;
+    protected Class<T> entityClass;
 
     /** */
-    private List<Field> fields;
+    private final List<Field> fields;
 
     /** */
     protected CsvDialect defaultCsvDialect = new DefaultCsvDialect();
 
     /** */
-    protected CsvDialect csvDialect;
+    protected CsvProvider<T> provider;
 
     /**
      * @param entityClass should be {@link CsvColumn} annotated
      */
-    public DefaultCsvConverter(Class<?> entityClass, CsvDialect csvDialect) {
+    public DefaultCsvConverter(Class<T> entityClass, CsvProvider<T> provider) {
         this.entityClass = entityClass;
-        this.csvDialect = csvDialect;
+        this.provider = provider;
         this.fields = CsvEntity.Util.getFields(entityClass);
     }
 
@@ -60,30 +61,26 @@ public class DefaultCsvConverter implements CsvConverter {
      * @see CsvConverter#toCsv(Object)
      */
     @Override
-    public String toCsv(Object entity) {
+    public CsvLine toCsv(T entity) {
         StringBuilder sb = new StringBuilder();
 
-        List<String> columns = new ArrayList<>();
+        CsvLine columns = provider.newCsvLine();
 
         for (Field field : fields) {
             // TODO when gap sequences
             try {
                 Object fieldValue = BeanUtil.getFieldValue(field, entity);
                 if (Dialectal.Util.isDialectal(field)) {
-                    columns.add(csvDialect.toCsvLine(field, entity, fieldValue));
+                    columns.add(provider.getCsvDialect().toCsvColumn(field, entity, fieldValue));
                 } else {
-                    columns.add(defaultCsvDialect.toCsvLine(field, entity, fieldValue));
+                    columns.add(defaultCsvDialect.toCsvColumn(field, entity, fieldValue));
                 }
             } catch (Exception e) {
                 throw new IllegalStateException("field[" + CsvColumn.Util.getSequence(field) + "]: " + field.getType().getSimpleName() + " " + field.getName(), e);
             }
         }
-        for (String column : columns) {
-            sb.append(column);
-            sb.append(',');
-        }
 //logger.debug("csv: " + sb.substring(0, sb.length() - 1));
-        return sb.substring(0, sb.length() - 1) + csvDialect.getEndOfLine();
+        return columns;
     }
 
     /**
@@ -94,8 +91,8 @@ public class DefaultCsvConverter implements CsvConverter {
      * @throws IllegalStateException when entity initialize failed
      */
     @Override
-    public Object toEntity(CsvLine columns) {
-        Object entity = null;
+    public T toEntity(CsvLine columns) {
+        T entity;
         try {
             entity = entityClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
@@ -103,7 +100,7 @@ public class DefaultCsvConverter implements CsvConverter {
         }
 
         List<String> csvColumns = new ArrayList<>();
-        columns.forEachRemaining(csvColumns::add);
+        columns.iterator().forEachRemaining(csvColumns::add);
 
         for (Field field : fields) {
             int sequence = CsvColumn.Util.getSequence(field);
@@ -113,7 +110,7 @@ public class DefaultCsvConverter implements CsvConverter {
 //Debug.println("field[" + CsvColumn.Util.getSequence(field) + "]: " + field.getType().getSimpleName() + " " + field.getName() + " = '" + column + "'\n" + StringUtil.getDump(column));
                     try {
                         if (Dialectal.Util.isDialectal(field)) {
-                            csvDialect.toFieldValue(field, entity, column);
+                            provider.getCsvDialect().toFieldValue(field, entity, column);
                         } else {
                             defaultCsvDialect.toFieldValue(field, entity, column);
                         }

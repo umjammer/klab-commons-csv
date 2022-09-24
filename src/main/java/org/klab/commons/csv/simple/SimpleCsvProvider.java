@@ -4,7 +4,7 @@
  * Programmed by Naohide Sano
  */
 
-package org.klab.commons.csv.impl;
+package org.klab.commons.csv.simple;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +12,8 @@ import java.io.OutputStream;
 
 import org.klab.commons.csv.CsvConverter;
 import org.klab.commons.csv.CsvDialect;
-import org.klab.commons.csv.CsvProvider;
+import org.klab.commons.csv.spi.CsvLine;
+import org.klab.commons.csv.spi.CsvProvider;
 import org.klab.commons.csv.spi.CsvReader;
 import org.klab.commons.csv.spi.CsvWriter;
 
@@ -23,27 +24,34 @@ import org.klab.commons.csv.spi.CsvWriter;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2022-09-24 nsano initial version <br>
  */
-public class DefaultCsvProvider implements CsvProvider {
+public class SimpleCsvProvider<T> implements CsvProvider<T> {
 
-    private CsvDialect csvDiarect = new org.klab.commons.csv.impl.ExcelCsvDialect();
     /** */
+    private final CsvDialect csvDialect = new org.klab.commons.csv.impl.ExcelCsvDialect();
 
-    /* */
     @Override
-    public CsvConverter getCsvConverter(Class<?> entityClass) {
-        return new org.klab.commons.csv.impl.DefaultCsvConverter(entityClass, csvDiarect);
+    public CsvDialect getCsvDialect() {
+        return csvDialect;
     }
 
-    /* TODO impl の DI */
     @Override
-    public CsvReader getCsvReader(InputStream is, String encoding) throws IOException {
-        return new org.klab.commons.csv.rfc4180.Rfc4180CsvReader(is, encoding);
+    public CsvConverter<T> newCsvConverter(Class<T> entityClass) {
+        return new org.klab.commons.csv.impl.DefaultCsvConverter<>(entityClass, this);
     }
 
-    /* TODO impl の DI */
     @Override
-    public CsvWriter getCsvWriter(OutputStream os, String encoding) throws IOException {
-        return new org.klab.commons.csv.rfc4180.Rfc4180CsvWriter(os, encoding);
+    public CsvReader newCsvReader(InputStream is, String encoding, String delimiter, boolean hasTitle, Character commentMarker) throws IOException {
+        return new SimpleCsvReader(is, encoding);
+    }
+
+    @Override
+    public CsvWriter newCsvWriter(OutputStream os, String encoding) throws IOException {
+        return new SimpleCsvWriter(os, encoding);
+    }
+
+    @Override
+    public CsvLine newCsvLine() {
+        return new SimpleCsvLine(csvDialect);
     }
 }
 

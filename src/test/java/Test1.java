@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import org.klab.commons.csv.CsvColumn;
 import org.klab.commons.csv.CsvEntity;
 import org.klab.commons.csv.GeneratedValue;
 import org.klab.commons.csv.dao.CsvDaoBase;
@@ -26,10 +27,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class Test1 {
 
-    @CsvEntity
+    @CsvEntity(encoding = "MS932", provider = "org.klab.commons.csv.rfc4180.Rfc4180CsvProvider")
     public static class A implements org.klab.commons.csv.dao.CsvEntity<Integer> {
         @GeneratedValue
         int id;
+        @CsvColumn(sequence = 2)
+        String title;
+        @CsvColumn(sequence = 3)
+        String url;
+        @CsvColumn(sequence = 4)
+        int x;
+        @CsvColumn(sequence = 5)
+        String date;
         @Override
         public Integer getId() {
             return id;
