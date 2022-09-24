@@ -17,7 +17,7 @@ import org.klab.commons.csv.Dialectal;
 import org.klab.commons.csv.EnumType;
 import org.klab.commons.csv.Enumerated;
 import org.klab.commons.csv.GeneratedValue;
-import org.klab.commons.csv.impl.FileCsvFactory;
+import org.klab.commons.csv.impl.FileCsvDataSource;
 
 import vavi.util.StringUtil;
 
@@ -63,7 +63,7 @@ public class TestCase {
         assertEquals(3, result.size());
     }
 
-    @CsvEntity(url = "src/test/resources/out.csv", io = FileCsvFactory.class)
+    @CsvEntity(url = "tmp/out.csv", dataSource = FileCsvDataSource.class,
     public static class Test02 {
         enum E {
             A, B, C, D, E

@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import org.klab.commons.csv.CsvFactory;
+import org.klab.commons.csv.CsvDataSource;
 
 
 /**
@@ -32,18 +32,18 @@ public class CsvDaoBase<E extends CsvEntity<I>, I extends Serializable> implemen
     }
 
     /** data source */
-    private CsvFactory<?> csvFactory;
+    private CsvDataSource<?, E> csvDataSource;
 
     /** for DI */
-    public void setCsvFactory(CsvFactory<?> csvFactory) {
-        this.csvFactory = csvFactory;
+    public void setCsvDataSource(CsvDataSource<?, E> csvDataSource) {
+        this.csvDataSource = csvDataSource;
     }
 
     /** */
     @SuppressWarnings("cast")
     public List<E> findAll() {
         try {
-            return (List<E>) csvFactory.getWholeCsvReader().readAll(entityClass);
+            return csvDataSource.getWholeCsvReader().readAll(entityClass);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
@@ -52,7 +52,7 @@ public class CsvDaoBase<E extends CsvEntity<I>, I extends Serializable> implemen
     /** */
     public void updateAll(Collection<E> entities) {
         try {
-            csvFactory.getWholeCsvWriter().writeAll(entities, entityClass);
+            csvDataSource.getWholeCsvWriter().writeAll(entities, entityClass);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }

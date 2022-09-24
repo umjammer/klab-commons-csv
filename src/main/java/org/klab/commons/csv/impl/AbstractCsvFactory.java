@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.klab.commons.csv.CsvConverter;
-import org.klab.commons.csv.CsvFactory;
 import org.klab.commons.csv.CsvProvider;
+import org.klab.commons.csv.CsvDataSource;
 import org.klab.commons.csv.GeneratedValue;
 import org.klab.commons.csv.spi.CsvLine;
 import org.klab.commons.csv.spi.CsvReader;
@@ -28,7 +28,7 @@ import org.klab.commons.csv.spi.CsvWriter;
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version 0.00 070207 sano-n initial version <br>
  */
-public abstract class AbstractCsvFactory<T> implements CsvFactory<T> {
+public abstract class AbstractCsvFactory<S, T> implements CsvDataSource<S, T> {
 
     /** */
     protected T source;

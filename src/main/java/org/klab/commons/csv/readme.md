@@ -63,10 +63,10 @@ CSV をデータソースとして使用するためのラッパ `CsvFactory` �
           parent=&quot;csvDaoBase&quot;&gt;
       &lt;property name=&quot;entityClass&quot;
                 value=&quot;your.package.foo.impl.FooImpl&quot; /&gt;
-      &lt;property name=&quot;csvFactory&quot;
-                ref=&quot;csvFactory&quot; /&gt;
+      &lt;property name=&quot;csvDataSource&quot;
+                ref=&quot;csvDataSource&quot; /&gt;
     &lt;/bean&gt;
-    &lt;bean id=&quot;csvFactory&quot;
+    &lt;bean id=&quot;csvDataSource&quot;
           class=&quot;org.klab.commons.util.csv.impl.FileCsvFactory&quot;&gt;
       &lt;property name=&quot;fileName&quot;
                 value=&quot;/sample/sample.csv&quot; /&gt;

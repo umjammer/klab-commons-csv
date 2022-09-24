@@ -26,7 +26,7 @@ import vavi.net.www.protocol.URLStreamHandlerUtil;
 /**
  * CsvEntity.
  * <p>
- * TODO make type {@link #url()} and {@link CsvFactory}'s generics type of {@link #io()} generics.
+ * TODO make type {@link #url()} and {@link CsvDataSource}'s generics type of {@link #dataSource()} generics.
  * </p>
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version $Revision: 1.0 $ $Date: 2008/01/11 23:45:45 $ $Author: sano-n $
@@ -47,8 +47,8 @@ public @interface CsvEntity {
     /** Specifies resource URL */
     String url() default "";
 
-    /** Specifies I/O handler, default {@link org.klab.commons.csv.impl.URLCsvFactory} */
-    Class<? extends CsvFactory<String>> io() default org.klab.commons.csv.impl.URLCsvFactory.class;
+    /** Specifies I/O handler, default {@link URLCsvDataSource} */
+    Class<? extends CsvDataSource> dataSource() default org.klab.commons.csv.impl.URLCsvDataSource.class;
 
     /** */
     class Util {
@@ -131,10 +131,11 @@ logger.finer("provider: " + entity.provider());
         }
 
         /**
-         * @return annotated {@link CsvFactory}
+         * @return annotated {@link CsvDataSource}
          * @throws IllegalArgumentException bean is not annotated with {@link CsvEntity}
          */
-        public static CsvFactory<String> getCsvFactory(Class<?> beanClass) {
+        @SuppressWarnings("unchecked")
+        public static <T> CsvDataSource<Object, T> getCsvDataSource(Class<T> beanClass) {
             //
             CsvEntity entity = beanClass.getAnnotation(CsvEntity.class);
             if (entity == null) {
@@ -143,7 +144,7 @@ logger.finer("provider: " + entity.provider());
 logger.finer("provider: " + entity.provider());
             //
             try {
-                return entity.io().getDeclaredConstructor().newInstance();
+                return (CsvDataSource<Object, T>) entity.dataSource().getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                 throw new IllegalStateException(e);
             }
@@ -245,9 +246,9 @@ logger.info(key + " is not replaceable");
                 throw new IllegalArgumentException("bean is not annotated with @CsvEntity");
             }
 
-            CsvFactory<String> csvFactory = getCsvFactory(type);
             csvFactory.setSource(replaceWithEnvOrProps(getUrl(type)));
-            return csvFactory.getWholeCsvReader().readAll(type);
+            CsvDataSource<Object, T> csvDataSource = getCsvDataSource(type);
+            return csvDataSource.getWholeCsvReader().readAll(type);
         }
 
         /**
@@ -260,9 +261,9 @@ logger.info(key + " is not replaceable");
                 throw new IllegalArgumentException("bean is not annotated with @CsvEntity");
             }
 
-            CsvFactory<String> csvFactory = getCsvFactory(type);
             csvFactory.setSource(replaceWithEnvOrProps(getUrl(type)));
-            csvFactory.getWholeCsvWriter().writeAll(list, type);
+            CsvDataSource<Object, T> csvDataSource = getCsvDataSource(type);
+            csvDataSource.getWholeCsvWriter().writeAll(list, type);
         }
     }
 }

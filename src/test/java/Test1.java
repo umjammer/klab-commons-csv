@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.klab.commons.csv.CsvEntity;
 import org.klab.commons.csv.GeneratedValue;
 import org.klab.commons.csv.dao.CsvDaoBase;
-import org.klab.commons.csv.impl.FileCsvFactory;
+import org.klab.commons.csv.impl.FileCsvDataSource;
 
 import vavi.util.StringUtil;
 
@@ -47,9 +47,9 @@ public class Test1 {
     public void test1() throws Exception {
         CsvDaoBase<A, Integer> csvDao = new CsvDaoBase<>();
         csvDao.setEntityClass(A.class);
-        FileCsvFactory csvFactory = new FileCsvFactory();
+        FileCsvDataSource<A> csvFactory = new FileCsvDataSource<>();
         csvFactory.setSource("src/test/resources/test.csv");
-        csvDao.setCsvFactory(csvFactory);
+        csvDao.setCsvDataSource(csvFactory);
 
         List<A> result = csvDao.findAll();
         result.forEach(System.err::println);
@@ -63,9 +63,9 @@ public class Test1 {
     public static void main(String[] args) throws Exception {
         CsvDaoBase<A, Integer> csvDao = new CsvDaoBase<>();
         csvDao.setEntityClass(A.class);
-        FileCsvFactory csvFactory = new FileCsvFactory();
+        FileCsvDataSource<A> csvFactory = new FileCsvDataSource<>();
         csvFactory.setSource("src/test/resources/test.csv");
-        csvDao.setCsvFactory(csvFactory);
+        csvDao.setCsvDataSource(csvFactory);
 
         List<A> result = csvDao.findAll();
         result.forEach(System.err::println);
