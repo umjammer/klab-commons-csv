@@ -11,8 +11,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 
-import org.klab.commons.csv.impl.AbstractCsvFactory;
-
 
 /**
  * URLCsvDataSource.
@@ -40,7 +38,7 @@ public class URLCsvDataSource<T> extends AbstractCsvFactory<String, T> {
     /** */
     @Override
     public String toString() {
-        return source;
+        return source.toString();
     }
 }
 

@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -157,6 +158,20 @@ class Test2 {
         assertEquals(34, result.size());
     }
 
+    @Test
+    void test42() throws Exception {
+        List<Test04> result = CsvEntity.Util.read(Test04.class, new URL("file:src/test/resources/testH.csv"));
+        result.forEach(System.err::println);
+        assertEquals(34, result.size());
+    }
+
+    @Test
+    void test43() throws Exception {
+        List<Test04> result = CsvEntity.Util.read(Test04.class, Files.newInputStream(Paths.get("src/test/resources/testH.csv")));
+        result.forEach(System.err::println);
+        assertEquals(34, result.size());
+    }
+
     @CsvEntity(url = "file:///Users/nsano/src/vavi/vavi-apps-aozora/src/main/resources/prc-unicode.tsv", delimiter = "\t", commentMarker = "#")
     public static class ConvertTable implements Serializable {
         @CsvColumn(sequence = 1)
@@ -172,27 +187,29 @@ class Test2 {
     @Test
     @Disabled("uses a file outside of this project")
     void testX() throws Exception {
-        Map<String, Character> map;
+        Map<String, String> map;
 
 long t = System.currentTimeMillis();
 
-        Path ser = Paths.get("tmp/prc-unicode.ser");
+        boolean readSer = true;
+        Path ser = Paths.get("/Users/nsano/src/vavi/vavi-apps-aozora/src/main/resources/prc-unicode.ser");
 
-        if (Files.exists(ser)) {
+        if (readSer && Files.exists(ser)) {
 Debug.println("read from ser");
             InputStream is = Files.newInputStream(ser);
             ObjectInputStream ois = new ObjectInputStream(is);
-            map = (Map<String, Character>) ois.readObject();
+            map = (Map<String, String>) ois.readObject();
             ois.close();
         } else {
 Debug.println("create new map");
             map = new HashMap<>();
             List<ConvertTable> table = CsvEntity.Util.read(ConvertTable.class);
-            table.forEach(c -> map.put(c.prc, c.character.charAt(0)));
+            table.forEach(c -> map.put(c.prc, c.character));
         }
 
-        assertEquals('瘵', map.get("1-88-56"));
-        assertEquals('ǽ', map.get("1-11-37"));
+        assertEquals("瘵", map.get("1-88-56"));
+        assertEquals("ǽ", map.get("1-11-37"));
+        assertEquals("𢌞", map.get("2-12-11"));
 
 Debug.println("it took " + (System.currentTimeMillis() - t) + " ms");
 

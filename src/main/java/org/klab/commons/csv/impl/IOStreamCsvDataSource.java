@@ -24,6 +24,9 @@ public class IOStreamCsvDataSource<T> extends AbstractCsvFactory<IOStreamCsvData
 
     /** */
     public static class IO {
+        public IO(InputStream is) { inputStream = is; }
+        IO(OutputStream os) { outputStream = os; }
+        IO(InputStream is, OutputStream os) { inputStream = is; outputStream = os; }
         InputStream inputStream;
         OutputStream outputStream;
     }

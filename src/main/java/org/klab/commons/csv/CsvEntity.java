@@ -7,11 +7,13 @@
 package org.klab.commons.csv;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,9 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.xml.transform.Source;
+
+import org.klab.commons.csv.impl.IOStreamCsvDataSource;
 import org.klab.commons.csv.impl.URLCsvDataSource;
 import org.klab.commons.csv.spi.CsvProvider;
 import vavi.net.www.protocol.URLStreamHandlerUtil;
@@ -318,6 +323,32 @@ logger.info(key + " is not replaceable");
 
             CsvDataSource<Object, T> csvDataSource = getCsvDataSource(type);
             csvDataSource.setSource(replaceWithArgs(replaceWithEnvOrProps(getUrl(type)), args));
+            return csvDataSource.getWholeCsvReader().readAll(type);
+        }
+
+        /** */
+        public static <T> List<T> read(Class<T> type, URL url) throws IOException {
+            //
+            CsvEntity csvEntity = type.getAnnotation(CsvEntity.class);
+            if (csvEntity == null) {
+                throw new IllegalArgumentException("bean is not annotated with @CsvEntity");
+            }
+
+            CsvDataSource<String, T> csvDataSource = new URLCsvDataSource<>();
+            csvDataSource.setSource(url.toString());
+            return csvDataSource.getWholeCsvReader().readAll(type);
+        }
+
+        /** */
+        public static <T> List<T> read(Class<T> type, InputStream is) throws IOException {
+            //
+            CsvEntity csvEntity = type.getAnnotation(CsvEntity.class);
+            if (csvEntity == null) {
+                throw new IllegalArgumentException("bean is not annotated with @CsvEntity");
+            }
+
+            CsvDataSource<IOStreamCsvDataSource.IO, T> csvDataSource = new IOStreamCsvDataSource<>();
+            csvDataSource.setSource(new IOStreamCsvDataSource.IO(is));
             return csvDataSource.getWholeCsvReader().readAll(type);
         }
 

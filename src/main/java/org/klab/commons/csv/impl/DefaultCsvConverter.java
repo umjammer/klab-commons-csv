@@ -118,7 +118,7 @@ public class DefaultCsvConverter<T> implements CsvConverter<T> {
                         throw new IllegalStateException("field[" + CsvColumn.Util.getSequence(field) + "]: " + field.getType().getSimpleName() + " " + field.getName() + " = '" + column + "'", e);
                     }
                 } else {
-logger.warning("field[" + CsvColumn.Util.getSequence(field) + "]: " + field.getType().getSimpleName() + " " + field.getName() + " is empty");
+logger.fine("field[" + CsvColumn.Util.getSequence(field) + "]: " + field.getType().getSimpleName() + " " + field.getName() + " is empty");
                 }
             } else {
 logger.severe("line: [" + columns + "]");
