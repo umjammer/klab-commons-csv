@@ -32,9 +32,9 @@ public class ExcelCsvDialect implements CsvDialect {
      * @param field when type is Date only converted
      */
     @Override
-    public String toCsvLine(Field field, Object bean, Object value) {
+    public String toCsvColumn(Field field, Object bean, Object value) {
         if (field.getType() == Date.class) {
-            return value == null ? "" : "\"" + new SimpleDateFormat(sdf).format(Date.class.cast(value).getTime()) + "\"";
+            return value == null ? "" : "\"" + new SimpleDateFormat(sdf).format(((Date) value).getTime()) + "\"";
         } else {
             throw new IllegalArgumentException(field.getName());
         }

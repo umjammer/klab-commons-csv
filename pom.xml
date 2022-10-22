@@ -8,7 +8,7 @@
 
   <groupId>org.klab</groupId>
   <artifactId>klab-commons-csv</artifactId>
-  <version>2.0.4-SNAPSHOT</version>
+  <version>2.0.4</version>
 
   <name>klab-commons-csv</name>
   <organization>
@@ -16,33 +16,8 @@
     <url>http://www.klab.com</url>
   </organization>
   <url>https://github.com/umjammer/klab-commons-csv</url>
-  <description>KLab Commons CSV API
+  <description>TODO
 
-2.0.4
-
-    skip the first line as title
-
-2.0.3
-
-    deal super classes
-
-2.0.2
-
-    maintenance release
-
-2.0.1
-
-    allow different size between pojo and csv and gap sequences
-
-2.0.0
-
-    more simple, with only annotation and util
-    enabled without dao
-    refactoring
-
-TODO
-
-    apache commons csv provider
     jdbc
     sql engine
     @CsvEntity w/o url</description>
@@ -63,7 +38,9 @@ TODO
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.10.1</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -73,7 +50,13 @@ TODO
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.2</version>
+        <version>3.0.0-M7</version>
+        <configuration>
+          <argLine>
+            -Djava.util.logging.config.file=${project.build.testOutputDirectory}/logging.properties
+          </argLine>
+          <trimStackTrace>false</trimStackTrace>
+        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -85,30 +68,44 @@ TODO
     </repository>
   </repositories>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>5.9.0</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
-    <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
-      <version>1.1.1</version>
-      <optional>false</optional>
-    </dependency>
     <dependency>
       <groupId>com.github.umjammer</groupId>
       <artifactId>vavi-commons</artifactId>
-      <version>1.0.8</version>
+      <version>1.1.7</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-csv</artifactId>
+      <version>1.9.0</version>
     </dependency>
 
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>5.3.0</version>
       <scope>test</scope>
-      <optional>false</optional>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.3.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-commons</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

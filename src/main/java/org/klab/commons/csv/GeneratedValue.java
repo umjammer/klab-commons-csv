@@ -11,9 +11,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Logger;
 
 import vavi.beans.BeanUtil;
 
@@ -34,7 +32,7 @@ public @interface GeneratedValue {
     class Util {
 
         /** */
-        private static Log logger = LogFactory.getLog(GeneratedValue.class);
+        private static Logger logger = Logger.getLogger(GeneratedValue.class.getName());
 
         private Util() {
         }
@@ -64,12 +62,12 @@ public @interface GeneratedValue {
             }
 
             if (generatedValueField == null) {
-logger.debug("no @GeneratedValue");
+logger.finer("no @GeneratedValue");
                 return;
             }
 
             BeanUtil.setFieldValue(generatedValueField, bean, id);
-logger.debug("set @GeneratedValue: " + id);
+logger.fine("set @GeneratedValue: " + id);
         }
     }
 }

@@ -21,9 +21,8 @@ public interface CsvWriter extends Closeable {
 
     /**
      * @param csv EOL should be included
-     * TODO とりあえず String にしてるけど、どうなのか？
      */
-    void writeLine(String csv) throws IOException;
+    void writeLine(CsvLine csv) throws IOException;
 
     /** */
     void flush() throws IOException;

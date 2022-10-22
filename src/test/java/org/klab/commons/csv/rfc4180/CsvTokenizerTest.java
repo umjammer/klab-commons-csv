@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author <a href="mailto:kusanagi@klab.org">Tomonori Kusanagi</a> (kusanagi)
  */
-public class CsvTokenizerTest {
+class CsvTokenizerTest {
 
     static final String testStr = "0,127,ts.1101801508,da.2004.11.30,da.2004.11.30,tm.10.30.0,tm.12.0.0,,,,,1,0,\"\",\"資料作成\",\"\"\"第2回 IT効果測定報告会\"\"にむけた資料の作成\r\n\r\n サーバーディスクの容量を計測する\",,,,,,,,0,16\r\n";
     static final String[] resultStr = {
@@ -28,7 +28,7 @@ public class CsvTokenizerTest {
      * 一行パースします。
      */
     @Test
-    public void testParseLine() throws IOException {
+    void testParseLine() throws IOException {
         CsvReader tokenizer = new CsvReader(new StringReader(testStr));
         ForwardReader forwardReader = tokenizer.forwardReader;
 

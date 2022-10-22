@@ -22,7 +22,7 @@ public interface CsvReader extends Closeable {
     /** */
     boolean hasNextLine() throws IOException;
 
-    /** TODO とりあえず CsvLine にしてみたけど get/set で対照性がない */
+    /** */
     CsvLine nextLine() throws IOException;
 }
 

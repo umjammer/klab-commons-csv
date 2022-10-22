@@ -7,9 +7,7 @@
 package org.klab.commons.csv.impl;
 
 import java.lang.reflect.Field;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Logger;
 
 import org.klab.commons.csv.CsvColumn;
 import org.klab.commons.csv.CsvDialect;
@@ -26,15 +24,15 @@ import vavi.beans.BeanUtil;
  */
 public class DefaultCsvDialect implements CsvDialect {
 
-    private static Log logger = LogFactory.getLog(DefaultCsvDialect.class);
+    private static Logger logger = Logger.getLogger(DefaultCsvDialect.class.getName());
 
     /**
      * String to Object conversion.
      *
      * @param field @{@link CsvColumn} annotated field.
      * @param bean bean
-     * @param column null or empty の場合、
-     *        設定先がプリミティブなら 0, false、ラッパークラスならば null
+     * @param column case of null or empty:
+     *        target type is a primitive then 0 or false, target type is a wrapper class then null
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
@@ -72,12 +70,12 @@ public class DefaultCsvDialect implements CsvDialect {
         } else if (fieldClass.equals(Double.TYPE)) {
             BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? 0 : Double.parseDouble(column));
         } else if (fieldClass.equals(Character.class)) {
-            BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? null : Character.valueOf(column.charAt(0))); // TODO ???
+            BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? null : column.charAt(0)); // TODO ???
         } else if (fieldClass.equals(Character.TYPE)) {
-            BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? 0 : Character.valueOf(column.charAt(0))); // TODO ???
+            BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? 0 : column.charAt(0)); // TODO ???
         } else {
 if (!fieldClass.equals(String.class)) {
- logger.debug("unhandled class: " + fieldClass.getName());
+ logger.fine("unhandled class: " + fieldClass.getName());
 }
             BeanUtil.setFieldValue(field, bean, column);
         }
@@ -94,15 +92,15 @@ if (!fieldClass.equals(String.class)) {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public String toCsvLine(Field field, Object bean, Object value) {
+    public String toCsvColumn(Field field, Object bean, Object value) {
         Class<?> fieldClass = field.getType();
         String column = null;
         if (fieldClass.isEnum() && Enumerated.Util.isEnumetated(field)) {
-            column = Enumerated.Util.toCsvString(field, Enum.class.cast(value));
+            column = Enumerated.Util.toCsvString(field, (Enum) value);
         } else if (fieldClass.equals(String.class)) {
             column = formatString(value == null ? "" : value.toString());
         } else {
-logger.debug("unhandled class: " + fieldClass.getName());
+logger.fine("unhandled class: " + fieldClass.getName());
             column = value == null ? "" : value.toString();
         }
         return column;

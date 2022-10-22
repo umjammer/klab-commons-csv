@@ -25,7 +25,7 @@ public interface CsvDialect {
      * object to string conversion. when field is annotated by {@link Dialectal}
      * @return string from field value
      */
-    String toCsvLine(Field field, Object bean, Object value);
+    String toCsvColumn(Field field, Object bean, Object value);
 
     /**
      * string to object conversion. when field is annotated by {@link Dialectal}
