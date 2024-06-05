@@ -54,5 +54,3 @@ public class ApacheCsvProvider<T> implements CsvProvider<T> {
         return new ApacheCsvLine(csvDialect);
     }
 }
-
-/* */

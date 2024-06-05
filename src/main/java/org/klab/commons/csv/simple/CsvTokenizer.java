@@ -160,5 +160,3 @@ public class CsvTokenizer implements Enumeration<String> {
         return source;
     }
 }
-
-/* */

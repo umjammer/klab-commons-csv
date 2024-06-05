@@ -370,5 +370,3 @@ logger.info(key + " is not replaceable");
         }
     }
 }
-
-/* */

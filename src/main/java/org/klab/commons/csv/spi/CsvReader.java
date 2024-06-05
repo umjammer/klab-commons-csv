@@ -25,5 +25,3 @@ public interface CsvReader extends Closeable {
     /** */
     CsvLine nextLine() throws IOException;
 }
-
-/* */

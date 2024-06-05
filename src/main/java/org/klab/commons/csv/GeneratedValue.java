@@ -71,5 +71,3 @@ logger.fine("set @GeneratedValue: " + id);
         }
     }
 }
-
-/* */

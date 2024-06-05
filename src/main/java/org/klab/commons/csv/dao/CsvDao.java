@@ -27,5 +27,3 @@ public interface CsvDao<E extends CsvEntity<I>, I extends Serializable> {
     /** CSV をすべて書き出します。 */
     void updateAll(Collection<E> entities);
 }
-
-/* */

@@ -27,5 +27,3 @@ public interface CsvWriter extends Closeable {
     /** */
     void flush() throws IOException;
 }
-
-/* */

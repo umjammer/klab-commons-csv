@@ -39,5 +39,3 @@ public interface CsvDialect {
      */
     String formatString(String column);
 }
-
-/* */

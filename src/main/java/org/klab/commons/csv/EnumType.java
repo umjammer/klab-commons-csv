@@ -19,6 +19,3 @@ public enum EnumType {
     /** */
     STRING
 }
-
-/* */
-

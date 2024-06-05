@@ -251,5 +251,3 @@ logger.fine("parsedTokens: " + parsedTokens.size());
         return sb.substring(0, sb.length() - 1);
     }
 }
-
-/* */

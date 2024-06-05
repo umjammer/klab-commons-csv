@@ -45,5 +45,3 @@ public class Rfc4180CsvReader implements org.klab.commons.csv.spi.CsvReader {
         // TODO implement
     }
 }
-
-/* */

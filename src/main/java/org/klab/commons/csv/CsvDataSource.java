@@ -92,5 +92,3 @@ e.printStackTrace(System.err);
     /** */
     WholeCsvWriter<T> getWholeCsvWriter();
 }
-
-/* */

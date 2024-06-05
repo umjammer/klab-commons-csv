@@ -118,5 +118,3 @@ logger.fine("unhandled class: " + fieldClass.getName());
         return stage2;
     }
 }
-
-/* */

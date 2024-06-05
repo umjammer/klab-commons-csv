@@ -48,5 +48,3 @@ public class IOStreamCsvDataSource<T> extends AbstractCsvFactory<IOStreamCsvData
             source.outputStream.getClass().getSimpleName();
     }
 }
-
-/* */

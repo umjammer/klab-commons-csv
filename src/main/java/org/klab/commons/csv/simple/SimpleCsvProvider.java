@@ -54,5 +54,3 @@ public class SimpleCsvProvider<T> implements CsvProvider<T> {
         return new SimpleCsvLine(csvDialect);
     }
 }
-
-/* */

@@ -43,5 +43,3 @@ public class SimpleCsvLine extends AbstractCsvLine<CsvTokenizer> {
         };
     }
 }
-
-/* */

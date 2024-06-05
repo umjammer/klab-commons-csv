@@ -46,5 +46,3 @@ public class ApacheCsvWriter implements CsvWriter {
         writer.close();
     }
 }
-
-/* */

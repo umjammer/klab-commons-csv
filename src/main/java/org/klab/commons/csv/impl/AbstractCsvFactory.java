@@ -185,5 +185,3 @@ logger.fine("encoding: " + encoding);
         return wholeCsvWriter;
     }
 }
-
-/* */

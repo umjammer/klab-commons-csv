@@ -18,5 +18,3 @@ public interface CsvLine extends Iterable<String> {
     /** */
     void add(String column);
 }
-
-/* */

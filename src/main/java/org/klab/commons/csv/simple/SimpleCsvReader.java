@@ -46,5 +46,3 @@ public class SimpleCsvReader implements CsvReader {
         scanner.close();
     }
 }
-
-/* */

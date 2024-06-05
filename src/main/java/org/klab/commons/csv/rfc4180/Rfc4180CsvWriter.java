@@ -46,5 +46,3 @@ public class Rfc4180CsvWriter implements CsvWriter {
         writer.close();
     }
 }
-
-/* */

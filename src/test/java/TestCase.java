@@ -181,5 +181,3 @@ public class TestCase {
         assertEquals(3, result.size());
     }
 }
-
-/* */

@@ -41,5 +41,3 @@ public class URLCsvDataSource<T> extends AbstractCsvFactory<String, T> {
         return source.toString();
     }
 }
-
-/* */

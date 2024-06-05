@@ -69,5 +69,3 @@ Debug.println(Level.FINE, format);
         parser.close();
     }
 }
-
-/* */

@@ -28,5 +28,3 @@ public interface CsvConverter<T> {
      */
     T toEntity(CsvLine csv);
 }
-
-/* */
