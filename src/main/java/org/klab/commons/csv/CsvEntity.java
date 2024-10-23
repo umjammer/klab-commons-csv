@@ -295,11 +295,6 @@ logger.log(Level.INFO, key + " is not replaceable");
             return url;
         }
 
-        /* */
-        static {
-            URLStreamHandlerUtil.loadService();
-        }
-
         /**
          * Entry point for reading.
          *
