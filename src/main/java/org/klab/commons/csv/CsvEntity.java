@@ -8,6 +8,8 @@ package org.klab.commons.csv;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -15,19 +17,19 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.xml.transform.Source;
 
 import org.klab.commons.csv.impl.IOStreamCsvDataSource;
 import org.klab.commons.csv.impl.URLCsvDataSource;
 import org.klab.commons.csv.spi.CsvProvider;
 import vavi.net.www.protocol.URLStreamHandlerUtil;
+
+import static java.lang.System.getLogger;
 
 
 /**
@@ -69,8 +71,7 @@ public @interface CsvEntity {
     /** */
     class Util {
 
-        /** */
-        private static final Logger logger = Logger.getLogger(Util.class.getName());
+        private static final Logger logger = getLogger(Util.class.getName());
 
         private Util() {
         }
@@ -117,7 +118,7 @@ public @interface CsvEntity {
             String encoding = entity.encoding();
             if (encoding.isEmpty()) {
                 encoding = System.getProperty("file.encoding");
-logger.fine("use default encoding: " + encoding);
+logger.log(Level.DEBUG, "use default encoding: " + encoding);
             }
 
             return encoding;
@@ -162,14 +163,14 @@ logger.fine("use default encoding: " + encoding);
          * @return annotated {@link CsvProvider}
          * @throws IllegalArgumentException bean is not annotated with {@link CsvEntity}
          */
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({"unchecked", "rawtypes"})
         public static <T> CsvProvider<T> getCsvProvider(Class<T> beanClass) {
             //
             CsvEntity entity = beanClass.getAnnotation(CsvEntity.class);
             if (entity == null) {
                 throw new IllegalArgumentException("bean is not annotated with @CsvEntity");
             }
-logger.finer("provider: " + entity.provider());
+logger.log(Level.TRACE, "provider: " + entity.provider());
             //
             try {
                 ServiceLoader<CsvProvider> serviceLoader = ServiceLoader.load(CsvProvider.class);
@@ -213,7 +214,7 @@ logger.finer("provider: " + entity.provider());
             if (entity == null) {
                 throw new IllegalArgumentException("bean is not annotated with @CsvEntity");
             }
-logger.finer("provider: " + entity.provider());
+logger.log(Level.TRACE, "provider: " + entity.provider());
             //
             try {
                 return (CsvDataSource<Object, T>) entity.dataSource().getDeclaredConstructor().newInstance();
@@ -242,10 +243,10 @@ logger.finer("provider: " + entity.provider());
                 for (Field field : clazz.getDeclaredFields()) {
                     CsvColumn column = field.getAnnotation(CsvColumn.class);
                     if (column == null) {
-logger.fine("not @CsvColumn: " + field.getName());
+logger.log(Level.DEBUG, "not @CsvColumn: " + field.getName());
                         continue;
                     }
-logger.fine("field[" + column.sequence() + "]: " + field.getName());
+logger.log(Level.DEBUG, "field[" + column.sequence() + "]: " + field.getName());
                     columnFields.add(field);
                 }
                 clazz = clazz.getSuperclass();
@@ -275,7 +276,7 @@ logger.fine("field[" + column.sequence() + "]: " + field.getName());
                if (value == null) {
                    value = System.getProperty(name);
                    if (value == null) {
-logger.info(key + " is not replaceable");
+logger.log(Level.INFO, key + " is not replaceable");
                        continue;
                    }
                }
@@ -287,7 +288,7 @@ logger.info(key + " is not replaceable");
         private static String replaceWithArgs(String url, String... args) throws IOException {
             int c = 0;
             for (String arg : args) {
-                url = url.replace("{" + c + "}", URLEncoder.encode(arg, "utf-8"));
+                url = url.replace("{" + c + "}", URLEncoder.encode(arg, StandardCharsets.UTF_8));
 //System.err.println(url + ", " + arg);
                 c++;
             }

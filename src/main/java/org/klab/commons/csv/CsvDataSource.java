@@ -9,10 +9,12 @@ package org.klab.commons.csv;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import static java.lang.System.getLogger;
 
 
 /**
@@ -54,15 +56,15 @@ public interface CsvDataSource<S, T> {
 
     /** 一行ごとにログするだけ */
     class DefaultExceptionHandler implements ExceptionHandler {
-        private static Logger logger = Logger.getLogger(DefaultExceptionHandler.class.getName());
+        private static final Logger logger = getLogger(DefaultExceptionHandler.class.getName());
         @Override
         public void handleEachLine(Exception e, int lineNumber, Object line, CsvDataSource<?, ?> csvDataSource) {
 e.printStackTrace(System.err);
-            logger.log(Level.SEVERE, "csv: line " + lineNumber + ": " + csvDataSource, e.getCause());
+            logger.log(Level.ERROR, "csv: line " + lineNumber + ": " + csvDataSource, e.getCause());
         }
         @Override
         public void handleWhenDone(Collection<Exception> exceptions) {
-            if (exceptions.size() > 0) {
+            if (!exceptions.isEmpty()) {
                 throw new IllegalStateException("There are some exceptions.", new Exception("exceptions") {{
                     exceptions.forEach(this::addSuppressed);
                 }});

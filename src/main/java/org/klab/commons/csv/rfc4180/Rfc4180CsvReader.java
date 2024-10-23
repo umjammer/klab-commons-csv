@@ -22,7 +22,7 @@ import org.klab.commons.csv.spi.CsvLine;
 public class Rfc4180CsvReader implements org.klab.commons.csv.spi.CsvReader {
 
     /** */
-    private CsvReader reader;
+    private final CsvReader reader;
 
     /** */
     public Rfc4180CsvReader(InputStream is, String encoding) throws IOException {

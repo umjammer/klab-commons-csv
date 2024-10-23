@@ -19,11 +19,11 @@ import java.util.NoSuchElementException;
  */
 public class CsvTokenizer implements Enumeration<String> {
     /** 対象となる文字列 */
-    private String source;
+    private final String source;
     /** 次の読み出し位置 */
     private int currentPosition;
     /** */
-    private int maxPosition;
+    private final int maxPosition;
 
     /**
      * CSV 形式の line を解析する CSVTokenizer のインスタンスを

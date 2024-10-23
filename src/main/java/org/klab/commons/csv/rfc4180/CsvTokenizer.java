@@ -7,11 +7,14 @@
 package org.klab.commons.csv.rfc4180;
 
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.logging.Logger;
+
+import static java.lang.System.getLogger;
 
 
 /**
@@ -24,7 +27,7 @@ import java.util.logging.Logger;
  */
 public class CsvTokenizer implements Iterable<String> {
 
-    private static Logger logger = Logger.getLogger(CsvTokenizer.class.getName());
+    private static final Logger logger = getLogger(CsvTokenizer.class.getName());
 
     /** 一般 CSV トークン */
     private static final int TYPE_GENERAL = 0;
@@ -62,7 +65,7 @@ public class CsvTokenizer implements Iterable<String> {
     }
 
     /** */
-    private List<String> parsedTokens = new ArrayList<>();
+    private final List<String> parsedTokens = new ArrayList<>();
 
     /**
      * CSV の一行をパースします。
@@ -80,7 +83,7 @@ public class CsvTokenizer implements Iterable<String> {
                 parsedTokens.add(nextToken());
             }
         }
-logger.fine("parsedTokens: " + parsedTokens.size());
+logger.log(Level.DEBUG, "parsedTokens: " + parsedTokens.size());
         iterator = parsedTokens.iterator();
     }
 
@@ -96,7 +99,7 @@ logger.fine("parsedTokens: " + parsedTokens.size());
     /**
      * 次の CSV トークンを返します。
      *
-     * @throws NoSuchElementException
+     * @throws NoSuchElementException no next token
      */
     public String next() {
         return iterator.next();
@@ -241,7 +244,7 @@ logger.fine("parsedTokens: " + parsedTokens.size());
         return parsedTokens.iterator();
     }
 
-    /** */
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (String token : parsedTokens) {

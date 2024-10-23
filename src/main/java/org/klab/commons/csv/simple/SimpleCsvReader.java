@@ -23,7 +23,7 @@ import org.klab.commons.csv.spi.CsvReader;
 public class SimpleCsvReader implements CsvReader {
 
     /** */
-    private Scanner scanner;
+    private final Scanner scanner;
 
     /** */
     public SimpleCsvReader(InputStream is, String encoding) {
