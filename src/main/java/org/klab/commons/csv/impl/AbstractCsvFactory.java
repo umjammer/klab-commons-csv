@@ -111,7 +111,7 @@ if (csv.toString().isEmpty()) {
  logger.log(Level.WARNING, "line " + id + " is empty, skipped");
 } else {
                     T entity = csvConverter.toEntity(csv);
-                    GeneratedValue.Util.setGenerateId(entity, id); // TODO こんなんでいいのか？
+                    GeneratedValue.Util.setGenerateId(entity, id); // TODO Is this really okay?
                     results.add(entity);
 //logger.debug(ToStringBuilder.reflectionToString(entity));
 }

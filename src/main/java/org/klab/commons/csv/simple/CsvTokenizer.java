@@ -11,25 +11,24 @@ import java.util.NoSuchElementException;
 
 
 /**
- * 1 行の CSV 形式のデータを解析し、それぞれの項目に分解するクラス。
- * CSV 形式に対応した {@link java.util.StringTokenizer} のようなもの。
+ * A class that parses a single line of data in CSV format and breaks it down into its individual fields.
+ * Something like {@link java.util.StringTokenizer} that supports CSV format.
  *
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
  * @version $Revision: 1.0 $ $Date: 2008/01/24 14:38:23 $ $Author: sano-n $
  */
 public class CsvTokenizer implements Enumeration<String> {
-    /** 対象となる文字列 */
+    /** Target string */
     private final String source;
-    /** 次の読み出し位置 */
+    /** Next read position */
     private int currentPosition;
     /** */
     private final int maxPosition;
 
     /**
-     * CSV 形式の line を解析する CSVTokenizer のインスタンスを
-     * 作成する。
+     * Create an instance of CSVTokenizer to parse lines in CSV format.
      *
-     * @param line CSV形式の文字列 TODO 改行コードを含まない。
+     * @param line CSV format string TODO: Does not include newline characters.
      */
     public CsvTokenizer(String line) {
         source = line;
@@ -38,13 +37,12 @@ public class CsvTokenizer implements Enumeration<String> {
     }
 
     /**
-     * 次のカンマがある位置を返す。
-     * カンマが残っていない場合は nextComma() == maxPosition となる。
-     * また最後の項目が空の場合も nextComma() == maxPosition となる。
+     * Returns the position of the next comma.
+     * If there are no remaining commas, then nextComma() == maxPosition.
+     * Also, if the last item is empty, nextComma() == maxPosition.
      *
-     * @param ind 検索を開始する位置
-     * @return 次のカンマがある位置。カンマがない場合は、文字列の
-     * 長さの値となる。
+     * @param ind Start location for search
+     * @return The position of the next comma. If there is no comma, the value represents the length of the string.
      */
     private int nextComma(int ind) {
         boolean inquote = false;
@@ -54,7 +52,7 @@ public class CsvTokenizer implements Enumeration<String> {
                 break;
             }
             else if ('"' == ch) {
-                inquote = !inquote;       // "" の処理もこれで OK
+                inquote = !inquote; // This also handles the "" part correctly.
             }
             ind ++;
         }
@@ -62,9 +60,9 @@ public class CsvTokenizer implements Enumeration<String> {
     }
 
     /**
-     * 含まれている項目の数を返す。
+     * Returns the number of items included.
      *
-     * @return 含まれている項目の数
+     * @return Number of items included
      */
     public int countTokens() {
         int i = 0;
@@ -77,15 +75,14 @@ public class CsvTokenizer implements Enumeration<String> {
     }
 
     /**
-     * 次の項目の文字列を返す。
+     * Returns the string for the next item.
      *
-     * @return 次の項目
-     * @exception NoSuchElementException 項目が残っていないとき
+     * @return Next item
+     * @exception NoSuchElementException When there are no items left
      */
     public String nextToken() {
-        // ">=" では末尾の項目を正しく処理できない。
-        // 末尾の項目が空（カンマで1行が終わる）場合、例外が発生して
-        // しまうので。
+        // The last item cannot be processed correctly using ">=".
+        // An exception will occur if the last item is empty (the line ends with a comma).
         if (currentPosition > maxPosition) {
             throw new NoSuchElementException(this + "#nextToken");
         }
@@ -97,7 +94,7 @@ public class CsvTokenizer implements Enumeration<String> {
         while (st < currentPosition) {
             char ch = source.charAt(st++);
             if (ch == '"') {
-                // "が単独で現れたときは何もしない
+                // When " appears alone, do nothing.
                 if ((st < currentPosition) && (source.charAt(st) == '"')) {
                     strb.append(ch);
                     st ++;
@@ -111,14 +108,12 @@ public class CsvTokenizer implements Enumeration<String> {
     }
 
     /**
-     * <code>nextToken</code>メソッドと同じで、
-     * 次の項目の文字列を返す。<br>
-     * ただし返値は、String型ではなく、Object型である。<br>
-     * {@link Enumeration} を実装しているため、このメソッドが
-     * ある。
+     * Similar to the <code>nextToken</code> method, it returns the string for the next item.<br>
+     * However, the return value is of type Object, not String.<br>
+     * This method exists because it implements {@link Enumeration}.
      *
-     * @return 次の項目
-     * @exception NoSuchElementException 項目が残っていないとき
+     * @return Next item
+     * @exception NoSuchElementException When there are no items left
      * @see java.util.Enumeration
      * @see #nextElement()
      */
@@ -127,22 +122,20 @@ public class CsvTokenizer implements Enumeration<String> {
     }
 
     /**
-     * まだ項目が残っているかどうか調べる。
+     * Check if there are any items left.
      *
-     * @return まだ項目がのこっているならtrue
+     * @return If there are still items remaining, then it's true.
      */
     public boolean hasMoreTokens() {
-        // "<=" でなく、"<" だと末尾の項目を正しく処理できない。
+        // Using "<" instead of "<=" will not correctly process the last item.
         return (nextComma(currentPosition) <= maxPosition);
     }
 
     /**
-     * <code>hasMoreTokens</code>メソッドと同じで、
-     * まだ項目が残っているかどうか調べる。<br>
-     * {@link Enumeration}を実装しているため、このメソッドが
-     * ある。
+     * Similar to the <code>hasMoreTokens</code> method, this checks if there are still items remaining.<br>
+     * This method exists because it implements {@link Enumeration}.
      *
-     * @return まだ項目がのこっているならtrue
+     * @return If there are still items remaining, then it's true.
      * @see java.util.Enumeration
      * @see #hasMoreTokens()
      */
@@ -151,9 +144,9 @@ public class CsvTokenizer implements Enumeration<String> {
     }
 
     /**
-     * インスタンスの文字列表現を返す。
+     * Returns a string representation of the instance.
      * TODO
-     * @return インスタンスの文字列表現。
+     * @return The string representation of the instance.
      */
     @Override
     public String toString() {

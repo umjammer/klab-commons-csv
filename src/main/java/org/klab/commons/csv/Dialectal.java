@@ -26,7 +26,7 @@ import java.lang.reflect.Field;
 public @interface Dialectal {
 
     /**
-     * TODO アノテーションがメソッド指定の場合
+     * TODO When the annotation specifies a method
      */
     class Util {
 

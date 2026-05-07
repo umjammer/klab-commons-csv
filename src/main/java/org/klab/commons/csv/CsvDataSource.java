@@ -18,9 +18,9 @@ import static java.lang.System.getLogger;
 
 
 /**
- * CSV の IO を定義する型です。
+ * This is the type that defines the I/O for CSV.
  * <p>
- * JPA の EntityManager みたいなもの。
+ * It's similar to JPA's EntityManager.
  * </p>
  * (original)
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
@@ -31,30 +31,29 @@ public interface CsvDataSource<S, T> {
     /** */
     void setSource(S source);
 
-    /** CSV を実際に読み込むストリーム */
+    /** The stream that actually reads the CSV file. */
     InputStream getInputStream() throws IOException;
 
-    /** CSV を実際に書き出すストリーム */
+    /** The stream that actually writes the CSV file. */
     OutputStream getOutputStream() throws IOException;
 
     /**
-     * {@link WholeCsvReader#readAll(Class)} と {@link WholeCsvWriter#writeAll(Collection, Class)}
-     * 内で一行ごとに起こるエラーハンドリングと全体が終了した場合のエラーハンドリングを定義する
-     * 型です。
+     * This type defines error handling for each line and for when the entire process finishes,
+     * within {@link WholeCsvReader#readAll(Class)} and {@link WholeCsvWriter#writeAll(Collection, Class)}.
      * <p>
-     * 使用例としては {@link ExceptionHandler#handleEachLine(Exception, int, Object, CsvDataSource)}
-     * で行単位で起こった例外を溜めておいて、{@link ExceptionHandler#handleWhenDone(Collection)}
-     * で例外をまとめて発生させるとか。
+     * One example of its use is to collect exceptions that occur line by line
+     * using {@link ExceptionHandler#handleEachLine(Exception, int, Object, CsvDataSource)} and then
+     * raise all the exceptions at once using {@link ExceptionHandler#handleWhenDone(Collection)}.
      * </p>
      */
     interface ExceptionHandler {
-        /** TODO 引数考える */
+        /** TODO Consider the arguments */
         void handleEachLine(Exception e, int lineNumber, Object line, CsvDataSource<?, ?> csvDataSource);
         /** */
         void handleWhenDone(Collection<Exception> exceptions);
     }
 
-    /** 一行ごとにログするだけ */
+    /** Just log each line. */
     class DefaultExceptionHandler implements ExceptionHandler {
         private static final Logger logger = getLogger(DefaultExceptionHandler.class.getName());
         @Override
@@ -72,10 +71,10 @@ e.printStackTrace(System.err);
         }
     }
 
-    /** CSV 全体を読み込むクラスの型です。 */
+    /** This is the type of class that reads the entire CSV file. */
     interface WholeCsvReader<T> {
         /**
-         * @return CSV から読み込んだオブジェクトのリスト
+         * @return List of objects read from CSV
          */
         List<T> readAll(Class<T> entityClass) throws IOException;
     }
@@ -83,10 +82,10 @@ e.printStackTrace(System.err);
     /** */
     WholeCsvReader<T> getWholeCsvReader();
 
-    /** CSV 全体を書き出すクラスの型です。 */
+    /** This is the type of class that writes the entire CSV file. */
     interface WholeCsvWriter<T> {
         /**
-         * @param entities CSV に書き出すオブジェクトのコレクション
+         * @param entities A collection of objects to write to a CSV file.
          */
         void writeAll(Collection<T> entities, Class<T> entityClass) throws IOException;
     }

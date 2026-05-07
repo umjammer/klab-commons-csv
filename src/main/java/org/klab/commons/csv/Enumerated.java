@@ -42,7 +42,7 @@ public @interface Enumerated {
     EnumType value();
 
     /**
-     * TODO アノテーションがメソッド指定の場合
+     * TODO When the annotation specifies a method
      */
     class Util {
 

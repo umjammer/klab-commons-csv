@@ -25,7 +25,7 @@ class CsvTokenizerTest {
     };
 
     /**
-     * 一行パースします。
+     * Parses a line.
      */
     @Test
     void testParseLine() throws IOException {

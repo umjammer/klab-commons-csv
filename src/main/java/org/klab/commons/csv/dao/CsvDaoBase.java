@@ -23,7 +23,7 @@ import org.klab.commons.csv.CsvDataSource;
  */
 public class CsvDaoBase<E extends CsvEntity<I>, I extends Serializable> implements CsvDao<E, I> {
 
-    /** TODO リフレクションで総称型取れれば要らないはず */
+    /** */
     private Class<E> entityClass;
 
     /** for DI */

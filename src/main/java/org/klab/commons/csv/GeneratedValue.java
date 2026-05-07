@@ -40,8 +40,8 @@ public @interface GeneratedValue {
         }
 
         /**
-         * TODO エンティティに対して一つとみなしていいのか？
-         * {@link GeneratedValue} がフィールドに無い場合は無視されます。
+         * TODO Can we consider each entity as a single entity?
+         * {@link GeneratedValue} will be ignored if it is not present in the field.
          */
         public static <I> void setGenerateId(Object bean, I id) {
 
