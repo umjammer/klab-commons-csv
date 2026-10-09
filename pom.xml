@@ -8,7 +8,7 @@
 
   <groupId>org.klab</groupId>
   <artifactId>klab-commons-csv</artifactId>
-  <version>2.0.4</version>
+  <version>2.0.5</version>
 
   <name>klab-commons-csv</name>
   <organization>
