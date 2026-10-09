@@ -27,7 +27,6 @@ import java.util.regex.Pattern;
 import org.klab.commons.csv.impl.IOStreamCsvDataSource;
 import org.klab.commons.csv.impl.URLCsvDataSource;
 import org.klab.commons.csv.spi.CsvProvider;
-import vavi.net.www.protocol.URLStreamHandlerUtil;
 
 import static java.lang.System.getLogger;
 
