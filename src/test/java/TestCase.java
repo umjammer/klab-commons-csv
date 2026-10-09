@@ -11,9 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import org.klab.commons.csv.CsvColumn;
 import org.klab.commons.csv.CsvEntity;
 import org.klab.commons.csv.Dialectal;
@@ -21,10 +20,10 @@ import org.klab.commons.csv.EnumType;
 import org.klab.commons.csv.Enumerated;
 import org.klab.commons.csv.GeneratedValue;
 import org.klab.commons.csv.impl.FileCsvDataSource;
-
 import vavi.util.StringUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
@@ -138,11 +137,21 @@ public class TestCase {
         float n5;
     }
 
+    @CsvEntity(url = "https://www.iana.org/assignments/media-types/application.csv", encoding = "ISO8859-1")
+    public static class Test03_2 {
+        @CsvColumn(sequence = 1)
+        String name;
+        @CsvColumn(sequence = 2)
+        String template;
+        @CsvColumn(sequence = 3)
+        String reference;
+    }
+
     @Test
-    @Disabled // TODO give me suitable online csv sample!
+    @DisplayName("network")
     public void test3() throws Exception {
-        List<Test03> result = CsvEntity.Util.read(Test03.class);
-        assertEquals(500000, result.size());
+        List<Test03_2> result = CsvEntity.Util.read(Test03_2.class);
+        assertFalse(result.isEmpty()); // source csv lines is increasing
     }
 
     public static class Test04Super {
@@ -181,5 +190,3 @@ public class TestCase {
         assertEquals(3, result.size());
     }
 }
-
-/* */

@@ -6,14 +6,17 @@
 
 package org.klab.commons.csv;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
-import java.util.logging.Logger;
 
 import vavi.beans.BeanUtil;
+
+import static java.lang.System.getLogger;
 
 
 /**
@@ -31,15 +34,14 @@ public @interface GeneratedValue {
     /** */
     class Util {
 
-        /** */
-        private static Logger logger = Logger.getLogger(GeneratedValue.class.getName());
+        private static final Logger logger = getLogger(Util.class.getName());
 
         private Util() {
         }
 
         /**
-         * TODO エンティティに対して一つとみなしていいのか？
-         * {@link GeneratedValue} がフィールドに無い場合は無視されます。
+         * TODO Can we consider each entity as a single entity?
+         * {@link GeneratedValue} will be ignored if it is not present in the field.
          */
         public static <I> void setGenerateId(Object bean, I id) {
 
@@ -62,14 +64,12 @@ public @interface GeneratedValue {
             }
 
             if (generatedValueField == null) {
-logger.finer("no @GeneratedValue");
+logger.log(Level.TRACE, "no @GeneratedValue");
                 return;
             }
 
             BeanUtil.setFieldValue(generatedValueField, bean, id);
-logger.fine("set @GeneratedValue: " + id);
+logger.log(Level.DEBUG, "set @GeneratedValue: " + id);
         }
     }
 }
-
-/* */

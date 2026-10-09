@@ -7,15 +7,18 @@
 package org.klab.commons.csv.rfc4180;
 
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.logging.Logger;
+
+import static java.lang.System.getLogger;
 
 
 /**
- * CVS の一行を表します。
+ * This represents a single line in a CVS file.
  *
  * @author <a href="mailto:kusanagi@klab.org">Tomonori Kusanagi</a> (kusanagi)
  * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (sano-n)
@@ -24,37 +27,37 @@ import java.util.logging.Logger;
  */
 public class CsvTokenizer implements Iterable<String> {
 
-    private static Logger logger = Logger.getLogger(CsvTokenizer.class.getName());
+    private static final Logger logger = getLogger(CsvTokenizer.class.getName());
 
-    /** 一般 CSV トークン */
+    /** General CSV token */
     private static final int TYPE_GENERAL = 0;
 
-    /** 文字列 CSV トークン */
+    /** String CSV token */
     private static final int TYPE_STRING = 1;
 
-    /** CSV の区切り文字 */
+    /** CSV delimiter */
     private static final char SEPARATOR_CHAR = ',';
 
-    /** 引用符 */
+    /** quotation marks */
     private static final char QUOTE_CHAR = '"';
 
-    /** 引用符のエスケープ文字 */
+    /** Quote escape character */
     private static final char ESCAPE_CHAR = '"';
 
-    /** 読み込み元 CharacterBuffer オブジェクト */
+    /** Source CharacterBuffer object */
     protected ForwardReader forwardReader;
 
-    /** 行末に達したことを示すフラグ */
+    /** A flag indicating that the end of the line has been reached. */
     protected boolean endOfLine = false;
 
-    /** ストリームの終わりに達したことを示すフラグ */
+    /** A flag indicating that the end of the stream has been reached. */
     protected boolean endOfStream = false;
 
     /** */
     protected Iterator<String> iterator;
 
     /**
-     * コンストラクタ
+     * Constructor.
      */
     protected CsvTokenizer(ForwardReader forwardReader) throws IOException {
         this.forwardReader = forwardReader;
@@ -62,10 +65,10 @@ public class CsvTokenizer implements Iterable<String> {
     }
 
     /** */
-    private List<String> parsedTokens = new ArrayList<>();
+    private final List<String> parsedTokens = new ArrayList<>();
 
     /**
-     * CSV の一行をパースします。
+     * This parses a single line from a CSV file.
      */
     private void parse() throws IOException {
         if (forwardReader.check() == '\r') {
@@ -80,68 +83,68 @@ public class CsvTokenizer implements Iterable<String> {
                 parsedTokens.add(nextToken());
             }
         }
-logger.fine("parsedTokens: " + parsedTokens.size());
+logger.log(Level.DEBUG, "parsedTokens: " + parsedTokens.size());
         iterator = parsedTokens.iterator();
     }
 
     /**
-     * その行にまだ CSV トークンがあるかどうかを返します。
+     * This returns whether there is still a CSV token in that row.
      *
-     * @return 対象行にまだ CSV トークンが残っていれば true
+     * @return If the target row still contains a CSV token, the result is true.
      */
     public boolean hasNext() {
         return iterator.hasNext();
     }
 
     /**
-     * 次の CSV トークンを返します。
+     * The following CSV token will be returned.
      *
-     * @throws NoSuchElementException
+     * @throws NoSuchElementException no next token
      */
     public String next() {
         return iterator.next();
     }
 
     /**
-     * Reader から次の CSV トークンを読み込みます。
+     * Read the following CSV token from Reader:
      *
-     * @return CSV の列の末尾に達したときは null。
+     * @return When the end of a column in a CSV file is reached, it returns null.
      * @throws IllegalStateException
      */
     protected String nextToken() throws IOException {
 
-        // 初期化
+        // Initialization
         int type = TYPE_GENERAL;
         StringBuilder sb = new StringBuilder();
 
-        // パース開始
+        // parse start
         int c;
-        // コンマ直後の空白を読み飛ばし
+        // Skip the space immediately following the comma.
         do {
             c = forwardReader.read();
         } while (c == ' ' || c == '\t');
 
-        // タイプ判別
+        // Type identification
         switch (c) {
         case QUOTE_CHAR:
-            // 文字列型の始まり
+            // Beginning of string type
             type = TYPE_STRING;
             break;
         case SEPARATOR_CHAR:
-            // いきなりCSV トークンの終わり
+            // Suddenly, the end of the CSV token.
             return "";
         case '\n':
-            // CSV 行の終り
+            // End of CSV row
             endOfLine = true;
             return "";
         default:
-            // 一般型の始まり
+            // The beginning of the general type
             sb.append((char) c);
         }
 
-        // ========== 本体のパース
+        // Main unit parse
         if (type == TYPE_GENERAL) {
-            // 一般型
+            // General type
             return parseGeneralElement(sb);
         } else if (type == TYPE_STRING) {
             return parseStringElement(sb);
@@ -151,10 +154,10 @@ logger.fine("parsedTokens: " + parsedTokens.size());
     }
 
     /**
-     * 次の 一般 CSV トークンを読み込みます。
+     * The following general CSV token will be loaded.
      *
-     * @param sb 2文字目から
-     * @return 次の 一般 CSV トークン
+     * @param sb Starting from the second character
+     * @return The following general CSV token
      */
     protected String parseGeneralElement(StringBuilder sb) throws IOException {
         String result = null;
@@ -162,39 +165,39 @@ logger.fine("parsedTokens: " + parsedTokens.size());
             int c = forwardReader.read();
             switch (c) {
             case SEPARATOR_CHAR:
-                // 要素の終り
+                // End of element
                 result = sb.toString();
                 return result;
             case '\r':
                 continue;
             case '\n':
-                // CSV行の終り
+                // End of CSV row
                 endOfLine = true;
                 result = sb.toString();
                 return result;
             case -1:
-                // ストリームの終り
+                // End of stream
                 endOfLine = true;
                 endOfStream = true;
                 result = sb.toString();
                 return result;
             default:
-                // それ以外は追加
+                // Add anything else
                 sb.append((char) c);
             }
         }
     }
 
     /**
-     * 次の文字列 CSV トークンを読み込みます。
+     * The following string CSV token will be read.
      *
-     * @param sb 2文字目から
-     * @return 次の文字列 CSV トークン, nullable
-     * @throws IllegalArgumentException " で閉じた後に文字が来た
-     * @throws IllegalArgumentException " で閉じるまえに EOF
+     * @param sb Starting from the second character
+     * @return The following string is a CSV token, nullable.
+     * @throws IllegalArgumentException The text came after the closing "
+     * @throws IllegalArgumentException Before closing with " EOF
      */
     protected String parseStringElement(StringBuilder sb) throws IOException {
-        // 文字列型
+        // string type
         boolean inElement = true;
         while (inElement) {
             int c = forwardReader.read();
@@ -202,10 +205,10 @@ logger.fine("parsedTokens: " + parsedTokens.size());
             case QUOTE_CHAR:
                 int cc = forwardReader.read();
                 if (cc == ESCAPE_CHAR) {
-                    // エスケープされた " だった
+                    // It was an escaped "
                     sb.append((char) c);
                 } else if (cc == SEPARATOR_CHAR) {
-                    // 要素の終り
+                    // End of element
                     inElement = false;
                     return sb.toString();
                 } else if (cc == '\r') {
@@ -216,12 +219,12 @@ logger.fine("parsedTokens: " + parsedTokens.size());
                         return sb.toString();
                     }
                 } else if (cc == '\n' || cc == -1) {
-                    // CSV行の終りかファイルの終り
+                    // End of CSV row or end of file
                     inElement = false;
                     endOfLine = true;
                     return sb.toString();
                 } else {
-                    // " で閉じた後に文字が来た→エラー
+                    // If text appears after closing with ", it results in an error.
                     throw new IllegalArgumentException("extra character(s) after closing quotation. first is " + cc);
                 }
                 break;
@@ -229,7 +232,7 @@ logger.fine("parsedTokens: " + parsedTokens.size());
                 throw new IllegalArgumentException("quotation is not closed at the end of stream.");
 
             default:
-                // それ以外は追加
+                // Add anything else
                 sb.append((char) c);
             }
         }
@@ -241,7 +244,7 @@ logger.fine("parsedTokens: " + parsedTokens.size());
         return parsedTokens.iterator();
     }
 
-    /** */
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (String token : parsedTokens) {
@@ -251,5 +254,3 @@ logger.fine("parsedTokens: " + parsedTokens.size());
         return sb.substring(0, sb.length() - 1);
     }
 }
-
-/* */

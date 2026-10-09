@@ -19,14 +19,12 @@ import org.klab.commons.csv.spi.CsvLine;
 public interface CsvConverter<T> {
 
     /**
-     * エンティティを CSV の一行に変換します。
+     * Convert the entities into a single row in a CSV file.
      */
     CsvLine toCsv(T entity);
 
     /**
-     *  CSV の一行をエンティティに変換します。
+     * Converts a single row from a CSV file into an entity.
      */
     T toEntity(CsvLine csv);
 }
-
-/* */

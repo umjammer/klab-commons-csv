@@ -6,14 +6,17 @@
 
 package org.klab.commons.csv.impl;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.lang.reflect.Field;
-import java.util.logging.Logger;
 
 import org.klab.commons.csv.CsvColumn;
 import org.klab.commons.csv.CsvDialect;
 import org.klab.commons.csv.Enumerated;
 
 import vavi.beans.BeanUtil;
+
+import static java.lang.System.getLogger;
 
 
 /**
@@ -24,7 +27,7 @@ import vavi.beans.BeanUtil;
  */
 public class DefaultCsvDialect implements CsvDialect {
 
-    private static Logger logger = Logger.getLogger(DefaultCsvDialect.class.getName());
+    private static final Logger logger = getLogger(DefaultCsvDialect.class.getName());
 
     /**
      * String to Object conversion.
@@ -75,7 +78,7 @@ public class DefaultCsvDialect implements CsvDialect {
             BeanUtil.setFieldValue(field, bean, column == null || column.isEmpty() ? 0 : column.charAt(0)); // TODO ???
         } else {
 if (!fieldClass.equals(String.class)) {
- logger.fine("unhandled class: " + fieldClass.getName());
+ logger.log(Level.DEBUG, "unhandled class: " + fieldClass.getName());
 }
             BeanUtil.setFieldValue(field, bean, column);
         }
@@ -90,7 +93,7 @@ if (!fieldClass.equals(String.class)) {
      * @param value field value
      * @return only {@link Iterable} is guaranteed
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public String toCsvColumn(Field field, Object bean, Object value) {
         Class<?> fieldClass = field.getType();
@@ -100,7 +103,7 @@ if (!fieldClass.equals(String.class)) {
         } else if (fieldClass.equals(String.class)) {
             column = formatString(value == null ? "" : value.toString());
         } else {
-logger.fine("unhandled class: " + fieldClass.getName());
+logger.log(Level.DEBUG, "unhandled class: " + fieldClass.getName());
             column = value == null ? "" : value.toString();
         }
         return column;
@@ -118,5 +121,3 @@ logger.fine("unhandled class: " + fieldClass.getName());
         return stage2;
     }
 }
-
-/* */

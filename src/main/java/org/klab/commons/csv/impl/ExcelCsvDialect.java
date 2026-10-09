@@ -76,5 +76,3 @@ public class ExcelCsvDialect implements CsvDialect {
         return stage2;
     }
 }
-
-/* */

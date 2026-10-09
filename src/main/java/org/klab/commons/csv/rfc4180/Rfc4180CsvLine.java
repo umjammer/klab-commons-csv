@@ -33,5 +33,3 @@ public class Rfc4180CsvLine extends AbstractCsvLine<CsvTokenizer> {
         return entity.iterator();
     }
 }
-
-/* */

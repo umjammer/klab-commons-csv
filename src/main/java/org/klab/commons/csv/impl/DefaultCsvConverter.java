@@ -6,10 +6,11 @@
 
 package org.klab.commons.csv.impl;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.klab.commons.csv.CsvColumn;
 import org.klab.commons.csv.CsvConverter;
@@ -21,6 +22,8 @@ import org.klab.commons.csv.spi.CsvLine;
 import org.klab.commons.csv.spi.CsvProvider;
 import vavi.beans.BeanUtil;
 
+import static java.lang.System.getLogger;
+
 
 /**
  * DefaultCsvConverter.
@@ -31,7 +34,7 @@ import vavi.beans.BeanUtil;
  */
 public class DefaultCsvConverter<T> implements CsvConverter<T> {
 
-    private static final Logger logger = Logger.getLogger(DefaultCsvConverter.class.getName());
+    private static final Logger logger = getLogger(DefaultCsvConverter.class.getName());
 
     /** */
     protected Class<T> entityClass;
@@ -118,19 +121,17 @@ public class DefaultCsvConverter<T> implements CsvConverter<T> {
                         throw new IllegalStateException("field[" + CsvColumn.Util.getSequence(field) + "]: " + field.getType().getSimpleName() + " " + field.getName() + " = '" + column + "'", e);
                     }
                 } else {
-logger.fine("field[" + CsvColumn.Util.getSequence(field) + "]: " + field.getType().getSimpleName() + " " + field.getName() + " is empty");
+logger.log(Level.DEBUG, "field[" + CsvColumn.Util.getSequence(field) + "]: " + field.getType().getSimpleName() + " " + field.getName() + " is empty");
                 }
             } else {
-logger.severe("line: [" + columns + "]");
+logger.log(Level.ERROR, "line: [" + columns + "]");
                 throw new IndexOutOfBoundsException("column " + sequence + "/" + csvColumns.size());
             }
         }
 if (csvColumns.size() > fields.size()) {
- logger.fine("columns: pojo: " + fields.size() + " < csv: " + csvColumns.size());
+ logger.log(Level.DEBUG, "columns: pojo: " + fields.size() + " < csv: " + csvColumns.size());
 }
-//logger.debug("entity: " + ToStringBuilder.reflectionToString(entity));
+//logger.log(Level.DEBUG, "entity: " + ToStringBuilder.reflectionToString(entity));
         return entity;
     }
 }
-
-/* */

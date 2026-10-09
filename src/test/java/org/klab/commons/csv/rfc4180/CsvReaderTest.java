@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 class CsvReaderTest {
 
     /**
-     * 文字列から読み込みます。
+     * Reads from a string.
      */
     @Test
     void testRead() throws Exception {
@@ -33,7 +33,7 @@ class CsvReaderTest {
     }
 
     /**
-     * ファイルから読み込みます。(Windows-31J)
+     * It reads from a file. (Windows-31J)
      */
     @Test
     void testReadFromFile() throws Exception {
@@ -49,14 +49,14 @@ class CsvReaderTest {
     }
 
     /**
-     * 実際の使用方法を示しています。
+     * This shows how to actually use it.
      */
     @Test
     void testParse1() throws Exception {
         final String filename = "/test.csv";
         Reader fReader = new InputStreamReader(CsvReaderTest.class.getResourceAsStream(filename), "Windows-31J");
 
-        // 実際には以下のようにして使う。
+        // In practice, it is used as follows.
         CsvReader reader = new CsvReader(fReader);
         int i = 1;
         while (reader.hasNext()) {

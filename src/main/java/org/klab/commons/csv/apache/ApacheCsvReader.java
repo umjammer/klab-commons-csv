@@ -30,10 +30,10 @@ import vavi.util.Debug;
 public class ApacheCsvReader implements CsvReader {
 
     /** */
-    private CSVParser parser;
+    private final CSVParser parser;
 
     /** */
-    private Iterator<CSVRecord> iterator;
+    private final Iterator<CSVRecord> iterator;
 
     /** */
     public ApacheCsvReader(InputStream is, String encoding, String delimiter, boolean hasTitle, Character commentMarker) throws IOException {
@@ -69,5 +69,3 @@ Debug.println(Level.FINE, format);
         parser.close();
     }
 }
-
-/* */

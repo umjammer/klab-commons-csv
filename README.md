@@ -1,13 +1,19 @@
 [![Release](https://jitpack.io/v/umjammer/klab-commons-csv.svg)](https://jitpack.io/#umjammer/klab-commons-csv)
-[![Java CI](https://github.com/umjammer/klab-commons-csv/workflows/Java%20CI/badge.svg)](https://github.com/umjammer/klab-commons-csv/actions)
+[![Java CI](https://github.com/umjammer/klab-commons-csv/actions/workflows/maven.yml/badge.svg)](https://github.com/umjammer/klab-commons-csv/actions/workflows/maven.yml)
 [![CodeQL](https://github.com/umjammer/klab-commons-csv/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/umjammer/klab-commons-csv/actions/workflows/codeql-analysis.yml)
-![Java](https://img.shields.io/badge/Java-8-b07219)
+![Java](https://img.shields.io/badge/Java-17-b07219)
 
 # klab-commons-csv
 
 Annotations for CSV
 
-## POJO annotation
+## Install
+
+ * [maven](https://jitpack.io/#umjammer/klab-commons-csv)
+
+## Usage
+
+### POJO annotation
 
 As CSV column definitions, just add `@CsvEntity`, `@CsvColumn` annotation into a POJO.
 
@@ -30,7 +36,7 @@ As CSV column definitions, just add `@CsvEntity`, `@CsvColumn` annotation into a
  }
 ```
 
-## Usage
+### user
 
 read by one liner.
 
@@ -38,8 +44,15 @@ read by one liner.
  List<Foo> result = CsvEntity.Util.read(Foo.class);
 ```
 
+## References
+
+ * [apache-commons-csv](https://commons.apache.org/proper/commons-csv/)
+
 ## TODO
 
  * ~~args~~ done
  * ~~make default provider apache-commons-csv~~ done
  * ~~delimiter~~ done
+ * jdbc
+ * sql engine
+ * `@CsvEntity` w/o url

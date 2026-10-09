@@ -24,5 +24,3 @@ public interface CsvEntity<I extends Serializable> {
     /** */
     void setId(I id);
 }
-
-/* */

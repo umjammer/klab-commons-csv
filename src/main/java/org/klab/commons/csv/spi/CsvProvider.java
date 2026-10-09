@@ -37,5 +37,3 @@ public interface CsvProvider<T> {
     /** provides new CsvLine instance */
     CsvLine newCsvLine();
 }
-
-/* */

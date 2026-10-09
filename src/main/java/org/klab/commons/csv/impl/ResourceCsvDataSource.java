@@ -40,5 +40,3 @@ public class ResourceCsvDataSource<T> extends AbstractCsvFactory<String, T> {
         return source;
     }
 }
-
-/* */

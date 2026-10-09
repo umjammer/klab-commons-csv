@@ -55,5 +55,3 @@ public abstract class AbstractCsvLine<T> implements CsvLine {
          }
     }
 }
-
-/* */

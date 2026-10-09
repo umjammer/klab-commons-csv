@@ -7,10 +7,11 @@
 package org.klab.commons.csv.impl;
 
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.klab.commons.csv.CsvConverter;
 import org.klab.commons.csv.CsvDataSource;
@@ -19,6 +20,8 @@ import org.klab.commons.csv.GeneratedValue;
 import org.klab.commons.csv.spi.CsvLine;
 import org.klab.commons.csv.spi.CsvReader;
 import org.klab.commons.csv.spi.CsvWriter;
+
+import static java.lang.System.getLogger;
 
 
 /**
@@ -30,17 +33,16 @@ import org.klab.commons.csv.spi.CsvWriter;
  */
 public abstract class AbstractCsvFactory<S, T> implements CsvDataSource<S, T> {
 
+    private static final Logger logger = getLogger(AbstractCsvFactory.class.getName());
+
     /** */
     protected S source;
 
     /** */
     public void setSource(S source) {
         this.source = source;
-logger.fine("csv source: " + source);
+logger.log(Level.DEBUG, "csv source: " + source);
     }
-
-    /** */
-    private static Logger logger = Logger.getLogger(AbstractCsvFactory.class.getName());
 
     /** */
     protected ExceptionHandler readExceptionHandler = new DefaultExceptionHandler();
@@ -72,23 +74,23 @@ logger.fine("csv source: " + source);
         @Override
         public List<T> readAll(Class<T> entityClass) throws IOException {
             CsvProvider<T> csvProvider = org.klab.commons.csv.CsvEntity.Util.getCsvProvider(entityClass);
-logger.fine("csvProvider: " + csvProvider.getClass().getName());
+logger.log(Level.DEBUG, "csvProvider: " + csvProvider.getClass().getName());
             String encoding = org.klab.commons.csv.CsvEntity.Util.getEncoding(entityClass);
-logger.fine("encoding: " + encoding);
+logger.log(Level.DEBUG, "encoding: " + encoding);
             String delimiter = org.klab.commons.csv.CsvEntity.Util.getDelimiter(entityClass);
-logger.fine("delimiter: " + delimiter);
+logger.log(Level.DEBUG, "delimiter: " + delimiter);
             Character commentMarker = org.klab.commons.csv.CsvEntity.Util.getCommentMarker(entityClass);
-logger.fine("commentMarker: " + commentMarker);
+logger.log(Level.DEBUG, "commentMarker: " + commentMarker);
             boolean hasTitle = org.klab.commons.csv.CsvEntity.Util.hasTitle(entityClass);
-logger.fine("hasTitle: " + hasTitle);
+logger.log(Level.DEBUG, "hasTitle: " + hasTitle);
             boolean cached = org.klab.commons.csv.CsvEntity.Util.isCached(entityClass);
-logger.fine("cached: " + cached);
+logger.log(Level.DEBUG, "cached: " + cached);
 
             CsvConverter<T> csvConverter = csvProvider.newCsvConverter(entityClass);
 
             // cache
             if (!cached || cache == null) {
-logger.fine("cache off or first read: cache: " + cached);
+logger.log(Level.DEBUG, "cache off or first read: cache: " + cached);
                 this.cache = findAllInternal(csvConverter, csvProvider.newCsvReader(getInputStream(), encoding, delimiter, hasTitle, commentMarker));
             }
             return cache;
@@ -106,10 +108,10 @@ logger.fine("cache off or first read: cache: " + cached);
                 try {
                     csv = reader.nextLine();
 if (csv.toString().isEmpty()) {
- logger.warning("line " + id + " is empty, skiped");
+ logger.log(Level.WARNING, "line " + id + " is empty, skipped");
 } else {
                     T entity = csvConverter.toEntity(csv);
-                    GeneratedValue.Util.setGenerateId(entity, id); // TODO こんなんでいいのか？
+                    GeneratedValue.Util.setGenerateId(entity, id); // TODO Is this really okay?
                     results.add(entity);
 //logger.debug(ToStringBuilder.reflectionToString(entity));
 }
@@ -150,9 +152,9 @@ if (csv.toString().isEmpty()) {
             List<Exception> exceptions = new ArrayList<>();
 
             CsvProvider<T> csvProvider = org.klab.commons.csv.CsvEntity.Util.getCsvProvider(entityClass);
-logger.fine("csvProvider: " + csvProvider.getClass().getName());
+logger.log(Level.DEBUG, "csvProvider: " + csvProvider.getClass().getName());
             String encoding = org.klab.commons.csv.CsvEntity.Util.getEncoding(entityClass);
-logger.fine("encoding: " + encoding);
+logger.log(Level.DEBUG, "encoding: " + encoding);
 
             CsvConverter<T> csvConverter = csvProvider.newCsvConverter(entityClass);
 
@@ -185,5 +187,3 @@ logger.fine("encoding: " + encoding);
         return wholeCsvWriter;
     }
 }
-
-/* */

@@ -34,5 +34,3 @@ public class ApacheCsvLine extends AbstractCsvLine<CSVRecord> {
         return entity.iterator();
     }
 }
-
-/* */

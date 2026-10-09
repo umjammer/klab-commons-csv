@@ -11,12 +11,14 @@ import java.io.Reader;
 
 
 /**
- * CSV を要素に区切って出力します。
+ * This outputs the CSV file, separated into its elements.
  * <p>
- * <li>一行のカラム数は可変である。
- * <li>文字が入るべきカラムは必ず " (ダブルクォーテーション) で囲まれる。(文字が入っていなくても " で囲まれる。)
- * <li>一行は終端は改行で表される。 しかし、""の中で改行が存在してもそれらは一行の終端ではない。
- * <li> "" の中の " は " でエスケープされる。
+ * <li>The number of columns in a row is variable.</li>
+ * <li>Columns that should contain text are always enclosed in double quotes ("").
+ *     (Even if they don't contain text, they are still enclosed in double quotes.)</li>
+ * <li>A line is marked with a newline character at the end. However,
+ *     even if a newline character exists within quotation marks (""), it does not mark the end of a line.</li>
+ * <li>The " inside the "" is escaped with ".</li>
  * </p>
  *
  * @author <a href="mailto:kusanagi@klab.org">Tomonori Kusanagi</a> (kusanagi)
@@ -25,11 +27,11 @@ import java.io.Reader;
  */
 public class CsvReader {
 
-    // 読み込み元 ForwardReader オブジェクト
+    /** Source object: ForwardReader object */
     protected ForwardReader forwardReader;
 
     /**
-     * Reader をセットします。
+     * Sets the reader.
      *
      * @param reader
      */
@@ -38,12 +40,12 @@ public class CsvReader {
     }
 
     /**
-     * さらに行がある場合に true を返します。
+     * Returns true if there are further rows.
      *
-     * @return さらに行がある場合に true
+     * @return True if there are more rows
      */
     public boolean hasNext() throws IOException {
-        // ストリームの終わりに達しているかどうかチェック
+        // Check if the end of the stream has been reached.
         if (forwardReader.check() == -1) {
             return false;
         }
@@ -51,9 +53,9 @@ public class CsvReader {
     }
 
     /**
-     * 次の行を返します。
+     * Create the following line.
      *
-     * @return 次の行
+     * @return Next line
      */
     public CsvTokenizer next() throws IOException {
         synchronized (forwardReader) {
@@ -62,5 +64,3 @@ public class CsvReader {
         }
     }
 }
-
-/* */

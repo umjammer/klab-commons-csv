@@ -42,7 +42,7 @@ public @interface Enumerated {
     EnumType value();
 
     /**
-     * TODO アノテーションがメソッド指定の場合
+     * TODO When the annotation specifies a method
      */
     class Util {
 
@@ -62,13 +62,10 @@ public @interface Enumerated {
          */
         public static <E extends Enum<E>> String toCsvString(Field field, E fieldValue) {
             Enumerated enumerated = field.getAnnotation(Enumerated.class);
-            switch (enumerated.value()) {
-            case ORDINAL:
-                return fieldValue == null ? "" : String.valueOf(fieldValue.ordinal());
-            case STRING:
-            default:
-                return fieldValue == null ? "" : fieldValue.name();
-            }
+            return switch (enumerated.value()) {
+                case ORDINAL -> fieldValue == null ? "" : String.valueOf(fieldValue.ordinal());
+                default -> fieldValue == null ? "" : fieldValue.name();
+            };
         }
 
         /**
@@ -101,5 +98,3 @@ public @interface Enumerated {
         }
     }
 }
-
-/* */

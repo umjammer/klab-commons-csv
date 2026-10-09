@@ -54,5 +54,3 @@ public class Rfc4180CsvProvider<T> implements CsvProvider<T> {
         return new Rfc4180CsvLine(csvDialect);
     }
 }
-
-/* */

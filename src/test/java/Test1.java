@@ -80,5 +80,3 @@ class Test1 {
         result.forEach(System.err::println);
     }
 }
-
-/* */

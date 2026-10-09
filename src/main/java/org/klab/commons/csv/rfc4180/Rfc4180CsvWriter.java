@@ -24,7 +24,7 @@ import org.klab.commons.csv.spi.CsvWriter;
 public class Rfc4180CsvWriter implements CsvWriter {
 
     /** */
-    private Writer writer;
+    private final Writer writer;
 
     /** */
     public Rfc4180CsvWriter(OutputStream os, String encoding) throws IOException {
@@ -46,5 +46,3 @@ public class Rfc4180CsvWriter implements CsvWriter {
         writer.close();
     }
 }
-
-/* */
